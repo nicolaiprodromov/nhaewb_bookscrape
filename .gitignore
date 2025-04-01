@@ -68,3 +68,9 @@ Thumbs.db
 
 # Optional stylelint cache
 .stylelintcache
+
+# Font files
+*.otf
+*.ttf
+*.woff
+*.woff2
