@@ -5,13 +5,13 @@
     "isCollapsed": false,
     "books": [
       {
-        "current_price": "23,99 Lei",
         "link": "https://www.anticexlibris.ro/dublin-palms-8128",
-        "local_image_filename": "12d73ecbfe09414349961d59fd9d26182311ec14.jpg",
-        "old_price": "74,04 Lei",
         "title": "Dublin Palms",
-        "voucher_code": "514M",
-        "voucher_price": "11,99",
+        "current_price": "23,99 Lei",
+        "old_price": "74,04 Lei",
+        "voucher_price": "1199 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "12d73ecbfe09414349961d59fd9d26182311ec14.jpg",
         "specs": {
           "author": "Hugo Hamilton",
           "authorUrl": "https://www.anticexlibris.ro/authors/hugo-hamilton",
@@ -21,16 +21,39 @@
           "publishYear": "2019",
           "publisher": "HarperCollins Publishers Australia",
           "publisherUrl": "https://www.anticexlibris.ro/edituri/harpercollins-publishers-australia"
-        }
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743541768488,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542094430,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542175154,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          }
+        ]
       },
       {
-        "current_price": "23,99 Lei",
         "link": "https://www.anticexlibris.ro/the-girl-at-the-door",
-        "local_image_filename": "1f0f7d458fa88c0a6a49654226026e10468a367a.jpg",
-        "old_price": "74,04 Lei",
         "title": "The Girl at the Door",
-        "voucher_code": "514M",
-        "voucher_price": "11,99",
+        "current_price": "23,99 Lei",
+        "old_price": "74,04 Lei",
+        "voucher_price": "1199 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "1f0f7d458fa88c0a6a49654226026e10468a367a.jpg",
         "specs": {
           "author": "Veronica Raimo, Stash Luczkiw",
           "authorUrl": "https://www.anticexlibris.ro/authors/veronica-raimo-stash-luczkiw",
@@ -40,16 +63,39 @@
           "publishYear": "2019",
           "publisher": "HarperCollins Publishers Australia",
           "publisherUrl": "https://www.anticexlibris.ro/edituri/harpercollins-publishers-australia"
-        }
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743541772321,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542096994,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542177688,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          }
+        ]
       },
       {
-        "current_price": "23,99 Lei",
         "link": "https://www.anticexlibris.ro/doxology_2",
-        "local_image_filename": "47f6f8f9b680e936dfec35598e2fa8af9756b922.jpg",
-        "old_price": "85,44 Lei",
         "title": "Doxology",
-        "voucher_code": "514M",
-        "voucher_price": "11,99",
+        "current_price": "23,99 Lei",
+        "old_price": "85,44 Lei",
+        "voucher_price": "1199 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "47f6f8f9b680e936dfec35598e2fa8af9756b922.jpg",
         "specs": {
           "author": "Nell Zink",
           "authorUrl": "https://www.anticexlibris.ro/authors/nell-zink",
@@ -59,7 +105,30 @@
           "publishYear": "2019",
           "publisher": "4th Estate",
           "publisherUrl": "https://www.anticexlibris.ro/edituri/4th-estate"
-        }
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743541775705,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "85,44 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542100555,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "85,44 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542181142,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "85,44 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          }
+        ]
       }
     ]
   },
@@ -69,13 +138,13 @@
     "isCollapsed": false,
     "books": [
       {
-        "current_price": "23,99 Lei",
         "link": "https://www.anticexlibris.ro/in-white-ink",
-        "local_image_filename": "e0add3755262ef20076b8fc83c830a55cc3e2878.jpg",
-        "old_price": "74,04 Lei",
         "title": "In White Ink",
-        "voucher_code": "514M",
-        "voucher_price": "11,99",
+        "current_price": "23,99 Lei",
+        "old_price": "74,04 Lei",
+        "voucher_price": "1199 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "e0add3755262ef20076b8fc83c830a55cc3e2878.jpg",
         "specs": {
           "author": "Elske Rahill",
           "authorUrl": "https://www.anticexlibris.ro/authors/elske-rahill",
@@ -83,16 +152,267 @@
           "language": "Englezã",
           "pages": "288",
           "publishYear": "2017"
-        }
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743541779491,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542103105,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542183966,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          }
+        ]
       },
       {
-        "current_price": "59,99 Lei",
         "link": "https://www.anticexlibris.ro/power-rangers-1402",
-        "local_image_filename": "2eaaf1538654cd96e68738761c882277fe153a2e.jpg",
-        "old_price": "87,17 Lei",
         "title": "Power Rangers",
-        "voucher_code": "514M",
-        "voucher_price": "29,99"
+        "current_price": "41,99 Lei",
+        "old_price": "87,17 Lei",
+        "voucher_price": "2099 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "2eaaf1538654cd96e68738761c882277fe153a2e.jpg",
+        "specs": {
+          "author": "Insight Editions",
+          "authorUrl": "https://www.anticexlibris.ro/authors/insight-editions",
+          "category": "Literatura Contemporana",
+          "isbn": "9781683831402",
+          "language": "Englezã",
+          "pages": "192",
+          "publishYear": "2017",
+          "publisher": "Insight Editions",
+          "publisherUrl": "https://www.anticexlibris.ro/edituri/insight-editions"
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743541782546,
+            "currentPrice": "41,99 Lei",
+            "oldPrice": "87,17 Lei",
+            "voucherPrice": "2099 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542105591,
+            "currentPrice": "41,99 Lei",
+            "oldPrice": "87,17 Lei",
+            "voucherPrice": "2099 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542186232,
+            "currentPrice": "41,99 Lei",
+            "oldPrice": "87,17 Lei",
+            "voucherPrice": "2099 lei",
+            "voucherCode": "514W"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "id_m8yznnzk_f8n8gtj",
+    "name": "Stack 3",
+    "isCollapsed": false,
+    "books": [
+      {
+        "link": "https://www.anticexlibris.ro/little-bits-of-sky-3996",
+        "title": "Little Bits of Sky",
+        "current_price": "23,99 Lei",
+        "old_price": "45,54 Lei",
+        "voucher_price": "1199 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "c6c0a5220d0bc0e6123f78fbeb05a441c23c76e7.jpg",
+        "specs": {
+          "author": "S. E. Durrant",
+          "authorUrl": "https://www.anticexlibris.ro/authors/s-e-durrant",
+          "isbn": "9780857633996",
+          "language": "Englezã",
+          "pages": "256",
+          "publisher": "Nosy Crow Ltd",
+          "publisherUrl": "https://www.anticexlibris.ro/edituri/nosy-crow-ltd"
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743541785155,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "45,54 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542108331,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "45,54 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542188850,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "45,54 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          }
+        ]
+      },
+      {
+        "link": "https://www.anticexlibris.ro/godsend",
+        "title": "Godsend",
+        "current_price": "23,99 Lei",
+        "old_price": "51,24 Lei",
+        "voucher_price": "1199 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "b8584f0f4930e5d85438d32493cfd334141ab86d.jpg",
+        "specs": {
+          "author": "John Wray",
+          "authorUrl": "https://www.anticexlibris.ro/authors/john-wray",
+          "isbn": "9781782119654",
+          "language": "Englezã",
+          "pages": "240",
+          "publisher": "Canongate Books",
+          "publisherUrl": "https://www.anticexlibris.ro/edituri/canongate-books"
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743541788909,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542110648,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542191111,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          }
+        ]
+      },
+      {
+        "link": "https://www.anticexlibris.ro/immigrant-montana_3",
+        "title": "Immigrant, Montana",
+        "current_price": "39,99 Lei",
+        "old_price": "51,24 Lei",
+        "voucher_price": "1999 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "ce2d0a1997a9472cbb94e5bcafe36040cc667a32.jpg",
+        "specs": {
+          "author": "Amitava Kumar",
+          "authorUrl": "https://www.anticexlibris.ro/authors/amitava-kumar",
+          "isbn": "9780571339617",
+          "language": "Englezã",
+          "pages": "320",
+          "publishYear": "2019",
+          "publisher": "Faber & Faber",
+          "publisherUrl": "https://www.anticexlibris.ro/edituri/faber-faber"
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743541791447,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542113460,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542194303,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          }
+        ]
+      },
+      {
+        "link": "https://www.anticexlibris.ro/eternal-boy-7745",
+        "title": "Eternal Boy",
+        "current_price": "39,99 Lei",
+        "old_price": "51,24 Lei",
+        "voucher_price": "1999 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "a9e55d38a2e30ac49876d8bf51ef3eba8ca12c99.jpg",
+        "specs": {
+          "author": "Matthew Dennison",
+          "authorUrl": "https://www.anticexlibris.ro/authors/matthew-dennison",
+          "isbn": "9781786697745",
+          "language": "Englezã",
+          "pages": "304",
+          "publishYear": "2019",
+          "publisher": "Head of Zeus",
+          "publisherUrl": "https://www.anticexlibris.ro/authors/head-of-zeus"
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743542116301,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542196568,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          }
+        ]
+      },
+      {
+        "link": "https://www.anticexlibris.ro/room-little-darker-2906",
+        "title": "Room Little Darker",
+        "current_price": "39,99 Lei",
+        "old_price": "45,54 Lei",
+        "voucher_price": "1999 lei",
+        "voucher_code": "514W",
+        "local_image_filename": "f42c45218756f3cb67ef9eb58e0dcb0b9a31ff6d.jpg",
+        "specs": {
+          "author": "June Caldwell",
+          "authorUrl": "https://www.anticexlibris.ro/authors/june-caldwell",
+          "isbn": "9781788542906",
+          "language": "Englezã",
+          "pages": "0",
+          "publishYear": "2018",
+          "publisher": "Head of Zeus",
+          "publisherUrl": "https://www.anticexlibris.ro/authors/head-of-zeus"
+        },
+        "priceHistory": [
+          {
+            "timestamp": 1743542199184,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "45,54 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          }
+        ]
       }
     ]
   }

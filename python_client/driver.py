@@ -42,11 +42,10 @@ class ElectronBridgeDriver:
                 raise ValueError("Missing, invalid, or empty 'webviews' array.")
             if not all(isinstance(wv, dict) and isinstance(wv.get('id'), str) and wv.get('id') for wv in self.config['webviews']):
                 raise ValueError("Invalid webview entry: Each must be an object with a non-empty string 'id'.")
-            # Validate timeouts structure and types
             if 'timeouts' in self.config:
                  if not isinstance(self.config['timeouts'], dict):
                      log.warning("'timeouts' key exists but is not an object. Ignoring.")
-                     del self.config['timeouts'] # Remove invalid structure
+                     del self.config['timeouts']
                  else:
                      for key, value in self.config['timeouts'].items():
                          if not isinstance(value, int):
@@ -54,7 +53,6 @@ class ElectronBridgeDriver:
                              del self.config['timeouts'][key]
 
             log.info("Driver config loaded and validated successfully.")
-            # Set default webview ID (first one in the list)
             self.default_webview_id = self.config['webviews'][0].get('id')
             log.info(f"Default webview ID set to: {self.default_webview_id}")
             return True
@@ -62,8 +60,8 @@ class ElectronBridgeDriver:
         except FileNotFoundError: log.error(f"Config file NOT FOUND: {abs_config_path}")
         except json.JSONDecodeError as e: log.error(f"Config JSON parsing ERROR: {abs_config_path}: {e}")
         except ValueError as e: log.error(f"Config validation FAILED: {e}")
-        except Exception as e: log.exception(f"Unexpected error loading config {abs_config_path}: {e}") # Use log.exception for stack trace
-        self.config = None # Ensure config is None on failure
+        except Exception as e: log.exception(f"Unexpected error loading config {abs_config_path}: {e}")
+        self.config = None
         return False
 
     def is_ready(self):
@@ -86,14 +84,13 @@ class ElectronBridgeDriver:
         response = None
         try:
             response = requests.get(req_url, params=params, timeout=client_timeout_seconds)
-            response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
+            response.raise_for_status()
             log.info(f"--> Server responded OK {response.status_code} for {endpoint}")
-            # Try to parse JSON, handle potential errors gracefully
             try:
                 return response.json()
             except json.JSONDecodeError:
                  log.error(f"Failed to decode JSON response from {endpoint}. Status: {response.status_code}, Body: {response.text[:200]}...")
-                 return None # Treat non-JSON response as failure
+                 return None
         except requests.exceptions.ConnectionError as e:
             log.error(f"Connection Error connecting to Electron server at {self.server_url}: {e}")
         except requests.exceptions.Timeout:
@@ -102,33 +99,31 @@ class ElectronBridgeDriver:
             log.error(f"HTTP Error for {endpoint}: {e}")
             if response is not None:
                 log.error(f"    Status Code: {response.status_code}")
-                # Try to get error message from JSON body, otherwise use text
                 try: log.error(f"    Error Body: {response.json().get('error', response.text[:200])}")
                 except json.JSONDecodeError: log.error(f"    Response Body (non-JSON): {response.text[:200]}...")
         except requests.exceptions.RequestException as e:
             log.error(f"General Request Failed for {endpoint}: {e}")
         except Exception as e:
-            log.exception(f"Unexpected error during request to {endpoint}: {e}") # Log full stack trace
-        return None # Return None on any failure
+            log.exception(f"Unexpected error during request to {endpoint}: {e}")
+        return None
 
     def navigate(self, webview_id, target_url, timeout_ms=None):
         """Navigates a specified webview to a target URL."""
-        # Use provided timeout, fallback to config, fallback to a safe default
         default_nav_timeout = self.timeouts.get('navigation', 90000)
         nav_timeout_ms = timeout_ms if timeout_ms is not None else default_nav_timeout
         server_timeout_seconds = nav_timeout_ms / 1000
-        client_timeout_seconds = server_timeout_seconds + 5 # Client waits a bit longer
+        client_timeout_seconds = server_timeout_seconds + 5
 
-        encoded_url = quote(target_url, safe='') # Ensure URL is properly encoded
+        encoded_url = quote(target_url, safe='')
         params = {
             'id': webview_id,
             'url': encoded_url,
-            'timeout': int(server_timeout_seconds) # Pass server-side timeout
+            'timeout': int(server_timeout_seconds)
         }
 
         result = self._make_request("/navigate", params, client_timeout_seconds)
 
-        if result is None: return False # Request failed
+        if result is None: return False
         if result.get('success'):
             log.info(f"--> Navigation successful for {webview_id}. Final URL: {result.get('loadedUrl', 'N/A')}")
             return True
@@ -138,7 +133,6 @@ class ElectronBridgeDriver:
 
     def extract_list_data(self, webview_id, post_nav_delay_seconds=2, exec_timeout_ms=None):
         """Extracts book list data using the list extraction script."""
-        # Use provided timeout, fallback to config, fallback to default
         default_exec_timeout = self.timeouts.get('extraction', 75000)
         exec_timeout_ms_actual = exec_timeout_ms if exec_timeout_ms is not None else default_exec_timeout
         server_timeout_seconds = exec_timeout_ms_actual / 1000
@@ -152,9 +146,9 @@ class ElectronBridgeDriver:
             'exec_timeout': int(server_timeout_seconds)
         }
 
-        result = self._make_request("/execute-fetch", params, client_timeout_seconds) # Endpoint for list fetch
+        result = self._make_request("/execute-fetch", params, client_timeout_seconds)
 
-        if result is None: return None # Request failed
+        if result is None: return None
         if result.get('success'):
             data_list = result.get('data')
             if isinstance(data_list, list):
@@ -162,15 +156,19 @@ class ElectronBridgeDriver:
                 return data_list
             else:
                  log.error(f"--> List extraction reported success, but 'data' field is not a list (Type: {type(data_list)}). Check list JS script.")
-                 return None # Treat unexpected format as failure
+                 return None
         else:
             log.error(f"--> Electron server reported list extraction failure for {webview_id}: {result.get('error', 'Unknown error')}")
             return None
 
-    def extract_book_details(self, webview_id, exec_timeout_ms=None):
-        """Extracts book detail data using the detail extraction script."""
-        # Use provided timeout, fallback to config (detail specific if exists), fallback to general extraction default
-        default_detail_timeout = self.timeouts.get('detailExtraction', self.timeouts.get('extraction', 45000)) # Use specific or general
+    def extract_book_details_and_prices(self, webview_id, exec_timeout_ms=None):
+        """
+        Extracts book details (specs) AND prices using the detail extraction script.
+        Returns a dictionary containing {'details': {...}, 'prices': {...}} on success, else None.
+        """
+        # Use detailExtraction timeout if present, fallback to general, fallback to hardcoded
+        default_general_timeout = self.timeouts.get('extraction', 75000)
+        default_detail_timeout = self.timeouts.get('detailExtraction', default_general_timeout)
         exec_timeout_ms_actual = exec_timeout_ms if exec_timeout_ms is not None else default_detail_timeout
         server_timeout_seconds = exec_timeout_ms_actual / 1000
         client_timeout_seconds = server_timeout_seconds + 5
@@ -180,27 +178,30 @@ class ElectronBridgeDriver:
             'exec_timeout': int(server_timeout_seconds)
         }
 
-        log.info(f"Requesting book detail extraction for '{webview_id}'...")
-        # Use the specific endpoint for detail extraction
+        log.info(f"Requesting book detail & price extraction for '{webview_id}'...")
+        # Still uses the same endpoint, but the script returns more data
         result = self._make_request("/execute-book-detail-fetch", params, client_timeout_seconds)
 
         if result is None: return None # Request failed
         if result.get('success'):
-            extracted_details = result.get('details') # Expecting 'details' key based on server.js refactor
-            if isinstance(extracted_details, dict):
-                log.info(f"--> Book detail extraction successful for {webview_id}.")
-                return extracted_details # Return the details dictionary
+            # **MODIFICATION:** Expect both 'details' and 'prices' keys
+            extracted_details = result.get('details')
+            extracted_prices = result.get('prices')
+
+            # Basic validation of returned structure
+            if isinstance(extracted_details, dict) and isinstance(extracted_prices, dict):
+                log.info(f"--> Book detail & price extraction successful for {webview_id}.")
+                return { "details": extracted_details, "prices": extracted_prices }
             else:
-                log.error(f"--> Detail extraction reported success, but 'details' field is not a dictionary (Type: {type(extracted_details)}). Check detail JS script and server endpoint.")
-                return None # Treat unexpected format as failure
+                 log.error(f"--> Detail/Price extraction success, but response structure invalid. Details type: {type(extracted_details)}, Prices type: {type(extracted_prices)}. Check JS script and server endpoint.")
+                 return None # Treat unexpected format as failure
         else:
-            log.error(f"--> Electron server reported book detail extraction failure for {webview_id}: {result.get('error', 'Unknown error')}")
+            log.error(f"--> Electron server reported book detail/price extraction failure for {webview_id}: {result.get('error', 'Unknown error')}")
             return None
 
 # --- Optional Test Block ---
 if __name__ == '__main__':
     print("--- Testing ElectronBridgeDriver ---")
-    # Assumes config.json is findable from the script's location
     driver = ElectronBridgeDriver()
 
     if driver.is_ready():
@@ -210,18 +211,11 @@ if __name__ == '__main__':
         print(f"Default WebView ID: {driver.default_webview_id}")
         print(f"Configured Timeouts (ms): {driver.timeouts}")
 
-        # --- Example Test Calls (Requires Electron App Running) ---
         if driver.default_webview_id:
             test_wv_id = driver.default_webview_id
             print(f"\n--- Attempting tests with default webview: {test_wv_id} ---")
 
-            # 1. Test Navigation
-            # target_site = "https://httpbin.org/get" # Simple test site
-            # print(f"Attempting navigation to: {target_site}")
-            # nav_success = driver.navigate(test_wv_id, target_site)
-            # print(f"Navigation Result: {'Success' if nav_success else 'Failed'}")
-
-            # 2. Test List Extraction (Navigate first if needed)
+            # 1. Test List Extraction (Navigate first if needed)
             test_list_url = "https://www.anticexlibris.ro/carti?limit=12" # Example list page
             print(f"\nAttempting list extraction from: {test_list_url}")
             print("  Navigating first...")
@@ -230,24 +224,26 @@ if __name__ == '__main__':
                 list_data = driver.extract_list_data(test_wv_id, post_nav_delay_seconds=3) # Allow time for page load
                 if list_data is not None:
                     print(f"  List Extraction SUCCESS. Found {len(list_data)} items.")
-                    # print(f"  First item: {list_data[0] if list_data else 'N/A'}")
                 else:
                     print("  List Extraction FAILED.")
             else:
                 print("  Navigation failed, cannot test list extraction.")
 
 
-            # 3. Test Detail Extraction (Navigate first)
+            # 2. Test Detail & Price Extraction
             test_detail_url = "https://www.anticexlibris.ro/carte/ready-player-one-ernest-cline" # Example detail page
-            print(f"\nAttempting detail extraction from: {test_detail_url}")
+            print(f"\nAttempting detail & price extraction from: {test_detail_url}")
             print("  Navigating first...")
             if driver.navigate(test_wv_id, test_detail_url):
-                print("  Navigation OK, extracting detail data...")
-                detail_data = driver.extract_book_details(test_wv_id)
-                if detail_data is not None:
-                    print(f"  Detail Extraction SUCCESS: {detail_data}")
+                print("  Navigation OK, extracting detail & price data...")
+                # Use the new combined method
+                combined_data = driver.extract_book_details_and_prices(test_wv_id)
+                if combined_data is not None:
+                    print(f"  Detail & Price Extraction SUCCESS:")
+                    print(f"    Details: {combined_data.get('details')}")
+                    print(f"    Prices: {combined_data.get('prices')}")
                 else:
-                    print("  Detail Extraction FAILED.")
+                    print("  Detail & Price Extraction FAILED.")
             else:
                 print("  Navigation failed, cannot test detail extraction.")
 

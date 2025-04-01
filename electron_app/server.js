@@ -2,6 +2,7 @@
 const http = require('http');
 const url = require('url');
 const fs = require('fs'); // Need fs for reading extraction scripts
+const fsp = require('fs').promises; // Need promises version for image check
 const path = require('path');
 
 // Import helper functions and modules
@@ -11,15 +12,15 @@ const { downloadImage, limitConcurrency, DOWNLOAD_DIR } = require('./main_proces
 // --- Load WebView Extraction Scripts ---
 const SCRIPT_DIR = path.join(__dirname, 'webview-scripts');
 let jsListFetch = '';
-let jsBookDetailExtraction = '';
+let jsBookDetailExtraction = ''; // This script now extracts BOTH specs and prices
 try {
     jsListFetch = fs.readFileSync(path.join(SCRIPT_DIR, 'list-extraction.js'), 'utf8');
+    // Load the updated detail script
     jsBookDetailExtraction = fs.readFileSync(path.join(SCRIPT_DIR, 'detail-extraction.js'), 'utf8');
     if (!jsListFetch || !jsBookDetailExtraction) throw new Error("One or more scripts are empty.");
     console.log("[HTTP Server] WebView extraction scripts loaded successfully.");
 } catch (err) {
     console.error("[HTTP Server FATAL] Failed to load WebView extraction scripts:", err);
-    // Decide whether to exit or run with potentially broken extraction
     console.error("--> Extraction functionality will be broken!");
     // process.exit(1); // Uncomment to make script loading critical
 }
@@ -30,8 +31,8 @@ function startServer(port, webviewMap, config) {
     // Default timeouts from config or fallback values
     const defaultNavTimeoutMs = config?.timeouts?.navigation || 90000;
     const defaultExecTimeoutMs = config?.timeouts?.extraction || 75000; // Default for list/general extraction
-    // Optional: Separate timeout for details? Could add to config.json if needed.
-    const defaultDetailExecTimeoutMs = config?.timeouts?.detailExtraction || 45000; // Example: shorter timeout for details
+    // Use detailExtraction timeout if present, otherwise fallback to general extraction timeout
+    const defaultDetailExecTimeoutMs = config?.timeouts?.detailExtraction || defaultExecTimeoutMs;
 
     console.log(`[HTTP Server] Defaults(ms): Nav=${defaultNavTimeoutMs}, Extract=${defaultExecTimeoutMs}, DetailExtract=${defaultDetailExecTimeoutMs}`);
     const MAX_CONCURRENT_DOWNLOADS = 8; // Keep concurrency limit reasonable
@@ -53,21 +54,17 @@ function startServer(port, webviewMap, config) {
         const query = parsedUrl.query;
 
         // --- Find Target Webview ---
-        // Most endpoints need a webview ID. Get it early if present.
         const targetId = query.id;
         let webviewContents = null;
         if (targetId) {
             webviewContents = webviewMap.get(targetId);
              if (!webviewContents || webviewContents.isDestroyed()) {
-                 // Handle invalid webview ID early for relevant endpoints
                  if (pathname === '/navigate' || pathname === '/execute-fetch' || pathname === '/execute-book-detail-fetch') {
                       console.warn(`[HTTP Server] Request for invalid/destroyed webview ID: "${targetId}" for ${pathname}`);
                       return sendError(res, 404, `Not Found: Webview "${targetId}" is invalid or destroyed.`);
                  }
-                 // For other endpoints like /local-image, it doesn't matter yet.
              }
         } else {
-             // Handle endpoints requiring an ID if it's missing
              if (pathname === '/navigate' || pathname === '/execute-fetch' || pathname === '/execute-book-detail-fetch') {
                  console.warn(`[HTTP Server] Missing required "id" parameter for ${pathname}`);
                  return sendError(res, 400, 'Bad Request: Missing "id" query parameter.');
@@ -106,14 +103,12 @@ function startServer(port, webviewMap, config) {
                     if (!webviewContents || webviewContents.isDestroyed()) return reject(new Error("Webview destroyed before navigation start."));
 
                     failListener = (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
-                        // Ignore aborts, focus on main frame failures for the target URL
-                        if (isMainFrame && errorCode !== -3 && (validatedURL === navUrlDecoded || !validatedURL /* Initial load fail */)) {
+                        if (isMainFrame && errorCode !== -3 && (validatedURL === navUrlDecoded || !validatedURL )) {
                             console.error(`[Webview ${targetId}] Navigation failed. Code: ${errorCode}, Desc: "${errorDescription}"`);
                             cleanupNavListeners();
                             reject(new Error(`Navigation failed: ${errorCode} ${errorDescription}`));
                         } else if (isMainFrame && errorCode === -3) {
                              console.warn(`[Webview ${targetId}] Navigation aborted by user or script (-3) for "${validatedURL || navUrlDecoded}".`);
-                             // Consider if this should reject or resolve differently? Usually resolve OK if something else loaded.
                         }
                     };
 
@@ -121,8 +116,6 @@ function startServer(port, webviewMap, config) {
                         if (webviewContents.isDestroyed()) {
                             console.warn(`[Webview ${targetId}] 'did-finish-load' event received, but webview is destroyed.`);
                              cleanupNavListeners();
-                            // Might still be considered a success if the initial navigation happened,
-                            // but subsequent interactions will fail. Let's reject for clarity.
                             reject(new Error("Navigation finished, but webview destroyed immediately after."));
                             return;
                         }
@@ -135,7 +128,6 @@ function startServer(port, webviewMap, config) {
                     webviewContents.on('did-finish-load', finishListener);
                     webviewContents.on('did-fail-load', failListener);
 
-                    // Initiate navigation
                     try {
                         if (webviewContents.isDestroyed()) throw new Error("Webview destroyed just before loadURL call.");
                         webviewContents.loadURL(navUrlDecoded);
@@ -160,7 +152,7 @@ function startServer(port, webviewMap, config) {
 
             } catch (navigationError) {
                 console.error(`[HTTP Server] Navigation process failed for "${targetId}":`, navigationError.message);
-                 cleanupNavListeners(); // Ensure cleanup even on error
+                 cleanupNavListeners();
                 if (!res.headersSent) {
                     sendError(res, 500, `Navigation Process Error: ${navigationError.message}`);
                 } else {
@@ -173,7 +165,7 @@ function startServer(port, webviewMap, config) {
         else if (pathname === '/execute-fetch' && req.method === 'GET') {
              if (!jsListFetch) return sendError(res, 500, "Server Configuration Error: List extraction script not loaded.");
 
-            const execTimeoutQuery = parseInt(query.exec_timeout, 10); // Timeout in seconds from query
+            const execTimeoutQuery = parseInt(query.exec_timeout, 10);
             const executionTimeoutMs = !isNaN(execTimeoutQuery) ? execTimeoutQuery * 1000 : defaultExecTimeoutMs;
             const webviewSession = webviewContents.session;
             const currentWebviewUrl = webviewContents.getURL();
@@ -184,7 +176,7 @@ function startServer(port, webviewMap, config) {
             try {
                 if (webviewContents.isDestroyed()) throw new Error("Webview destroyed before JS execution.");
 
-                const executionPromise = webviewContents.executeJavaScript(jsListFetch, true); // true = user gesture
+                const executionPromise = webviewContents.executeJavaScript(jsListFetch, true);
 
                 const execTimeoutPromise = new Promise((_, reject) => {
                     execTimeoutHandle = setTimeout(() => {
@@ -194,32 +186,29 @@ function startServer(port, webviewMap, config) {
                 });
 
                 const result = await Promise.race([executionPromise, execTimeoutPromise]);
-                clearTimeout(execTimeoutHandle); // Clear timeout if execution finished
+                clearTimeout(execTimeoutHandle);
                 execTimeoutHandle = null;
 
                 if (result && result.success === true) {
                     const booksData = result.data || [];
                     console.log(`[HTTP Server] List JS execution successful for "${targetId}". Found ${booksData.length} items.`);
 
-                    // --- Download Images Concurrently ---
                     const downloadTasks = [];
                     if (Array.isArray(booksData)) {
                          console.log(`[HTTP Server] Preparing ${booksData.length} image download tasks (Limit: ${MAX_CONCURRENT_DOWNLOADS})...`);
                         for (const book of booksData) {
                             if (book.image_url) {
-                                // Use closure to capture current book and URL
                                 const currentBook = book;
                                 const task = async () => {
                                     const localFilename = await downloadImage(currentBook.image_url, currentWebviewUrl, webviewSession);
                                     if (localFilename) {
                                         currentBook.local_image_filename = localFilename;
                                     }
-                                    // Remove original URL regardless of success to avoid sending large data back
                                     delete currentBook.image_url;
                                 };
                                 downloadTasks.push(task);
                             } else {
-                                delete book.image_url; // Ensure field is removed if no URL present
+                                delete book.image_url;
                             }
                         }
                         await limitConcurrency(downloadTasks, MAX_CONCURRENT_DOWNLOADS);
@@ -231,7 +220,6 @@ function startServer(port, webviewMap, config) {
                     sendSuccess(res, { success: true, data: booksData });
 
                 } else {
-                    // JS execution failed within the webview
                     const errorMessage = result?.error || 'Unknown JS execution error.';
                     console.error(`[HTTP Server] List JS execution failed in webview "${targetId}": ${errorMessage}`);
                     if (result?.stack) console.error(`[HTTP Server] JS Stack Trace: ${result.stack}`);
@@ -240,22 +228,21 @@ function startServer(port, webviewMap, config) {
                 }
 
             } catch (execError) {
-                // Error in the communication or promise handling
                 console.error(`[HTTP Server] Error during list JS execution process for "${targetId}":`, execError.message);
-                 if (execTimeoutHandle) clearTimeout(execTimeoutHandle); // Ensure timeout cleared on error
+                 if (execTimeoutHandle) clearTimeout(execTimeoutHandle);
                  if (!res.headersSent) sendError(res, 500, `JS Execution Process Error: ${execError.message}`);
                  else console.warn(`[HTTP Server] Cannot send JS process error response for "${targetId}", headers sent.`);
             }
         }
 
-        // --- /execute-book-detail-fetch (Book Detail Extraction) ---
+        // --- /execute-book-detail-fetch (Now extracts Specs AND Prices) ---
         else if (pathname === '/execute-book-detail-fetch' && req.method === 'GET') {
-             if (!jsBookDetailExtraction) return sendError(res, 500, "Server Configuration Error: Detail extraction script not loaded.");
+            if (!jsBookDetailExtraction) return sendError(res, 500, "Server Configuration Error: Detail extraction script not loaded.");
 
-            const detailTimeoutQuery = parseInt(query.exec_timeout, 10); // Allow specific timeout override
+            const detailTimeoutQuery = parseInt(query.exec_timeout, 10);
             const executionTimeoutMs = !isNaN(detailTimeoutQuery) ? detailTimeoutQuery * 1000 : defaultDetailExecTimeoutMs; // Use detail default
 
-            console.log(`[HTTP Server] Executing book *detail* fetch script in "${targetId}" (Timeout: ${executionTimeoutMs / 1000}s)...`);
+            console.log(`[HTTP Server] Executing book detail/price fetch script in "${targetId}" (Timeout: ${executionTimeoutMs / 1000}s)...`);
 
             let detailExecTimeoutHandle = null;
             try {
@@ -265,49 +252,52 @@ function startServer(port, webviewMap, config) {
 
                 const detailTimeoutPromise = new Promise((_, reject) => {
                     detailExecTimeoutHandle = setTimeout(() => {
-                        console.error(`[HTTP Server] Detail JS execution timed out for "${targetId}" (${executionTimeoutMs / 1000}s).`);
-                        reject(new Error(`Detail JS execution timed out (${executionTimeoutMs / 1000}s)`));
+                        console.error(`[HTTP Server] Detail/Price JS execution timed out for "${targetId}" (${executionTimeoutMs / 1000}s).`);
+                        reject(new Error(`Detail/Price JS execution timed out (${executionTimeoutMs / 1000}s)`));
                     }, executionTimeoutMs);
                 });
 
                 const result = await Promise.race([detailExecPromise, detailTimeoutPromise]);
-                clearTimeout(detailExecTimeoutHandle); // Clear timeout if finished
+                clearTimeout(detailExecTimeoutHandle);
                 detailExecTimeoutHandle = null;
 
-                if (result && result.success === true) {
-                    console.log(`[HTTP Server] Detail JS execution successful for "${targetId}".`);
-                    // Send back the extracted details object { isbn: ..., pages: ... }
-                    sendSuccess(res, { success: true, details: result.data || {} });
+                if (result && result.success === true && result.data) {
+                    // **MODIFICATION:** Extract both specs and prices from the result.data
+                    const extractedSpecs = result.data.specs || {};
+                    const extractedPrices = result.data.prices || {};
+                    console.log(`[HTTP Server] Detail/Price JS successful for "${targetId}". Prices:`, extractedPrices);
+                    // Send back BOTH specs and prices
+                    sendSuccess(res, {
+                        success: true,
+                        details: extractedSpecs, // Keep 'details' key for specs cache compatibility
+                        prices: extractedPrices // Add 'prices' key for price tracking
+                    });
                 } else {
-                    const errorMessage = result?.error || 'Unknown detail JS execution error.';
-                    console.error(`[HTTP Server] Detail JS execution failed in webview "${targetId}": ${errorMessage}`);
-                    if (result?.stack) console.error(`[HTTP Server] Detail JS Stack: ${result.stack}`);
-                    if (!res.headersSent) sendError(res, 500, `Detail JS Execution Failed: ${errorMessage}`);
-                    else console.warn(`[HTTP Server] Cannot send detail JS error response for "${targetId}", headers sent.`);
+                    const errorMessage = result?.error || 'Unknown detail/price JS execution error.';
+                    console.error(`[HTTP Server] Detail/Price JS execution failed in webview "${targetId}": ${errorMessage}`);
+                    if (result?.stack) console.error(`[HTTP Server] Detail/Price JS Stack: ${result.stack}`);
+                    if (!res.headersSent) sendError(res, 500, `Detail/Price JS Execution Failed: ${errorMessage}`);
+                    else console.warn(`[HTTP Server] Cannot send detail/price JS error response for "${targetId}", headers sent.`);
                 }
             } catch (detailExecError) {
-                console.error(`[HTTP Server] Error during detail JS execution process for "${targetId}":`, detailExecError.message);
+                console.error(`[HTTP Server] Error during detail/price JS execution process for "${targetId}":`, detailExecError.message);
                 if (detailExecTimeoutHandle) clearTimeout(detailExecTimeoutHandle);
-                 if (!res.headersSent) sendError(res, 500, `Detail JS Execution Process Error: ${detailExecError.message}`);
-                 else console.warn(`[HTTP Server] Cannot send detail JS process error response for "${targetId}", headers sent.`);
+                if (!res.headersSent) sendError(res, 500, `Detail/Price JS Execution Process Error: ${detailExecError.message}`);
+                else console.warn(`[HTTP Server] Cannot send detail/price JS process error response for "${targetId}", headers sent.`);
             }
         }
 
-        // --- /local-image (Image Serving - Unchanged logic, uses DOWNLOAD_DIR) ---
+        // --- /local-image ---
          else if (pathname === '/local-image' && req.method === 'GET') {
              const filename = query.filename;
              if (!filename) return sendError(res, 400, "Missing 'filename' query parameter.");
-             // Basic security check
              if (filename.includes('/') || filename.includes('\\') || filename.includes('..')) {
                  return sendError(res, 400, "Invalid characters in filename.");
              }
              try {
                  const imagePath = path.join(DOWNLOAD_DIR, filename);
-                 // Verify file exists *before* sending headers
-                 await fsp.access(imagePath, fs.constants.R_OK); // Check readability
-                 // console.debug(`[HTTP Server] Serving local image: ${imagePath}`);
-                 res.setHeader('Cache-Control', 'public, max-age=604800'); // Cache images for a week
-                 // Let browser infer mime type, or set explicitly if needed
+                 await fsp.access(imagePath, fs.constants.R_OK);
+                 res.setHeader('Cache-Control', 'public, max-age=604800');
                  res.writeHead(200);
                  fs.createReadStream(imagePath).pipe(res);
              } catch (err) {
@@ -337,12 +327,11 @@ function startServer(port, webviewMap, config) {
         console.error('[HTTP Server] Server error:', err);
         if (err.code === 'EADDRINUSE') {
             console.error(`[HTTP Server FATAL] Port ${port} is already in use. Cannot start server.`);
-            // Optionally notify the main process to quit
              if (app && typeof app.quit === 'function') {
                  dialog.showErrorBox('Server Error', `Port ${port} is already in use. The application cannot start.`);
                  app.quit();
              }
-             process.exit(1); // Exit backend if server can't start
+             process.exit(1);
         }
     });
 
