@@ -1,0 +1,346 @@
+/* electron_app/css/layout-styles.css */
+/* Layout components, main structure, panels, and overlays */
+
+/* --- Persistent App Toggle Button --- */
+#toggle-overlay-btn {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 30;
+    font-size: 1em;
+    padding: 4px 7px;
+    cursor: pointer;
+    background-color: rgba(40, 44, 52, 0.7);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color-light);
+    border-radius: 50%;
+    line-height: 1;
+    box-shadow: 0 1px 3px var(--shadow-color);
+    transition: background-color 0.2s ease;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+#toggle-overlay-btn:hover {
+    background-color: rgba(60, 65, 75, 0.9);
+}
+
+/* --- Main Content --- */
+#main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Prevent content from overflowing container */
+}
+#webview-container {
+    display: flex;
+    flex: 1; /* Take remaining vertical space */
+    background-color: var(--bg-main); /* Background behind webview */
+}
+.status-bar {
+    padding: 3px 8px;
+    background-color: #181a1e;
+    font-size: 0.7em;
+    text-align: center;
+    color: var(--text-secondary);
+    border-top: 1px solid #2f333a;
+    flex-shrink: 0; /* Prevent shrinking */
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.status-bar.status-error { /* Example class for error styling */
+    color: var(--text-error);
+    font-weight: bold;
+}
+
+/* --- Overlay --- */
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-overlay);
+    z-index: 10; /* Below toggle button, above main content */
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    overflow: hidden; /* Prevent accidental scrollbars on overlay itself */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+#overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s; /* Change delay */
+}
+
+/* --- Overlay Body (holds content and side panels) --- */
+#overlay-body {
+    flex: 1; /* Take remaining space in overlay */
+    display: flex;
+    flex-direction: row; /* Content | Panels | Controls */
+    overflow: hidden; /* Prevent scrollbars here */
+    background-color: var(--bg-content-area);
+    border-top: 1px solid var(--border-color);
+}
+
+/* --- Main Content Area (Scrolling Container) --- */
+#content-scroll-container {
+    flex: 1; /* Takes available horizontal space */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 0 20px 20px 20px; /* Top padding handled by search bar */
+    min-width: 0; /* Allow shrinking */
+    display: flex;
+    flex-direction: column; /* Stack search bar, content, loader */
+}
+
+/* --- Search Bar --- */
+#search-bar-container {
+    padding: 10px 0; /* Vertical padding */
+    background-color: var(--bg-content-area); /* Match container bg */
+    position: sticky; /* Stick to top on scroll */
+    top: 0;
+    z-index: 5; /* Above book list */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional shadow */
+    margin-bottom: 15px; /* Space below */
+}
+#book-search-input {
+    width: 100%;
+    padding: var(--search-bar-padding);
+    font-size: var(--search-bar-font-size);
+    background-color: var(--bg-search-bar);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#book-search-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(82, 139, 255, 0.3);
+}
+#book-search-input::placeholder {
+    color: var(--text-light-placeholder);
+    font-style: italic;
+}
+/* Clear button styling */
+#book-search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 14px;
+    width: 14px;
+    margin-left: 5px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237f848e'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+#book-search-input::-webkit-search-cancel-button:hover {
+    opacity: 1;
+}
+
+/* --- Infinite Scroll Status Area --- */
+#infinite-scroll-status {
+    padding: 15px 0 5px 0;
+    text-align: center;
+    min-height: 150px; /* Space for loader */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+#scroll-loader .lottie-player.small-loader {
+    width: 120px;
+    height: 120px;
+}
+/* Ensure scroll loader container doesn't add extra padding */
+#scroll-loader.lottie-loading-container {
+    min-height: auto;
+    padding: 0;
+}
+#end-of-content-message {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+/* Style error message in scroll status area */
+#end-of-content-message.error-message {
+    color: var(--text-error);
+    font-style: normal;
+    font-weight: bold;
+}
+
+/* --- Generic Side Panel Styles --- */
+.side-panel {
+    width: var(--side-panel-width); /* Controlled by CSS var */
+    height: 100%;
+    background-color: var(--bg-side-panel);
+    border-left: 1px solid var(--border-color);
+    flex-shrink: 0; /* Don't shrink when visible */
+    /* Smooth transitions for width, opacity */
+    transition: width 0.3s ease-in-out, min-width 0.3s ease-in-out, border-left-width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    overflow: hidden; /* Clip content when collapsing */
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    position: relative; /* Needed for absolute positioning of resize handle */
+}
+.side-panel.collapsed {
+    width: 0;
+    min-width: 0; /* Allow shrinking to zero */
+    border-left-width: 0;
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction when collapsed */
+}
+/* Fade content inside panel */
+.side-panel > div:not(#resize-handle) {
+    transition: opacity 0.2s 0.1s ease-in-out; /* Slight delay on fade in */
+    opacity: 1;
+}
+.side-panel.collapsed > div:not(#resize-handle) {
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction with faded content */
+}
+
+/* --- Tracker Panel Specific Layout --- */
+#tracker-panel { /* Uses generic .side-panel styles */ }
+#tracker-panel #resize-handle {
+    position: absolute;
+    left: -3px; /* Position slightly outside */
+    top: 0; bottom: 0;
+    width: 6px; /* Handle width */
+    cursor: col-resize;
+    background-color: rgba(100, 110, 130, 0.3);
+    z-index: 6; /* Above panel content */
+    transition: background-color 0.2s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+#tracker-panel #resize-handle:hover {
+    background-color: rgba(120, 130, 150, 0.8); /* Darken on hover */
+}
+/* Hide handle when panel is collapsed */
+#tracker-panel.collapsed #resize-handle {
+    display: none;
+    opacity: 0;
+}
+#tracker-content {
+    padding: 15px;
+    overflow-y: auto; /* Allow scrolling of tracker content */
+    flex-grow: 1; /* Take remaining vertical space */
+    /* Dotted background */
+    background-image: radial-gradient(circle at var(--dot-size) var(--dot-size), var(--dot-color) var(--dot-size), transparent 0);
+    background-size: var(--dot-space) var(--dot-space);
+    display: flex;
+    flex-direction: column; /* Stack header, categories, button */
+}
+
+/* --- Cart Panel Layout --- */
+#cart-panel { /* Inherits .side-panel styles */ }
+#cart-content {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Right Controls Sidebar --- */
+#right-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--right-controls-width);
+    padding: 8px 0;
+    background-color: var(--bg-side-panel);
+    border-left: 1px solid var(--border-color);
+    flex-shrink: 0;
+    z-index: 5; /* Above side panels */
+    gap: 10px; /* Space between buttons */
+}
+
+/* --- Details Overlay (Modal) --- */
+#details-overlay {
+    position: fixed; /* Use fixed for viewport positioning */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: var(--bg-details-overlay);
+    z-index: 200; /* High z-index */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px; /* Padding around the content */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+#details-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s; /* Show immediately */
+}
+.details-overlay-content {
+    background-color: var(--bg-details-content);
+    padding: 25px 35px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color-light);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    max-width: 650px; /* Max width */
+    width: 90%; /* Responsive width */
+    max-height: 85%; /* Limit height */
+    overflow-y: auto; /* Scroll content if needed */
+    position: relative; /* For close button positioning */
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+/* --- Book List Container Layout --- */
+#tab-content-container {
+    flex-grow: 1; /* Allows container to grow and push loader down */
+    min-height: 100px; /* Ensure it has some height even when empty */
+}
+
+/* Page Content Block */
+.page-content-block {
+    margin-bottom: 10px; /* Spacing between page blocks */
+}
+
+/* Page Separator */
+.page-separator {
+    margin: 30px 0 20px 0;
+    border: 0;
+    border-top: 1px solid var(--border-color-light);
+    text-align: center;
+    position: relative;
+    height: 1.2em; /* Ensure space for text */
+}
+.page-separator::before {
+    content: attr(data-page-number);
+    position: absolute;
+    top: -0.75em; /* Position text above line */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-content-area); /* Match background */
+    padding: 0 10px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    font-weight: var(--font-bold);
+    line-height: 1.4em;
+}
+
+/* Initial loader styles */
+#initial-loader .lottie-player {
+    width: 220px; height: 220px;
+    max-width: 90%;
+}
+#initial-loader p { /* Style text below initial loader */
+    margin-top: 10px;
+    color: var(--text-secondary);
+}

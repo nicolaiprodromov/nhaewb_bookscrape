@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <!-- CSP is now handled by main.js session headers -->
     <title>Webview Loader & UI</title>
-    <link rel="stylesheet" href="./style.css">
+    <!-- Load the split CSS files in appropriate order -->
+    <link rel="stylesheet" href="./css/base-styles.css">
+    <link rel="stylesheet" href="./css/layout-styles.css">
+    <link rel="stylesheet" href="./css/components-styles.css">
     <!-- DotLottie Player -->
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
