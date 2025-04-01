@@ -222,7 +222,21 @@ async function fetchAndAppendPageData(pageNumber) {
     if (isFetching || reachedEndOfPages) return;
 
     isFetching = true;
-    if(window.scrollLoader) window.scrollLoader.style.display = 'flex';
+    // Show loading indicator in a fixed position at the bottom of the screen
+    if(window.scrollLoader) {
+        window.scrollLoader.style.display = 'flex';
+        
+        // Make sure the loader is visible in the viewport
+        if (window.contentScrollContainer) {
+            // Ensure it's visible within the scroll container viewport
+            const scrollRect = window.contentScrollContainer.getBoundingClientRect();
+            const loaderBottom = scrollRect.bottom - 100; // Position loader near the bottom
+            
+            // Adjust loader position to always be visible
+            window.scrollLoader.style.bottom = '10px';
+        }
+    }
+    
     if(window.endOfContentMessage) window.endOfContentMessage.style.display = 'none';
     if(window.statusBar) window.statusBar.textContent = `Fetching page ${pageNumber}...`;
     if (pageNumber === 1 && window.initialLoader) window.initialLoader.style.display = 'none'; // Hide initial loader only on first fetch

@@ -1,3 +1,4 @@
+#hey
 # Dependencies
 node_modules/
 **/node_modules/
@@ -29,9 +30,8 @@ release/
 
 # Local data / Generated files
 downloaded_images/
-tracked_books.json # Usually user data, not versioned
-# config.json # Often contains environment specifics or secrets, consider ignoring
-              # Provide a config.sample.json instead if needed
+tracked_books.json
+# config.json
 
 # Logs
 logs/

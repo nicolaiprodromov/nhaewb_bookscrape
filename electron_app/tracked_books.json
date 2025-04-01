@@ -66,7 +66,7 @@
   {
     "id": "id_m8y7a59x_rzf9fk6",
     "name": "Stack 3",
-    "isCollapsed": true,
+    "isCollapsed": false,
     "books": [
       {
         "current_price": "23,99 Lei",
@@ -75,7 +75,24 @@
         "old_price": "74,04 Lei",
         "title": "In White Ink",
         "voucher_code": "514M",
-        "voucher_price": "11,99"
+        "voucher_price": "11,99",
+        "specs": {
+          "author": "Elske Rahill",
+          "authorUrl": "https://www.anticexlibris.ro/authors/elske-rahill",
+          "isbn": "9781786691057",
+          "language": "Englezã",
+          "pages": "288",
+          "publishYear": "2017"
+        }
+      },
+      {
+        "current_price": "59,99 Lei",
+        "link": "https://www.anticexlibris.ro/power-rangers-1402",
+        "local_image_filename": "2eaaf1538654cd96e68738761c882277fe153a2e.jpg",
+        "old_price": "87,17 Lei",
+        "title": "Power Rangers",
+        "voucher_code": "514M",
+        "voucher_price": "29,99"
       }
     ]
   }

@@ -48,12 +48,7 @@
                 </div>
                  <!-- Infinite Scroll Loader/End Message Area -->
                 <div id="infinite-scroll-status">
-                    <div id="scroll-loader" class="loading-indicator lottie-loading-container" style="display: none;">
-                         <dotlottie-player
-                            src="https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie"
-                            background="transparent" speed="1" class="lottie-player small-loader" loop autoplay>
-                        </dotlottie-player>
-                    </div>
+                    <!-- End of content message stays in the status area -->
                     <div id="end-of-content-message" class="loading-indicator" style="display: none;">
                         no more books here
                     </div>
@@ -106,6 +101,15 @@
 
         </div> <!-- End #overlay-body -->
     </div> <!-- End #overlay -->
+
+    <!-- Scroll Loader (moved outside for fixed positioning) -->
+    <div id="scroll-loader" class="loading-indicator lottie-loading-container" style="display: none;">
+        <dotlottie-player
+            src="https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie"
+            background="transparent" speed="1" class="lottie-player small-loader" loop autoplay>
+        </dotlottie-player>
+        <p>Loading more books...</p>
+    </div>
 
     <!-- Details Overlay (Modal) -->
     <div id="details-overlay">

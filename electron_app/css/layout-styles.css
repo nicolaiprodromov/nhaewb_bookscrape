@@ -98,6 +98,7 @@
     min-width: 0; /* Allow shrinking */
     display: flex;
     flex-direction: column; /* Stack search bar, content, loader */
+    position: relative; /* For positioning of fixed loader */
 }
 
 /* --- Search Bar --- */
@@ -151,17 +152,35 @@
 #infinite-scroll-status {
     padding: 15px 0 5px 0;
     text-align: center;
-    min-height: 150px; /* Space for loader */
+    min-height: 100px; /* Reduced height since we position loader differently */
     flex-shrink: 0; /* Prevent shrinking */
 }
-#scroll-loader .lottie-player.small-loader {
-    width: 120px;
-    height: 120px;
+#scroll-loader {
+    position: fixed; /* Fixed positioned at bottom of viewport */
+    bottom: 10px; /* Distance from bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center adjustment */
+    z-index: 100; /* Ensure it's above content */
+    background-color: rgba(26, 29, 33, 0.85); /* Semi-transparent background */
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color-light);
+    width: auto;
+    min-width: 200px;
+    margin: 0 auto;
+    display: none; /* Hidden by default, shown when needed */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
-/* Ensure scroll loader container doesn't add extra padding */
+#scroll-loader .lottie-player.small-loader {
+    width: 80px;
+    height: 80px;
+}
+/* Ensure scroll loader container has appropriate styling */
 #scroll-loader.lottie-loading-container {
     min-height: auto;
-    padding: 0;
+    padding: 10px 15px;
 }
 #end-of-content-message {
     color: var(--text-secondary);
