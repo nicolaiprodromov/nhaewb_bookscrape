@@ -1,0 +1,130 @@
+<!-- electron_app/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- CSP is now handled by main.js session headers -->
+    <title>Webview Loader & UI</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- DotLottie Player -->
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body>
+    <!-- Persistent App Toggle Button -->
+    <button id="toggle-overlay-btn" title="Hide UI">👁️</button>
+
+    <!-- Main container -->
+    <div id="main-content">
+        <div id="webview-container">
+             <!-- Webviews dynamically added by renderer.js -->
+        </div>
+        <div class="status-bar" id="status-bar">Initializing...</div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay">
+        <div id="overlay-body">
+            <!-- Main Content Area (Scrolling Container) -->
+            <div id="content-scroll-container">
+                <!-- Search Bar -->
+                <div id="search-bar-container">
+                    <input type="search" id="book-search-input" placeholder="Search books by title...">
+                </div>
+
+                <!-- Content Container (Book Lists) -->
+                <div id="tab-content-container">
+                    <!-- Initial Loading Indicator -->
+                    <div class="loading-indicator lottie-loading-container" id="initial-loader">
+                        <dotlottie-player
+                            src="https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie"
+                            background="transparent" speed="1" class="lottie-player" loop autoplay>
+                        </dotlottie-player>
+                         <p>Loading books...</p>
+                    </div>
+                    <!-- Book lists dynamically added here by book-list-manager.js -->
+                </div>
+                 <!-- Infinite Scroll Loader/End Message Area -->
+                <div id="infinite-scroll-status">
+                    <div id="scroll-loader" class="loading-indicator lottie-loading-container" style="display: none;">
+                         <dotlottie-player
+                            src="https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie"
+                            background="transparent" speed="1" class="lottie-player small-loader" loop autoplay>
+                        </dotlottie-player>
+                    </div>
+                    <div id="end-of-content-message" class="loading-indicator" style="display: none;">
+                        no more books here
+                    </div>
+                </div>
+            </div> <!-- End #content-scroll-container -->
+
+            <!-- Tracker Panel -->
+            <div id="tracker-panel" class="side-panel collapsed">
+                 <div id="resize-handle"></div> <!-- Resizer for tracker -->
+                 <div id="tracker-content">
+                     <div id="tracker-main-header">
+                         <div class="tracker-header-left">
+                             <h3>Trackers</h3>
+                             <p class="tracker-description">Track book prices over time</p>
+                         </div>
+                         <div id="add-stack-lottie-container"></div> <!-- Lottie placeholder -->
+                     </div>
+                     <div id="tracker-categories-container">
+                          <!-- Categories dynamically added by tracker-ui.js -->
+                          <p class="tracker-node-placeholder">Loading tracker...</p>
+                     </div>
+                     <button id="add-category-btn">New Stack</button> <!-- Add category -->
+                 </div>
+            </div> <!-- End #tracker-panel -->
+
+            <!-- Cart Panel -->
+            <div id="cart-panel" class="side-panel collapsed">
+                 <!-- Cart panel has no resizer -->
+                 <div id="cart-content">
+                     <div id="cart-main-header">
+                         <div class="cart-header-left">
+                             <h3>Cart</h3>
+                             <p class="cart-description">Gather books and buy them</p>
+                         </div>
+                         <!-- Add cart specific controls here if needed -->
+                     </div>
+                     <div id="cart-items-container">
+                          <!-- Cart items dynamically added here -->
+                         <p class="placeholder-text">Cart is empty.</p>
+                     </div>
+                     <!-- Add Cart summary/checkout button here if needed -->
+                 </div>
+            </div> <!-- End #cart-panel -->
+
+            <!-- Right Controls Sidebar -->
+            <div id="right-controls">
+                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">◀</button>
+                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">◀</button>
+            </div> <!-- End #right-controls -->
+
+        </div> <!-- End #overlay-body -->
+    </div> <!-- End #overlay -->
+
+    <!-- Details Overlay (Modal) -->
+    <div id="details-overlay">
+        <div class="details-overlay-content">
+            <button class="details-overlay-close-btn" title="Close Details">×</button>
+            <h2 id="details-title">Book Details</h2>
+            <div id="details-body"><p>Loading details...</p></div>
+        </div>
+    </div> <!-- End #details-overlay -->
+
+    <!-- Load Renderer JS files -->
+    <!-- Order is important -->
+    <script defer src="./renderer_process/ui-utils.js"></script> <!-- Utilities first -->
+    <script defer src="./renderer.js"></script> <!-- **LOAD RENDERER EARLY** to setup AppUI and find core elements -->
+    <script defer src="./renderer_process/panel-manager.js"></script> <!-- Load modules -->
+    <script defer src="./renderer_process/details-overlay.js"></script>
+    <script defer src="./renderer_process/tracker-ui.js"></script>
+    <script defer src="./renderer_process/book-list-manager.js"></script>
+    <script defer src="./ui-logic.js"></script> <!-- Load coordinator last -->
+
+     <!-- Optional: Client-side Price Tracker (if used) -->
+     <!-- <script defer src="./price-tracker.js"></script> -->
+
+</body>
+</html>

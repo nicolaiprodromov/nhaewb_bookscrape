@@ -1,0 +1,82 @@
+[
+  {
+    "id": "id_m8y79b8k_7nb2io2",
+    "name": "Stack 1",
+    "isCollapsed": false,
+    "books": [
+      {
+        "current_price": "23,99 Lei",
+        "link": "https://www.anticexlibris.ro/dublin-palms-8128",
+        "local_image_filename": "12d73ecbfe09414349961d59fd9d26182311ec14.jpg",
+        "old_price": "74,04 Lei",
+        "title": "Dublin Palms",
+        "voucher_code": "514M",
+        "voucher_price": "11,99",
+        "specs": {
+          "author": "Hugo Hamilton",
+          "authorUrl": "https://www.anticexlibris.ro/authors/hugo-hamilton",
+          "isbn": "9780008128128",
+          "language": "Englezã",
+          "pages": "288",
+          "publishYear": "2019",
+          "publisher": "HarperCollins Publishers Australia",
+          "publisherUrl": "https://www.anticexlibris.ro/edituri/harpercollins-publishers-australia"
+        }
+      },
+      {
+        "current_price": "23,99 Lei",
+        "link": "https://www.anticexlibris.ro/the-girl-at-the-door",
+        "local_image_filename": "1f0f7d458fa88c0a6a49654226026e10468a367a.jpg",
+        "old_price": "74,04 Lei",
+        "title": "The Girl at the Door",
+        "voucher_code": "514M",
+        "voucher_price": "11,99",
+        "specs": {
+          "author": "Veronica Raimo, Stash Luczkiw",
+          "authorUrl": "https://www.anticexlibris.ro/authors/veronica-raimo-stash-luczkiw",
+          "isbn": "9780008326326",
+          "language": "Englezã",
+          "pages": "224",
+          "publishYear": "2019",
+          "publisher": "HarperCollins Publishers Australia",
+          "publisherUrl": "https://www.anticexlibris.ro/edituri/harpercollins-publishers-australia"
+        }
+      },
+      {
+        "current_price": "23,99 Lei",
+        "link": "https://www.anticexlibris.ro/doxology_2",
+        "local_image_filename": "47f6f8f9b680e936dfec35598e2fa8af9756b922.jpg",
+        "old_price": "85,44 Lei",
+        "title": "Doxology",
+        "voucher_code": "514M",
+        "voucher_price": "11,99",
+        "specs": {
+          "author": "Nell Zink",
+          "authorUrl": "https://www.anticexlibris.ro/authors/nell-zink",
+          "binding": "Hardcover",
+          "category": "Literatura Contemporana",
+          "pages": "402",
+          "publishYear": "2019",
+          "publisher": "4th Estate",
+          "publisherUrl": "https://www.anticexlibris.ro/edituri/4th-estate"
+        }
+      }
+    ]
+  },
+  {
+    "id": "id_m8y7a59x_rzf9fk6",
+    "name": "Stack 3",
+    "isCollapsed": true,
+    "books": [
+      {
+        "current_price": "23,99 Lei",
+        "link": "https://www.anticexlibris.ro/in-white-ink",
+        "local_image_filename": "e0add3755262ef20076b8fc83c830a55cc3e2878.jpg",
+        "old_price": "74,04 Lei",
+        "title": "In White Ink",
+        "voucher_code": "514M",
+        "voucher_price": "11,99"
+      }
+    ]
+  }
+]

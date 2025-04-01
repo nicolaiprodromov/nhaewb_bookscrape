@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Python virtual environment (if you use one)
+venv/
+*.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build output (if you use Electron Forge/Builder later)
+out/
+dist/
+build/
+release/
+*.exe
+*.dmg
+*.deb
+*.rpm
+*.pkg
+*.nupkg
+
+# Local data / Generated files
+downloaded_images/
+tracked_books.json # Usually user data, not versioned
+# config.json # Often contains environment specifics or secrets, consider ignoring
+              # Provide a config.sample.json instead if needed
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories and files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-workspace
+.idea/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache

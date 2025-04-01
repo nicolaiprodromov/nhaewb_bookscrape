@@ -1,0 +1,1165 @@
+/* electron_app/style.css */
+
+/* --- Font Definitions --- */
+@font-face { font-family: 'PPNeueMachina'; src: url('./PPNeueMachina-InktrapLight.otf') format('opentype'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('./PPNeueMachina-InktrapLightItalic.otf') format('opentype'); font-weight: 300; font-style: italic; }
+@font-face { font-family: 'PPNeueMachina'; src: url('./PPNeueMachina-InktrapRegular.otf') format('opentype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('./PPNeueMachina-InktrapRegularItalic.otf') format('opentype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'PPNeueMachina'; src: url('./PPNeueMachina-InktrapUltrabold.otf') format('opentype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('./PPNeueMachina-InktrapUltraboldItalic.otf') format('opentype'); font-weight: 800; font-style: italic; }
+
+/* --- Base Styles --- */
+:root {
+    /* Main Colors */
+    --bg-main: #1a1d21;
+    --bg-overlay: rgba(30, 33, 38, 0.98);
+    --bg-content-area: #282c34;
+    --bg-side-panel: #1e2125;
+    --bg-item: #2c313a;
+    --bg-item-hover: #353a45;
+    --bg-tracker-category-header: rgba(255, 255, 255, 0.05);
+    --bg-tracker-node: #2c313a;
+    --bg-tracker-node-hover: #353a45;
+    --bg-input: #21252b;
+    --bg-input-focus: rgba(255, 255, 255, 0.1);
+    --bg-details-overlay: rgba(26, 29, 33, 0.97);
+    --bg-details-content: #282c34;
+    --bg-modal: #313640;
+    --bg-button-primary: #528bff;
+    --bg-button-primary-hover: #6fa0ff;
+    --bg-button-secondary: #4f5663;
+    --bg-button-secondary-hover: #646c7a;
+    --bg-voucher-box: rgba(82, 139, 255, 0.25);
+    --bg-search-bar: #21252b; /* Same as input bg */
+
+    /* Text Colors */
+    --text-primary: #abb2bf;
+    --text-secondary: #7f848e;
+    --text-heading: #e2e8f0;
+    --text-link: #61afef;
+    --text-link-hover: #89cff0;
+    --text-button: #dcdfe4;
+    --text-price: #e2e8f0;
+    --text-old-price: var(--text-secondary);
+    --text-voucher: #61afef;
+    --text-voucher-code: #c678dd;
+    --text-error: #e06c75;
+    --text-light-placeholder: #5c6370;
+
+    /* Borders & Accents */
+    --border-color: #3a3f4b;
+    --border-color-light: #4b5263;
+    --accent-color: #528bff;
+    --accent-hover: #6fa0ff;
+    --accent-remove-button: var(--text-error);
+    --accent-remove-button-hover: #f47f8a;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --border-voucher-box: rgba(82, 139, 255, 0.6);
+    --confirm-delete-bg: #e06c75; /* Background for pending delete */
+    --confirm-delete-text: #ffffff;
+
+    /* Layout & Sizing */
+    --side-panel-width: 280px;
+    --side-panel-collapsed-width: 0px;
+    --right-controls-width: 35px;
+    --font-main: 'PPNeueMachina', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-light: 300;
+    --font-regular: 400;
+    --font-bold: 800;
+    --base-font-size: 14px;
+    --item-font-size: 12px;
+    --tracker-font-size: 13px;
+    --tracker-category-margin-bottom: 3px; /* Spacing between categories */
+    --search-bar-font-size: 0.9em;
+    --search-bar-padding: 6px 12px;
+    --tracker-header-lottie-size: 52px;
+    --category-max-book-height: 300px;
+    --category-drop-zone-expanded-height: 40px;
+    --category-drop-zone-expanded-margin: 5px 0;
+
+    /* Scrollbars */
+    --scrollbar-thumb: #5c6370;
+    --scrollbar-track: #21252b;
+
+    /* Tracker/Panel Specific */
+    --dot-color: rgba(80, 85, 95, 0.15);
+    --dot-size: 1px;
+    --dot-space: 18px;
+    --drop-zone-highlight: rgba(82, 139, 255, 0.15);
+    --drop-zone-border: var(--accent-color);
+    --reorder-gap-color: var(--accent-color);
+    --category-base-bg-alpha: 0.5;
+    --node-border-alpha: 0.8;
+    --book-item-border-alpha: 0.8;
+    --book-item-border-width: 5px;
+}
+
+/* --- Global Styles --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-main);
+    font-weight: var(--font-regular);
+    color: var(--text-primary);
+    position: relative;
+    font-size: var(--base-font-size);
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* --- Scrollbar Styling --- */
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 5px;
+    border: 2px solid var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #7c8390;
+}
+/* Firefox scrollbar styling */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* --- Persistent App Toggle Button --- */
+#toggle-overlay-btn {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 30;
+    font-size: 1em;
+    padding: 4px 7px;
+    cursor: pointer;
+    background-color: rgba(40, 44, 52, 0.7);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color-light);
+    border-radius: 50%;
+    line-height: 1;
+    box-shadow: 0 1px 3px var(--shadow-color);
+    transition: background-color 0.2s ease;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+#toggle-overlay-btn:hover {
+    background-color: rgba(60, 65, 75, 0.9);
+}
+
+/* --- Main Content --- */
+#main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Prevent content from overflowing container */
+}
+#webview-container {
+    display: flex;
+    flex: 1; /* Take remaining vertical space */
+    background-color: var(--bg-main); /* Background behind webview */
+}
+webview {
+    flex: 1; /* Take all space in container */
+    border: none;
+    height: 100%;
+    width: 100%; /* Ensure webview takes full width */
+}
+.status-bar {
+    padding: 3px 8px;
+    background-color: #181a1e;
+    font-size: 0.7em;
+    text-align: center;
+    color: var(--text-secondary);
+    border-top: 1px solid #2f333a;
+    flex-shrink: 0; /* Prevent shrinking */
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.status-bar.status-error { /* Example class for error styling */
+    color: var(--text-error);
+    font-weight: bold;
+}
+
+/* --- Overlay --- */
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-overlay);
+    z-index: 10; /* Below toggle button, above main content */
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    overflow: hidden; /* Prevent accidental scrollbars on overlay itself */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+#overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s; /* Change delay */
+}
+
+/* --- Overlay Body (holds content and side panels) --- */
+#overlay-body {
+    flex: 1; /* Take remaining space in overlay */
+    display: flex;
+    flex-direction: row; /* Content | Panels | Controls */
+    overflow: hidden; /* Prevent scrollbars here */
+    background-color: var(--bg-content-area);
+    border-top: 1px solid var(--border-color);
+}
+
+/* --- Main Content Area (Scrolling Container) --- */
+#content-scroll-container {
+    flex: 1; /* Takes available horizontal space */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 0 20px 20px 20px; /* Top padding handled by search bar */
+    min-width: 0; /* Allow shrinking */
+    display: flex;
+    flex-direction: column; /* Stack search bar, content, loader */
+}
+
+/* --- Search Bar --- */
+#search-bar-container {
+    padding: 10px 0; /* Vertical padding */
+    background-color: var(--bg-content-area); /* Match container bg */
+    position: sticky; /* Stick to top on scroll */
+    top: 0;
+    z-index: 5; /* Above book list */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional shadow */
+    margin-bottom: 15px; /* Space below */
+}
+#book-search-input {
+    width: 100%;
+    padding: var(--search-bar-padding);
+    font-size: var(--search-bar-font-size);
+    background-color: var(--bg-search-bar);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#book-search-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(82, 139, 255, 0.3);
+}
+#book-search-input::placeholder {
+    color: var(--text-light-placeholder);
+    font-style: italic;
+}
+/* Clear button styling */
+#book-search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 14px;
+    width: 14px;
+    margin-left: 5px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237f848e'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+#book-search-input::-webkit-search-cancel-button:hover {
+    opacity: 1;
+}
+
+/* --- Book List Container --- */
+#tab-content-container {
+    flex-grow: 1; /* Allows container to grow and push loader down */
+    min-height: 100px; /* Ensure it has some height even when empty */
+}
+
+/* Page Content Block */
+.page-content-block {
+    margin-bottom: 10px; /* Spacing between page blocks */
+}
+
+/* Page Separator */
+.page-separator {
+    margin: 30px 0 20px 0;
+    border: 0;
+    border-top: 1px solid var(--border-color-light);
+    text-align: center;
+    position: relative;
+    height: 1.2em; /* Ensure space for text */
+}
+.page-separator::before {
+    content: attr(data-page-number);
+    position: absolute;
+    top: -0.75em; /* Position text above line */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-content-area); /* Match background */
+    padding: 0 10px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    font-weight: var(--font-bold);
+    line-height: 1.4em;
+}
+
+/* --- Infinite Scroll Status Area --- */
+#infinite-scroll-status {
+    padding: 15px 0 5px 0;
+    text-align: center;
+    min-height: 150px; /* Space for loader */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+#scroll-loader .lottie-player.small-loader {
+    width: 120px;
+    height: 120px;
+}
+/* Ensure scroll loader container doesn't add extra padding */
+#scroll-loader.lottie-loading-container {
+    min-height: auto;
+    padding: 0;
+}
+#end-of-content-message {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+/* Style error message in scroll status area */
+#end-of-content-message.error-message {
+    color: var(--text-error);
+    font-style: normal;
+    font-weight: bold;
+}
+
+/* Book Item Styles */
+.book-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    /* Responsive grid - adjust minmax as needed */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+}
+.book-item {
+    background-color: var(--bg-item);
+    border: 1px solid var(--border-color); /* Use standard border */
+    border-left: var(--book-item-border-width) solid transparent; /* Tracker color */
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Ensure children stretch */
+    font-size: var(--item-font-size);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, border-left-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    cursor: grab; /* Indicate draggable */
+    position: relative; /* For z-index on hover */
+    transform-origin: center center;
+}
+.book-item.hidden-by-search {
+    display: none; /* Hide items during search */
+}
+.book-item.tracked-by-category {
+    /* border-left-color set via JS */
+}
+.book-item.shrink-neighbor {
+    /* Effect for items next to hovered item */
+    transform: scale(0.92);
+    opacity: 0.6;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.book-item.is-hovered {
+    /* Effect for the item being hovered */
+    transform: scale(1.05); /* Slightly smaller hover effect */
+    border-color: var(--accent-color); /* Highlight border */
+    /* Keep border-left-color as tracker color or make it accent? */
+    /* border-left-color: var(--accent-color); */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+    z-index: 2; /* Bring to front */
+}
+.book-item.dragging {
+    cursor: grabbing;
+    transform: scale(0.97); /* Slightly shrink while dragging */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    opacity: 0.75; /* Make slightly transparent */
+}
+.book-item .book-image {
+    width: 100%;
+    height: 160px; /* Fixed height for image container */
+    flex-shrink: 0;
+    margin-bottom: 10px;
+    background-color: var(--bg-item); /* Fallback bg */
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative; /* For placeholder positioning */
+}
+.book-item .book-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure whole image is visible */
+}
+.book-item .book-image .placeholder-text {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 5px;
+    display: flex; /* Use flex to center text vertically/horizontally */
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-item); /* Ensure bg matches */
+}
+.book-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow details to take remaining space */
+    min-height: 70px; /* Ensure minimum height */
+    padding-top: 5px; /* Space above title */
+}
+.book-title {
+    font-weight: var(--font-bold);
+    margin-bottom: 6px;
+    color: var(--text-heading);
+    font-size: 1.1em;
+    line-height: 1.25;
+    height: 2.5em; /* Limit title to 2 lines (line-height * lines) */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* CSS multi-line clamp */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.book-meta {
+    display: flex;
+    align-items: flex-end; /* Align price/icons to bottom */
+    gap: 10px;
+    margin-top: auto; /* Push meta to bottom */
+    padding-top: 6px; /* Space above meta */
+    flex-wrap: wrap; /* Allow wrapping if needed */
+}
+.book-meta-prices {
+    flex-grow: 1; /* Allow prices to take space */
+    line-height: 1.4;
+    min-width: 60px; /* Ensure some min width for prices */
+}
+.book-view-icon {
+    color: var(--text-link);
+    text-decoration: none;
+    font-size: 1.4em;
+    line-height: 1;
+    display: inline-block;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+    /* order: -1; Remove order, let it flow naturally */
+    margin-bottom: 2px; /* Align better with price text */
+}
+.book-view-icon:hover {
+    color: var(--text-link-hover);
+}
+.book-view-icon svg {
+    display: block;
+    width: 1em; height: 1em;
+    /* Adjust stroke if needed */
+    /* stroke-width: 1.5; */
+}
+.book-price {
+    font-size: 1.05em;
+    color: var(--text-price);
+    font-weight: var(--font-regular);
+    white-space: nowrap;
+    display: block;
+    margin-bottom: 2px;
+}
+.book-old-price {
+    text-decoration: line-through;
+    color: var(--text-old-price);
+    font-size: 0.9em;
+    white-space: nowrap;
+    display: block;
+}
+.voucher-price-box {
+    background-color: var(--bg-voucher-box);
+    border: 1px solid var(--border-voucher-box);
+    border-radius: 4px;
+    padding: 1px 5px;
+    display: inline-block; /* Allows text to flow next to it */
+    font-size: 0.95em;
+    margin-top: 4px;
+    margin-right: 5px; /* Space before code */
+}
+.voucher-price-box .book-voucher-price {
+    color: var(--text-voucher);
+    font-weight: var(--font-bold);
+}
+.voucher-code-text {
+    color: var(--text-voucher-code);
+    /* margin-left: 5px; (removed, use gap on parent or inline-block spacing) */
+    font-style: italic;
+    font-size: 0.95em;
+    display: inline-block; /* Keep on same line as price box */
+    margin-top: 4px;
+}
+.book-link { display: none; } /* Hide raw link data */
+
+/* --- Lottie Loading Styles --- */
+.loading-indicator {
+    text-align: center;
+    padding: 30px;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+.lottie-loading-container {
+    display: flex;
+    flex-direction: column; /* Stack player and text */
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+    min-height: 250px; /* Ensure space */
+    width: 100%;
+    height: 100%; /* Take full height if possible */
+}
+#initial-loader .lottie-player {
+    width: 220px; height: 220px;
+    max-width: 90%;
+}
+#initial-loader p { /* Style text below initial loader */
+    margin-top: 10px;
+    color: var(--text-secondary);
+}
+.error-message {
+    color: var(--text-error);
+    font-weight: var(--font-regular);
+}
+.info-message { /* General info message styling */
+    color: var(--text-secondary);
+    font-style: italic;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- Generic Side Panel Styles --- */
+.side-panel {
+    width: var(--side-panel-width); /* Controlled by CSS var */
+    height: 100%;
+    background-color: var(--bg-side-panel);
+    border-left: 1px solid var(--border-color);
+    flex-shrink: 0; /* Don't shrink when visible */
+    /* Smooth transitions for width, opacity */
+    transition: width 0.3s ease-in-out, min-width 0.3s ease-in-out, border-left-width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    overflow: hidden; /* Clip content when collapsing */
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    position: relative; /* Needed for absolute positioning of resize handle */
+}
+.side-panel.collapsed {
+    width: 0;
+    min-width: 0; /* Allow shrinking to zero */
+    border-left-width: 0;
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction when collapsed */
+}
+/* Fade content inside panel */
+.side-panel > div:not(#resize-handle) {
+    transition: opacity 0.2s 0.1s ease-in-out; /* Slight delay on fade in */
+    opacity: 1;
+}
+.side-panel.collapsed > div:not(#resize-handle) {
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction with faded content */
+}
+
+/* --- Tracker Panel Specific --- */
+#tracker-panel { /* Uses generic .side-panel styles */ }
+#tracker-panel #resize-handle {
+    position: absolute;
+    left: -3px; /* Position slightly outside */
+    top: 0; bottom: 0;
+    width: 6px; /* Handle width */
+    cursor: col-resize;
+    background-color: rgba(100, 110, 130, 0.3);
+    z-index: 6; /* Above panel content */
+    transition: background-color 0.2s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+#tracker-panel #resize-handle:hover {
+    background-color: rgba(120, 130, 150, 0.8); /* Darken on hover */
+}
+/* Hide handle when panel is collapsed */
+#tracker-panel.collapsed #resize-handle {
+    display: none;
+    opacity: 0;
+}
+#tracker-content {
+    padding: 15px;
+    overflow-y: auto; /* Allow scrolling of tracker content */
+    flex-grow: 1; /* Take remaining vertical space */
+    /* Dotted background */
+    background-image: radial-gradient(circle at var(--dot-size) var(--dot-size), var(--dot-color) var(--dot-size), transparent 0);
+    background-size: var(--dot-space) var(--dot-space);
+    display: flex;
+    flex-direction: column; /* Stack header, categories, button */
+}
+/* Tracker Header */
+#tracker-main-header {
+    display: flex;
+    justify-content: space-between; /* Space out content */
+    align-items: center; /* Vertically align */
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    gap: 10px;
+    min-height: var(--tracker-header-lottie-size); /* Ensure height for Lottie */
+}
+.tracker-header-left {
+    flex-grow: 1; /* Allow text to take space */
+    min-width: 0; /* Prevent overflow issues */
+}
+#tracker-main-header h3 {
+    margin: 0;
+    color: var(--text-heading);
+    font-size: 1.1em;
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+p.tracker-description {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 2px 0 0 0;
+}
+/* Lottie Container in Header */
+#add-stack-lottie-container {
+    height: var(--tracker-header-lottie-size);
+    width: var(--tracker-header-lottie-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Prevent shrinking */
+    overflow: hidden;
+    margin-left: auto; /* Push to right */
+}
+#add-stack-lottie-container dotlottie-player {
+    width: 100%; height: 100%;
+}
+/* Add Category Button */
+#add-category-btn {
+    background: none;
+    border: 1px solid var(--text-secondary);
+    color: var(--text-secondary);
+    font-size: 0.85em;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    font-weight: var(--font-regular);
+    width: 100%;
+    margin-top: auto; /* Push to bottom */
+    margin-bottom: 5px; /* Space at very bottom */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+#add-category-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+/* Categories Container */
+#tracker-categories-container {
+    flex-grow: 1; /* Allow container to fill space */
+    display: flex;
+    flex-direction: column;
+    /* gap: var(--tracker-category-margin-bottom); Use margin on items instead */
+    overflow-y: auto; /* Allow category list to scroll if needed */
+    margin-bottom: 10px; /* Space above add button */
+}
+
+/* Individual Tracker Category */
+.tracker-category {
+    border: 1px solid var(--border-color-light);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Important for collapse animation */
+    transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    position: relative;
+    flex-shrink: 0; /* Prevent categories themselves from shrinking */
+    margin-bottom: var(--tracker-category-margin-bottom); /* Spacing */
+}
+.tracker-category:last-child {
+    margin-bottom: 0; /* No margin for the last one */
+}
+.tracker-category.dragging {
+    border-color: var(--accent-color) !important; /* Highlight dragged category */
+    opacity: 0.7;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+/* Category Header */
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background-color: var(--bg-tracker-category-header);
+    border-bottom: 1px solid var(--border-color-light);
+    cursor: grab; /* Indicate draggable */
+    flex-shrink: 0;
+}
+.tracker-category.collapsed .category-header {
+    border-bottom: none; /* No border when collapsed */
+}
+/* Prevent dragging starting on interactive header elements */
+.category-header button, .category-header input {
+    cursor: pointer; /* Override grab cursor */
+}
+/* Collapse/Expand & View Buttons */
+.collapse-category-btn, .view-category-btn {
+    background: none; border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 2px;
+    font-size: 1.1em;
+    line-height: 1;
+    transition: color 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+.collapse-category-btn:hover, .view-category-btn:hover {
+    color: var(--text-primary);
+}
+.tracker-category.collapsed .collapse-category-btn {
+    transform: rotate(-90deg); /* Rotate arrow when collapsed */
+}
+/* Category Name Input */
+.category-name-input {
+    flex-grow: 1;
+    background: none; border: none;
+    color: var(--text-heading);
+    font-size: 0.95em;
+    font-weight: var(--font-regular);
+    padding: 4px 6px;
+    margin: 0 6px; /* Space around input */
+    border-radius: 3px;
+    outline: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    min-width: 50px;
+    cursor: text; /* Text cursor */
+    pointer-events: auto; /* Allow clicking */
+}
+.category-header.dragging .category-name-input {
+    pointer-events: none; /* Disable input interaction while dragging header */
+}
+.category-name-input:focus {
+    background-color: var(--bg-input-focus);
+    box-shadow: inset 0 0 0 1px var(--accent-color);
+}
+/* Delete Category Button */
+.delete-category-btn {
+    background: none; border: none;
+    color: var(--text-secondary);
+    font-size: 1.1em; font-weight: bold;
+    cursor: pointer;
+    padding: 0px 5px;
+    line-height: 0.8;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0;
+    margin-left: auto; /* Push to the right */
+    pointer-events: auto; /* Ensure clickable */
+}
+.delete-category-btn:hover {
+    background-color: rgba(224, 108, 117, 0.2);
+    color: var(--accent-remove-button);
+}
+/* Delete Confirmation State */
+.delete-category-btn.delete-pending {
+    background-color: var(--confirm-delete-bg);
+    color: var(--confirm-delete-text);
+    transform: scale(1.1);
+    box-shadow: 0 0 5px var(--confirm-delete-bg);
+}
+
+/* Container for Books within a Category */
+.category-books-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3px; /* Space between book nodes */
+    padding: 8px;
+    /* border-top: none; (Handled by header border) */
+    border-radius: 0 0 4px 4px;
+    border: 2px dashed transparent; /* For drop highlight */
+    /* Smooth transitions for collapse/expand */
+    transition: background-color 0.2s ease, border-color 0.2s ease, max-height 0.3s ease-in-out, padding 0.3s ease-in-out, opacity 0.3s ease-in-out, gap 0.3s ease-in-out;
+    opacity: 1;
+    position: relative;
+    overflow-y: auto; /* Allow book list scroll if needed */
+    max-height: var(--category-max-book-height); /* Limit height */
+    min-height: 25px; /* Minimum height for placeholder/drop */
+    flex-grow: 1; /* Allow shrinking/growing within category */
+    flex-shrink: 1;
+}
+.tracker-category.collapsed .category-books-container {
+    max-height: 0;
+    padding-top: 0; padding-bottom: 0;
+    opacity: 0;
+    min-height: 0;
+    overflow: hidden; /* Hide content when collapsed */
+    border-width: 0;
+    gap: 0;
+}
+/* Highlight when dragging book over book container */
+.category-books-container.drag-over-books,
+.tracker-node-placeholder.drag-over-books {
+    background-color: var(--drop-zone-highlight) !important;
+    border-color: var(--drop-zone-border) !important;
+    border-style: dashed !important;
+}
+/* Tracker Node (Book Item) */
+.tracker-node {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-tracker-node);
+    border: 1px solid; /* Border color set by JS */
+    border-radius: 4px;
+    padding: 5px 8px 5px 10px;
+    color: var(--text-primary);
+    font-size: 0.9em;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    cursor: grab;
+    position: relative;
+    flex-shrink: 0; /* Prevent nodes from shrinking */
+}
+.tracker-node:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    background-color: var(--bg-tracker-node-hover);
+    border-color: var(--border-color-light); /* Standard hover border */
+}
+.tracker-node.dragging {
+    cursor: grabbing;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transform: scale(0.98);
+    opacity: 0.7;
+    z-index: 10; /* Ensure dragged item is above others */
+}
+.tracker-node-title {
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 8px;
+    pointer-events: none; /* Don't interfere with drag */
+}
+.tracker-node-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+.reorder-handle { display: none; } /* Not currently used */
+.remove-node-btn {
+    background: none; border: none;
+    color: var(--text-secondary);
+    font-size: 1.2em; font-weight: bold;
+    cursor: pointer;
+    padding: 0px 4px;
+    line-height: 0.8;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    pointer-events: auto; /* Ensure clickable */
+}
+.remove-node-btn:hover {
+    background-color: rgba(224, 108, 117, 0.2);
+    color: var(--accent-remove-button);
+}
+/* Placeholder inside empty category */
+.tracker-node-placeholder {
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+    margin-top: 8px;
+    padding: 8px;
+    font-size: 0.85em;
+    border: 1px dashed var(--border-color);
+    border-radius: 4px;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* --- Drop Zones --- */
+.drop-zone {
+    background-color: transparent;
+    transition: background-color 0.2s ease, height 0.2s ease, opacity 0.2s ease, margin 0.2s ease, border 0.2s ease;
+    border-radius: 3px;
+    flex-shrink: 0; /* Prevent drop zones from shrinking */
+    overflow: hidden; /* Hide content when height is 0 */
+    box-sizing: border-box;
+}
+
+/* Node Drop Zone (within a category for reordering nodes) */
+.drop-zone.node-drop-zone {
+    height: 8px; /* Small gap between nodes */
+    margin: -4px 0; /* Overlap slightly */
+    opacity: 0; /* Invisible by default */
+    border: 1px dashed transparent; /* Reserve space for border */
+}
+.drop-zone.node-drop-zone.drag-over {
+    height: 36px; /* Expand when dragging node over */
+    background-color: var(--reorder-gap-color);
+    opacity: 0.75;
+    margin: -18px 0; /* Center expanded zone */
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+}
+
+/* Category Drop Zone (between categories for reordering categories) */
+.drop-zone.category-drop-zone {
+    height: 0px; /* Collapsed by default */
+    margin: 0;
+    opacity: 0;
+    pointer-events: none; /* Ignore mouse when invisible */
+    border: none;
+}
+/* State when category drag is active (make zones visible) */
+.drop-zone.category-drop-zone.visible {
+    height: var(--category-drop-zone-expanded-height);
+    margin: var(--category-drop-zone-expanded-margin);
+    opacity: 0.6;
+    pointer-events: auto; /* Allow interaction */
+    background-color: var(--reorder-gap-color);
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+}
+/* Additional highlight for the specific zone being hovered */
+.drop-zone.category-drop-zone.visible.drop-target-highlight {
+    opacity: 0.85; /* Make more opaque */
+    box-shadow: 0 0 8px rgba(82, 139, 255, 0.5); /* Add glow */
+    border-style: solid;
+}
+
+/* --- Cart Panel Specific --- */
+#cart-panel { /* Inherits .side-panel styles */ }
+#cart-content {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+#cart-main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+.cart-header-left h3 {
+    margin: 0;
+    color: var(--text-heading);
+    font-size: 1.1em;
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+p.cart-description {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 2px 0 0 0;
+}
+#cart-items-container {
+    flex-grow: 1; /* Allow item list to grow */
+}
+#cart-items-container .placeholder-text {
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* --- Right Controls Sidebar --- */
+#right-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--right-controls-width);
+    padding: 8px 0;
+    background-color: var(--bg-side-panel);
+    border-left: 1px solid var(--border-color);
+    flex-shrink: 0;
+    z-index: 5; /* Above side panels */
+    gap: 10px; /* Space between buttons */
+}
+.panel-toggle-btn {
+    background: none; border: none;
+    color: var(--text-secondary);
+    font-size: 1.2em;
+    width: 28px; height: 28px;
+    padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.3s ease;
+    font-family: monospace; /* For consistent arrow rendering */
+    opacity: 1; /* Ensure visible */
+}
+.panel-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+/* Styles for active/shown state */
+.panel-toggle-btn.active {
+    color: var(--accent-color);
+    background-color: rgba(82, 139, 255, 0.15);
+}
+.panel-toggle-btn.panel-shown {
+    transform: scaleX(-1); /* Flip arrow */
+}
+.panel-toggle-btn.panel-hidden {
+    transform: scaleX(1);
+}
+
+
+/* --- Details Overlay (Modal) --- */
+#details-overlay {
+    position: fixed; /* Use fixed for viewport positioning */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: var(--bg-details-overlay);
+    z-index: 200; /* High z-index */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px; /* Padding around the content */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+#details-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s; /* Show immediately */
+}
+.details-overlay-content {
+    background-color: var(--bg-details-content);
+    padding: 25px 35px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color-light);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    max-width: 650px; /* Max width */
+    width: 90%; /* Responsive width */
+    max-height: 85%; /* Limit height */
+    overflow-y: auto; /* Scroll content if needed */
+    position: relative; /* For close button positioning */
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+#details-title {
+    font-size: 1.4em;
+    font-weight: var(--font-bold);
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-heading);
+    padding-right: 40px; /* Space for close button */
+}
+#details-body {
+    font-size: 1em;
+    line-height: 1.6;
+}
+#details-body strong {
+    font-weight: var(--font-bold);
+    color: var(--text-heading);
+    margin-right: 5px;
+}
+#details-body p { margin-bottom: 10px; }
+#details-body ul { padding-left: 20px; margin-bottom: 10px; }
+#details-body li { margin-bottom: 5px; }
+#details-body a {
+    color: var(--text-link);
+    text-decoration: none;
+    word-break: break-all; /* Break long links */
+}
+#details-body a:hover {
+    text-decoration: underline;
+    color: var(--text-link-hover);
+}
+#details-body hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+#details-body h3 { /* Style subheadings in details */
+    font-size: 1.1em;
+    color: var(--text-heading);
+    margin-top: 15px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-color-light);
+    padding-bottom: 3px;
+}
+#details-body pre {
+    white-space: pre-wrap; /* Wrap long lines */
+    word-wrap: break-word;
+    background-color: rgba(0,0,0,0.2);
+    padding: 12px 15px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    border: 1px solid var(--border-color);
+    max-height: 400px; /* Limit raw data height */
+    overflow-y: auto;
+    color: var(--text-secondary); /* Dim raw data slightly */
+}
+.details-overlay-close-btn {
+    position: absolute;
+    top: 12px; right: 15px;
+    background: none; border: none;
+    color: var(--text-secondary);
+    font-size: 1.9em;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s ease;
+}
+.details-overlay-close-btn:hover {
+    color: var(--accent-remove-button);
+}
