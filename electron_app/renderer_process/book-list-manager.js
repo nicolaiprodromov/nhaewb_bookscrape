@@ -2,7 +2,7 @@
 
 // Assumes necessary DOM elements are globally available or passed in
 // Requires: tabContentContainer, contentScrollContainer, initialLoader, infiniteScrollStatus, scrollLoader, endOfContentMessage, bookSearchInput, statusBar
-// Requires access to: AppUI.utils, AppUI.trackerUI (for coloring, state), AppUI.detailsOverlay.showDetailsOverlay, PYTHON_BACKEND_URL
+// Requires access to: AppUIUtils, AppTrackerUI (for coloring, state), AppDetailsOverlay.showDetailsOverlay, PYTHON_BACKEND_URL
 
 let lastLoadedPage = 0;
 let isFetching = false;
@@ -222,21 +222,10 @@ async function fetchAndAppendPageData(pageNumber) {
     if (isFetching || reachedEndOfPages) return;
 
     isFetching = true;
-    // Show loading indicator in a fixed position at the bottom of the screen
-    if(window.scrollLoader) {
-        window.scrollLoader.style.display = 'flex';
-        
-        // Make sure the loader is visible in the viewport
-        if (window.contentScrollContainer) {
-            // Ensure it's visible within the scroll container viewport
-            const scrollRect = window.contentScrollContainer.getBoundingClientRect();
-            const loaderBottom = scrollRect.bottom - 100; // Position loader near the bottom
-            
-            // Adjust loader position to always be visible
-            window.scrollLoader.style.bottom = '10px';
-        }
-    }
-    
+    // Show loading indicator (now within the scroll container)
+    if(window.scrollLoader) window.scrollLoader.style.display = 'flex';
+    // REMOVED code that adjusted fixed position
+
     if(window.endOfContentMessage) window.endOfContentMessage.style.display = 'none';
     if(window.statusBar) window.statusBar.textContent = `Fetching page ${pageNumber}...`;
     if (pageNumber === 1 && window.initialLoader) window.initialLoader.style.display = 'none'; // Hide initial loader only on first fetch
@@ -264,9 +253,6 @@ async function fetchAndAppendPageData(pageNumber) {
         console.log(`[Book List] Page ${pageNumber} fetched with ${fetchedCount} items.`);
 
         // --- End of Content Detection ---
-        // 1. If backend explicitly signals end (future enhancement?)
-        // 2. If fewer books than expected are returned (less reliable)
-        // 3. If the content hash matches the first page (for sites that loop)
         if (fetchedCount === 0 && pageNumber > 1) {
              console.log(`[Book List] End detected: 0 items on page ${pageNumber}.`);
              reachedEndOfPages = true;

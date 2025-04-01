@@ -98,7 +98,7 @@
     min-width: 0; /* Allow shrinking */
     display: flex;
     flex-direction: column; /* Stack search bar, content, loader */
-    position: relative; /* For positioning of fixed loader */
+    position: relative; /* Keep relative positioning if needed for other elements */
 }
 
 /* --- Search Bar --- */
@@ -150,46 +150,45 @@
 
 /* --- Infinite Scroll Status Area --- */
 #infinite-scroll-status {
-    padding: 15px 0 5px 0;
+    padding: 15px 0 20px 0; /* Added bottom padding */
     text-align: center;
-    min-height: 100px; /* Reduced height since we position loader differently */
+    min-height: 150px; /* Ensure enough space for the loader when visible */
     flex-shrink: 0; /* Prevent shrinking */
+    display: flex; /* Use flex to center items vertically if needed */
+    flex-direction: column; /* Stack loader and end message */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    margin-top: auto; /* Push to bottom of flex container (#content-scroll-container) */
 }
+
+/* --- Scroll Loader Styling (Now In-Flow) --- */
 #scroll-loader {
-    position: fixed; /* Key: Positioned relative to viewport */
-    bottom: 10px; /* Distance from viewport bottom */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center adjustment */
-    z-index: 100; /* Ensure it's above content */
-    /* background-color: rgba(26, 29, 33, 0.85); */ /* MODIFIED: Removed background */
-    padding: 10px 20px;
-    border-radius: 8px;
-    /* box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4); */ /* MODIFIED: Removed shadow */
-    /* border: 1px solid var(--border-color-light); */ /* MODIFIED: Removed border */
+    /* REMOVED: position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 100; */
+    /* REMOVED: background-color, padding, border-radius, box-shadow, border, backdrop-filter */
+    /* Keep width auto, ensure it's hidden initially */
     width: auto;
     min-width: 200px;
-    margin: 0 auto;
+    margin: 0 auto 10px auto; /* Center horizontally, add bottom margin */
     display: none; /* Hidden by default, shown when needed */
-    /* backdrop-filter: blur(4px); */ /* MODIFIED: Removed backdrop filter */
-    /* -webkit-backdrop-filter: blur(4px); */ /* MODIFIED: Removed backdrop filter */
-
-    /* MODIFICATION: Ensure text below Lottie is still visible */
-    color: var(--text-secondary);
+    /* Styles from .lottie-loading-container will handle flex layout */
+    color: var(--text-secondary); /* Style the text */
     font-size: 0.9em;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* Optional: Add shadow for readability */
 }
 #scroll-loader .lottie-player.small-loader {
-    width: 80px;
-    height: 80px;
+    /* Adjust size as needed for in-flow */
+    width: 100px;
+    height: 100px;
 }
 /* Ensure scroll loader container has appropriate styling */
 #scroll-loader.lottie-loading-container {
-    min-height: auto;
-    padding: 10px 15px;
+    /* Override general lottie container padding if needed */
+    min-height: auto; /* Reset min-height */
+    padding: 10px 0; /* Vertical padding only */
 }
 #end-of-content-message {
     color: var(--text-secondary);
     font-style: italic;
+    padding: 10px 0; /* Add some padding */
 }
 /* Style error message in scroll status area */
 #end-of-content-message.error-message {
@@ -197,6 +196,7 @@
     font-style: normal;
     font-weight: bold;
 }
+
 
 /* --- Generic Side Panel Styles --- */
 .side-panel {

@@ -2,12 +2,12 @@
 /* Core styling, variables, fonts, and global elements */
 
 /* --- Font Definitions --- */
-@font-face { font-family: 'PPNeueMachina'; src: url('../PPNeueMachina-InktrapLight.otf') format('opentype'); font-weight: 300; font-style: normal; }
-@font-face { font-family: 'PPNeueMachina'; src: url('../PPNeueMachina-InktrapLightItalic.otf') format('opentype'); font-weight: 300; font-style: italic; }
-@font-face { font-family: 'PPNeueMachina'; src: url('../PPNeueMachina-InktrapRegular.otf') format('opentype'); font-weight: 400; font-style: normal; }
-@font-face { font-family: 'PPNeueMachina'; src: url('../PPNeueMachina-InktrapRegularItalic.otf') format('opentype'); font-weight: 400; font-style: italic; }
-@font-face { font-family: 'PPNeueMachina'; src: url('../PPNeueMachina-InktrapUltrabold.otf') format('opentype'); font-weight: 800; font-style: normal; }
-@font-face { font-family: 'PPNeueMachina'; src: url('../PPNeueMachina-InktrapUltraboldItalic.otf') format('opentype'); font-weight: 800; font-style: italic; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapLight.otf') format('opentype'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapLightItalic.otf') format('opentype'); font-weight: 300; font-style: italic; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapRegular.otf') format('opentype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapRegularItalic.otf') format('opentype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapUltrabold.otf') format('opentype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapUltraboldItalic.otf') format('opentype'); font-weight: 800; font-style: italic; }
 
 /* --- Base Variables --- */
 :root {
