@@ -94,11 +94,11 @@
 #content-scroll-container {
     flex: 1; /* Takes available horizontal space */
     overflow-y: auto; /* Enable vertical scrolling */
-    padding: 0 20px 20px 20px; /* Top padding handled by search bar */
+    padding: 0 20px 20px 20px; /* Top padding handled by search bar, BOTTOM PADDING IS IMPORTANT FOR ABSOLUTE LOADER */
     min-width: 0; /* Allow shrinking */
     display: flex;
     flex-direction: column; /* Stack search bar, content, loader */
-    position: relative; /* Keep relative positioning if needed for other elements */
+    position: relative; /* *** ESSENTIAL: Needed for absolute positioning of children like the loader *** */
 }
 
 /* --- Search Bar --- */
@@ -150,45 +150,70 @@
 
 /* --- Infinite Scroll Status Area --- */
 #infinite-scroll-status {
-    padding: 15px 0 20px 0; /* Added bottom padding */
+    /* Keep padding for the 'end of content' message */
+    padding: 15px 0 20px 0;
     text-align: center;
-    min-height: 150px; /* Ensure enough space for the loader when visible */
+    /* min-height is less critical now loader is absolute, but keep for end message */
+    min-height: 50px; /* Reduced min-height, loader is out of flow */
     flex-shrink: 0; /* Prevent shrinking */
-    display: flex; /* Use flex to center items vertically if needed */
-    flex-direction: column; /* Stack loader and end message */
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
+    display: flex; /* Still use flex for centering end message */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-top: auto; /* Push to bottom of flex container (#content-scroll-container) */
+    /* No background needed here if loader is absolute */
+    position: relative; /* May need this if end-of-content message needs layering */
+    z-index: 1; /* Ensure it's below the absolute loader */
 }
 
-/* --- Scroll Loader Styling (Now In-Flow) --- */
+/* --- Scroll Loader Styling (Now Absolute) --- */
 #scroll-loader {
-    /* REMOVED: position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 100; */
-    /* REMOVED: background-color, padding, border-radius, box-shadow, border, backdrop-filter */
-    /* Keep width auto, ensure it's hidden initially */
-    width: auto;
-    min-width: 200px;
-    margin: 0 auto 10px auto; /* Center horizontally, add bottom margin */
-    display: none; /* Hidden by default, shown when needed */
-    /* Styles from .lottie-loading-container will handle flex layout */
+    /* --- Absolute Positioning --- */
+    position: absolute;
+    bottom: 25px; /* Position from the bottom of #content-scroll-container (respecting its padding) */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    z-index: 10; /* Ensure it's above book items and #infinite-scroll-status */
+    /* --- Visual Styling (Floating Box) --- */
+    background-color: rgba(40, 44, 52, 0.85); /* Semi-transparent background */
+    padding: 8px 15px 0px 15px; /* Adjusted padding: Top, Horiz, Bottom */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    border: 1px solid var(--border-color-light);
+    backdrop-filter: blur(4px); /* Optional: blur background */
+    -webkit-backdrop-filter: blur(4px);
+    /* --- Sizing & Content --- */
+    width: auto; /* Let content determine width */
+    min-width: 200px; /* Ensure minimum width */
+    display: none; /* Hidden by default, shown via JS */
+    /* Inherits .lottie-loading-container styles for internal flex layout */
     color: var(--text-secondary); /* Style the text */
     font-size: 0.9em;
+    /* Remove margin used for in-flow layout */
+    /* margin: 0 auto 10px auto; */
 }
+/* Adjustments for the Lottie player inside the absolute loader */
 #scroll-loader .lottie-player.small-loader {
-    /* Adjust size as needed for in-flow */
-    width: 100px;
-    height: 100px;
+    /* Reduce size slightly for the floating box */
+    width: 80px;
+    height: 80px;
+    margin-bottom: -10px; /* Pull text closer if needed */
 }
-/* Ensure scroll loader container has appropriate styling */
+/* Ensure the inherited loading container styles don't add excessive padding */
 #scroll-loader.lottie-loading-container {
-    /* Override general lottie container padding if needed */
     min-height: auto; /* Reset min-height */
-    padding: 10px 0; /* Vertical padding only */
+    padding: 0; /* Remove internal padding, handled by #scroll-loader */
+    /* Override justify-content if needed, defaults should be okay */
 }
+
+/* --- End of Content Message --- */
 #end-of-content-message {
     color: var(--text-secondary);
     font-style: italic;
-    padding: 10px 0; /* Add some padding */
+    padding: 10px 0; /* Padding for spacing */
+    /* Ensure it's below the loader if they overlap somehow */
+    position: relative;
+    z-index: 2;
 }
 /* Style error message in scroll status area */
 #end-of-content-message.error-message {
