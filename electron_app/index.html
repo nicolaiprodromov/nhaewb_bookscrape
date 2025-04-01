@@ -14,7 +14,7 @@
 </head>
 <body>
     <!-- Persistent App Toggle Button -->
-    <button id="toggle-overlay-btn" title="Hide UI">👁️</button>
+    <button id="toggle-overlay-btn" title="Hide UI">ðŸ‘ ï¸ </button>
 
     <!-- Main container -->
     <div id="main-content">
@@ -46,16 +46,18 @@
                     </div>
                     <!-- Book lists dynamically added here by book-list-manager.js -->
                 </div>
-                 <!-- Infinite Scroll Loader/End Message Area -->
+
+                <!-- Scroll Loader MOVED HERE - Now absolutely positioned relative to content-scroll-container -->
+                <div id="scroll-loader" class="loading-indicator lottie-loading-container" style="display: none;">
+                    <dotlottie-player
+                        src="https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie"
+                        background="transparent" speed="1" class="lottie-player small-loader" loop autoplay>
+                    </dotlottie-player>
+                    <p>Loading more books...</p>
+                </div>
+
+                 <!-- Infinite Scroll Status Area (Now mainly for the end message) -->
                 <div id="infinite-scroll-status">
-                    <!-- Scroll Loader MOVED HERE -->
-                    <div id="scroll-loader" class="loading-indicator lottie-loading-container" style="display: none;">
-                        <dotlottie-player
-                            src="https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie"
-                            background="transparent" speed="1" class="lottie-player small-loader" loop autoplay>
-                        </dotlottie-player>
-                        <p>Loading more books...</p>
-                    </div>
                     <!-- End of content message -->
                     <div id="end-of-content-message" class="loading-indicator" style="display: none;">
                         no more books here
@@ -103,19 +105,17 @@
 
             <!-- Right Controls Sidebar -->
             <div id="right-controls">
-                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">◀</button>
-                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">◀</button>
+                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">â—€</button>
+                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">â—€</button>
             </div> <!-- End #right-controls -->
 
         </div> <!-- End #overlay-body -->
     </div> <!-- End #overlay -->
 
-    <!-- Scroll Loader MOVED from here -->
-
     <!-- Details Overlay (Modal) -->
     <div id="details-overlay">
         <div class="details-overlay-content">
-            <button class="details-overlay-close-btn" title="Close Details">×</button>
+            <button class="details-overlay-close-btn" title="Close Details">Ã—</button>
             <h2 id="details-title">Book Details</h2>
             <div id="details-body"><p>Loading details...</p></div>
         </div>

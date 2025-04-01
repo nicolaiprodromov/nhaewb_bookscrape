@@ -141,7 +141,6 @@
     display: flex;
     align-items: flex-end; /* Align price/icons to bottom */
     gap: 10px;
-    margin-top: auto; /* Push meta to bottom */
     padding-top: 6px; /* Space above meta */
     flex-wrap: wrap; /* Allow wrapping if needed */
 }
@@ -191,7 +190,7 @@
     border-radius: 4px;
     padding: 1px 5px;
     display: inline-block; /* Allows text to flow next to it */
-    font-size: 0.95em;
+    font-size: 1.1em;
     margin-top: 4px;
     margin-right: 5px; /* Space before code */
 }

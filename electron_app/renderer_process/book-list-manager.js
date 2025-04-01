@@ -109,6 +109,7 @@ function createBookListElement(books, pageNumber) {
 
         const metaDiv = document.createElement('div');
         metaDiv.className = 'book-meta';
+        metaDiv.style = "display:flex;flex-direction:column;align-items:center;justify-content:start;margin-top:0px;"
 
         // External Link Icon (if link exists)
         if (book.link) {
