@@ -38,7 +38,7 @@ async function fetchBookSpecsIfNeeded(bookLink, bookTitle = 'book') {
         if (!window.PYTHON_BACKEND_URL) throw new Error("Backend URL not configured.");
         const encodedUrl = encodeURIComponent(bookLink);
         // *** Endpoint Name from Refactored backend_app.py ***
-        const fetchUrl = `${window.PYTHON_BACKEND_URL}/fetch-book-details?url=${encodedUrl}`;
+        const fetchUrl = `${window.PYTHON_BACKEND_URL}/fetch-book-details-and-prices?url=${encodedUrl}`;
         const response = await fetch(fetchUrl);
 
         if (!response.ok) {

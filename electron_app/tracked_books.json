@@ -7,21 +7,12 @@
       {
         "link": "https://www.anticexlibris.ro/dublin-palms-8128",
         "title": "Dublin Palms",
-        "current_price": "23,99 Lei",
-        "old_price": "74,04 Lei",
-        "voucher_price": "1199 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "12d73ecbfe09414349961d59fd9d26182311ec14.jpg",
-        "specs": {
-          "author": "Hugo Hamilton",
-          "authorUrl": "https://www.anticexlibris.ro/authors/hugo-hamilton",
-          "isbn": "9780008128128",
-          "language": "Englezã",
-          "pages": "288",
-          "publishYear": "2019",
-          "publisher": "HarperCollins Publishers Australia",
-          "publisherUrl": "https://www.anticexlibris.ro/edituri/harpercollins-publishers-australia"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743541768488,
@@ -43,27 +34,179 @@
             "oldPrice": "74,04 Lei",
             "voucherPrice": "1199 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542501735,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542676438,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": null,
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543016118,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543332261,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543648290,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543964255,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544280138,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544596041,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544912032,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545227886,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545543712,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545859504,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546175384,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546491222,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550107188,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553723236,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557339321,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560955369,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564571363,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568187537,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571803561,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575419663,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579035820,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       },
       {
         "link": "https://www.anticexlibris.ro/the-girl-at-the-door",
         "title": "The Girl at the Door",
-        "current_price": "23,99 Lei",
-        "old_price": "74,04 Lei",
-        "voucher_price": "1199 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "1f0f7d458fa88c0a6a49654226026e10468a367a.jpg",
-        "specs": {
-          "author": "Veronica Raimo, Stash Luczkiw",
-          "authorUrl": "https://www.anticexlibris.ro/authors/veronica-raimo-stash-luczkiw",
-          "isbn": "9780008326326",
-          "language": "Englezã",
-          "pages": "224",
-          "publishYear": "2019",
-          "publisher": "HarperCollins Publishers Australia",
-          "publisherUrl": "https://www.anticexlibris.ro/edituri/harpercollins-publishers-australia"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743541772321,
@@ -85,27 +228,179 @@
             "oldPrice": "74,04 Lei",
             "voucherPrice": "1199 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542504798,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542679704,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543017586,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543333723,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543649750,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543965682,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544281581,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544597470,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544913490,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545229305,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545545117,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545860927,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546176869,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546492644,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550108650,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553724693,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557340787,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560956826,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564572845,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568188996,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571805020,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575421127,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579037322,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       },
       {
         "link": "https://www.anticexlibris.ro/doxology_2",
         "title": "Doxology",
-        "current_price": "23,99 Lei",
-        "old_price": "85,44 Lei",
-        "voucher_price": "1199 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "47f6f8f9b680e936dfec35598e2fa8af9756b922.jpg",
-        "specs": {
-          "author": "Nell Zink",
-          "authorUrl": "https://www.anticexlibris.ro/authors/nell-zink",
-          "binding": "Hardcover",
-          "category": "Literatura Contemporana",
-          "pages": "402",
-          "publishYear": "2019",
-          "publisher": "4th Estate",
-          "publisherUrl": "https://www.anticexlibris.ro/edituri/4th-estate"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743541775705,
@@ -127,6 +422,167 @@
             "oldPrice": "85,44 Lei",
             "voucherPrice": "1199 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542507776,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "85,44 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542682116,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "85,44 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543019341,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543335453,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543651530,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543967427,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544283335,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544599232,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544915227,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545231029,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545546850,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545862697,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546178619,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546494396,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550110382,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553726448,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557342587,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560958554,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564574613,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568190752,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571806781,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575422881,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579039092,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       }
@@ -140,19 +596,12 @@
       {
         "link": "https://www.anticexlibris.ro/in-white-ink",
         "title": "In White Ink",
-        "current_price": "23,99 Lei",
-        "old_price": "74,04 Lei",
-        "voucher_price": "1199 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "e0add3755262ef20076b8fc83c830a55cc3e2878.jpg",
-        "specs": {
-          "author": "Elske Rahill",
-          "authorUrl": "https://www.anticexlibris.ro/authors/elske-rahill",
-          "isbn": "9781786691057",
-          "language": "Englezã",
-          "pages": "288",
-          "publishYear": "2017"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743541779491,
@@ -174,28 +623,179 @@
             "oldPrice": "74,04 Lei",
             "voucherPrice": "1199 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542510830,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542686764,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "74,04 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543020777,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543336877,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543652978,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543968843,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544284753,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544600723,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544916640,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545232470,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545548254,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545864127,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546180055,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546495816,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550111841,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553727900,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557344028,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560959963,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564576041,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568192197,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571808196,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575424320,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579040519,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       },
       {
         "link": "https://www.anticexlibris.ro/power-rangers-1402",
         "title": "Power Rangers",
-        "current_price": "41,99 Lei",
-        "old_price": "87,17 Lei",
-        "voucher_price": "2099 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "2eaaf1538654cd96e68738761c882277fe153a2e.jpg",
-        "specs": {
-          "author": "Insight Editions",
-          "authorUrl": "https://www.anticexlibris.ro/authors/insight-editions",
-          "category": "Literatura Contemporana",
-          "isbn": "9781683831402",
-          "language": "Englezã",
-          "pages": "192",
-          "publishYear": "2017",
-          "publisher": "Insight Editions",
-          "publisherUrl": "https://www.anticexlibris.ro/edituri/insight-editions"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743541782546,
@@ -217,6 +817,167 @@
             "oldPrice": "87,17 Lei",
             "voucherPrice": "2099 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542513064,
+            "currentPrice": "41,99 Lei",
+            "oldPrice": "87,17 Lei",
+            "voucherPrice": "2099 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542694817,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": null,
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543022513,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543338648,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543654701,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543970583,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544286479,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544602461,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544918364,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545234204,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545549976,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545865841,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546181777,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546497543,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550113575,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553729674,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557345740,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560961702,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564577811,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568193918,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571809993,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575426051,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579042264,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       }
@@ -230,20 +991,12 @@
       {
         "link": "https://www.anticexlibris.ro/little-bits-of-sky-3996",
         "title": "Little Bits of Sky",
-        "current_price": "23,99 Lei",
-        "old_price": "45,54 Lei",
-        "voucher_price": "1199 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "c6c0a5220d0bc0e6123f78fbeb05a441c23c76e7.jpg",
-        "specs": {
-          "author": "S. E. Durrant",
-          "authorUrl": "https://www.anticexlibris.ro/authors/s-e-durrant",
-          "isbn": "9780857633996",
-          "language": "Englezã",
-          "pages": "256",
-          "publisher": "Nosy Crow Ltd",
-          "publisherUrl": "https://www.anticexlibris.ro/edituri/nosy-crow-ltd"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743541785155,
@@ -265,26 +1018,179 @@
             "oldPrice": "45,54 Lei",
             "voucherPrice": "1199 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542516875,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "45,54 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542698973,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "45,54 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543023988,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543340079,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543656116,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543972026,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544287896,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544603910,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544919800,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545235612,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545551410,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545867261,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546183194,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546498976,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550114991,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553731098,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557347164,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560963117,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564579305,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568195329,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571811407,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575427476,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579043686,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       },
       {
         "link": "https://www.anticexlibris.ro/godsend",
         "title": "Godsend",
-        "current_price": "23,99 Lei",
-        "old_price": "51,24 Lei",
-        "voucher_price": "1199 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "b8584f0f4930e5d85438d32493cfd334141ab86d.jpg",
-        "specs": {
-          "author": "John Wray",
-          "authorUrl": "https://www.anticexlibris.ro/authors/john-wray",
-          "isbn": "9781782119654",
-          "language": "Englezã",
-          "pages": "240",
-          "publisher": "Canongate Books",
-          "publisherUrl": "https://www.anticexlibris.ro/edituri/canongate-books"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743541788909,
@@ -306,27 +1212,179 @@
             "oldPrice": "51,24 Lei",
             "voucherPrice": "1199 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542519597,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542703755,
+            "currentPrice": "23,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1199 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543025776,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543341800,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543657865,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543973756,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544289645,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544605630,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544921522,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545237346,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545553140,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545868999,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546184923,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546500729,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550116729,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553732808,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557348875,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560964842,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564581039,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568197043,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571813151,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575429206,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579045410,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       },
       {
         "link": "https://www.anticexlibris.ro/immigrant-montana_3",
         "title": "Immigrant, Montana",
-        "current_price": "39,99 Lei",
-        "old_price": "51,24 Lei",
-        "voucher_price": "1999 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "ce2d0a1997a9472cbb94e5bcafe36040cc667a32.jpg",
-        "specs": {
-          "author": "Amitava Kumar",
-          "authorUrl": "https://www.anticexlibris.ro/authors/amitava-kumar",
-          "isbn": "9780571339617",
-          "language": "Englezã",
-          "pages": "320",
-          "publishYear": "2019",
-          "publisher": "Faber & Faber",
-          "publisherUrl": "https://www.anticexlibris.ro/edituri/faber-faber"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743541791447,
@@ -348,27 +1406,179 @@
             "oldPrice": "51,24 Lei",
             "voucherPrice": "1999 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542522156,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542706969,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543027209,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543343238,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543659301,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543975178,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544291055,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544607050,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544922937,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545238762,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545554570,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545870420,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546186337,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546502147,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550118149,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553734239,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557350282,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560966254,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564582464,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568198472,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571814578,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575430657,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579046831,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       },
       {
         "link": "https://www.anticexlibris.ro/eternal-boy-7745",
         "title": "Eternal Boy",
-        "current_price": "39,99 Lei",
-        "old_price": "51,24 Lei",
-        "voucher_price": "1999 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "a9e55d38a2e30ac49876d8bf51ef3eba8ca12c99.jpg",
-        "specs": {
-          "author": "Matthew Dennison",
-          "authorUrl": "https://www.anticexlibris.ro/authors/matthew-dennison",
-          "isbn": "9781786697745",
-          "language": "Englezã",
-          "pages": "304",
-          "publishYear": "2019",
-          "publisher": "Head of Zeus",
-          "publisherUrl": "https://www.anticexlibris.ro/authors/head-of-zeus"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743542116301,
@@ -383,27 +1593,179 @@
             "oldPrice": "51,24 Lei",
             "voucherPrice": "1999 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542525108,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542710247,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "51,24 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543028924,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543344955,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543661042,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543976912,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544292817,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544608778,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544924679,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545240480,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545556295,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545872150,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546188072,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546503882,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550119889,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553735979,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557352012,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560967996,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564584187,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568200198,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571816316,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575432408,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579048573,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       },
       {
         "link": "https://www.anticexlibris.ro/room-little-darker-2906",
         "title": "Room Little Darker",
-        "current_price": "39,99 Lei",
-        "old_price": "45,54 Lei",
-        "voucher_price": "1999 lei",
-        "voucher_code": "514W",
+        "current_price": null,
+        "old_price": null,
+        "voucher_price": null,
+        "voucher_code": null,
         "local_image_filename": "f42c45218756f3cb67ef9eb58e0dcb0b9a31ff6d.jpg",
-        "specs": {
-          "author": "June Caldwell",
-          "authorUrl": "https://www.anticexlibris.ro/authors/june-caldwell",
-          "isbn": "9781788542906",
-          "language": "Englezã",
-          "pages": "0",
-          "publishYear": "2018",
-          "publisher": "Head of Zeus",
-          "publisherUrl": "https://www.anticexlibris.ro/authors/head-of-zeus"
-        },
+        "specs": {},
         "priceHistory": [
           {
             "timestamp": 1743542199184,
@@ -411,6 +1773,167 @@
             "oldPrice": "45,54 Lei",
             "voucherPrice": "1999 lei",
             "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542528761,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "45,54 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743542713976,
+            "currentPrice": "39,99 Lei",
+            "oldPrice": "45,54 Lei",
+            "voucherPrice": "1999 lei",
+            "voucherCode": "514W"
+          },
+          {
+            "timestamp": 1743543030352,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543346419,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543662487,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743543978325,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544294235,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544610226,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743544926100,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545241906,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545557707,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743545873567,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546189483,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743546505307,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743550121336,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743553737401,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743557353430,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743560969408,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743564585602,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743568201630,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743571817730,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743575433847,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
+          },
+          {
+            "timestamp": 1743579049992,
+            "currentPrice": null,
+            "oldPrice": null,
+            "voucherPrice": null,
+            "voucherCode": null
           }
         ]
       }
