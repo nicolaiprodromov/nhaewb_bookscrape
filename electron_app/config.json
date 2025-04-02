@@ -1,15 +1,18 @@
 {
-    "electronServerPort": 9333,
-    "webviews": [
-      {
-        "id": "anticexlibrisFetcher",
-        "initialUrl": "https://www.anticexlibris.ro/",
-        "partition": "persist:anticexlibris",
-        "description": "Primary webview for fetching from AnticExLibris"
-      }
-    ],
-    "timeouts": {
-        "navigation": 90000,
-        "extraction": 75000
+  "webviews": [
+    {
+      "id": "anticexlibrisFetcher",
+      "initialUrl": "https://www.anticexlibris.ro/",
+      "partition": "persist:anticexlibris",
+      "description": "Primary webview for fetching from AnticExLibris",
+      "listDataBaseUrl": "https://www.anticexlibris.ro/carti-de-literatura-contemporana-in-engleza?filter=-2/l/1"
     }
-  }
+  ],
+  "timeouts": {
+    "navigation": 90000,
+    "listExtraction": 75000,
+    "detailExtraction": 75000,
+    "postNavigationDelay": 1500
+  },
+  "imageDownloadConcurrency": 8
+}

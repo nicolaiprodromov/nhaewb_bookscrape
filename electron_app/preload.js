@@ -1,38 +1,33 @@
 // electron_app/preload.js
 const { contextBridge, ipcRenderer } = require('electron');
 
-console.log('[Preload] Script loaded.'); // Log to confirm preload is running
+console.log('[Preload] Script loading.');
 
 contextBridge.exposeInMainWorld('electronAPI', {
   // --- Renderer to Main (Invoke/Handle Pattern) ---
-  // Used when the renderer needs to trigger an action in main AND get a response back.
 
-  /**
-   * Loads the list of tracked books from the main process.
-   * @returns {Promise<Array<object>>} A promise that resolves with the array of tracked books.
-   */
+  /** Loads the list of tracked books from the main process. */
   loadTrackedBooks: () => ipcRenderer.invoke('load-tracked-books'),
 
-  /**
-   * Saves the provided list of tracked books in the main process.
-   * @param {Array<object>} trackedList - The complete list of books currently being tracked.
-   * @returns {Promise<boolean>} A promise that resolves with true on success, false on failure.
-   */
+  /** Saves the provided list of tracked books in the main process. */
   saveTrackedBooks: (trackedList) => ipcRenderer.invoke('save-tracked-books', trackedList),
 
-  // --- Optional: Main to Renderer (Send/On Pattern) ---
-  // Can be useful if the main process needs to proactively send updates
-  // Example: onFileChanged: (callback) => ipcRenderer.on('tracked-books-updated', callback)
-  // Note: If using 'on', remember to return a cleanup function:
-  // return () => ipcRenderer.removeListener('tracked-books-updated', callback);
+  /**
+   * Triggers fetching list data for a specific page URL in a given webview.
+   * @param {string} webviewId - The ID of the target webview (e.g., "anticexlibrisFetcher").
+   * @param {string} pageUrl - The full URL of the list page to load and scrape.
+   * @returns {Promise<{success: boolean, data?: Array<object>, error?: string}>} Result object.
+   */
+  fetchListData: (webviewId, pageUrl) => ipcRenderer.invoke('fetch-list-data', webviewId, pageUrl),
 
-  // --- Optional: Renderer to Main (One-Way Send) ---
-  // Used when the renderer just needs to notify main without needing a direct response.
-  // Example: notifyMain: (message) => ipcRenderer.send('some-notification', message)
+  /**
+   * Triggers fetching details and prices for a specific book URL in a given webview.
+   * @param {string} webviewId - The ID of the target webview.
+   * @param {string} bookUrl - The full URL of the book's detail page.
+   * @returns {Promise<{success: boolean, details?: object, prices?: object, error?: string}>} Result object.
+   */
+  fetchDetailData: (webviewId, bookUrl) => ipcRenderer.invoke('fetch-detail-data', webviewId, bookUrl),
 
-  // --- Basic Alert (Example of exposing another Electron module securely) ---
-  // We'll use standard browser alert for simplicity now, but this shows the pattern.
-  // showAlert: (message) => ipcRenderer.invoke('show-alert', message)
 });
 
-console.log('[Preload] electronAPI exposed.');
+console.log('[Preload] electronAPI exposed with webview control methods.');
