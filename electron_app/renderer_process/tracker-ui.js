@@ -14,9 +14,9 @@ const DELETE_CONFIRM_TIMEOUT = 2500; // ms
 
 // --- NEW Tracking State Variables ---
 let priceCheckIntervalId = null;
-const BOOST_DURATION_MS = 60 * 60 * 1000; // 1 hour
-const BOOST_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
-const NORMAL_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+const BOOST_DURATION_MS  = 60 * 60 * 1000;  // 1 hour
+const BOOST_INTERVAL_MS  = 1 * 60 * 1000;   // 5 minutes
+const NORMAL_INTERVAL_MS = 60 * 60 * 1000;  // 1 hour
 let appStartTime = Date.now();
 let isCurrentlyCheckingPrices = false; // Prevent overlapping checks
 
