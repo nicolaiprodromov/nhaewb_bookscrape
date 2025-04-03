@@ -1,149 +1,200 @@
 // src/renderer/logic/details-overlay.js
+// Assumes Chart.js and date-fns adapter are loaded globally
 
-// Assumes necessary DOM elements (window.*) and electronAPI are globally available via renderer.js
-// Assumes AppRuntime, AppUIUtils, AppTrackerUI are globally available
+// ... (keep existing imports/assumptions) ...
 
-let isFetchingSpecs = false; // Prevent concurrent spec fetches for the *same* link
+let isFetchingSpecs = false;
+let currentDetailLink = null; // Track the link of the book currently shown
+let currentChartInstance = null; // Hold the Chart.js instance
 
-/**
- * Fetches book specifications (details) from the main process via IPC if not already cached.
- * @param {string} bookLink - The unique URL of the book.
- * @param {string} [bookTitle='book'] - The title of the book for status messages.
- * @returns {Promise<object|null>} Specs object, object with fetchError, or null.
- */
+/** Fetches book specifications if needed (no changes needed here) */
 async function fetchBookSpecsIfNeeded(bookLink, bookTitle = 'book') {
-    // Ensure the central cache from TrackerUI is available
-    const cache = window.AppTrackerUI?.bookSpecsCache;
-    if (!cache) {
-        console.error("[Details Overlay] Book specs cache (window.AppTrackerUI.bookSpecsCache) not found!");
-        return { fetchError: "Internal error: Specs cache unavailable" };
-    }
-
-    if (!bookLink || typeof bookLink !== 'string' || !bookLink.startsWith('http')) {
-        console.warn("[Details Overlay] Invalid book link provided for spec fetch:", bookLink);
-        return null; // Cannot fetch without a valid link
-    }
-
-    // 1. Check cache first
-    if (cache.has(bookLink)) {
-        // console.debug(`[Details Overlay] Specs cache hit for: ${bookLink}`);
-        return cache.get(bookLink); // Return cached data (could be specs or error object)
-    }
-
-    // 2. Prevent concurrent fetches for the same link (simple lock)
-    if (isFetchingSpecs) {
-        console.warn(`[Details Overlay] Skipping concurrent spec fetch request for: ${bookLink}`);
-        // Return null to indicate fetch was skipped, let caller decide how to handle
-        return null;
-    }
-
-    console.log(`[Details Overlay] Fetching specs required for: ${bookLink}`);
-    isFetchingSpecs = true; // Set lock
-    if(window.statusBar) window.statusBar.textContent = `Fetching details for "${bookTitle}"...`;
-
+    const cache = window.AppTrackerUI?.bookSpecsCache; if (!cache) { console.error("[Details Overlay] Book specs cache not found!"); return { fetchError: "Internal error: Specs cache unavailable" }; }
+    if (!bookLink || typeof bookLink !== 'string' || !bookLink.startsWith('http')) { console.warn("[Details Overlay] Invalid book link for spec fetch:", bookLink); return null; }
+    if (cache.has(bookLink)) { return cache.get(bookLink); }
+    if (isFetchingSpecs) { console.warn(`[Details Overlay] Skipping concurrent spec fetch for: ${bookLink}`); return null; }
+    console.log(`[Details Overlay] Fetching specs required for: ${bookLink}`); isFetchingSpecs = true; if(window.statusBar) window.statusBar.textContent = `Fetching details for "${bookTitle}"...`;
     try {
-        const webviewId = window.AppRuntime?.primaryWebviewId;
-        if (!webviewId) {
-            throw new Error("Primary webview ID not configured in AppRuntime.");
-        }
-
-        // Call main process via IPC to fetch details
+        const webviewId = window.AppRuntime?.primaryWebviewId; if (!webviewId) { throw new Error("Primary webview ID not configured."); }
         const result = await window.electronAPI.fetchDetailData(webviewId, bookLink);
-
-        if (!result.success) {
-            // Throw error to be caught locally, includes error message from main process
-            throw new Error(result.error || `IPC fetchDetailData failed for ${bookLink}`);
-        }
-
-        // Extract specs (details) and prices from the result
-        const fetchedSpecs = result.details || {}; // Default to empty object if missing
-        const fetchedPrices = result.prices || {}; // Also get prices to update main book data if needed
-
+        if (!result.success) { throw new Error(result.error || `IPC fetchDetailData failed for ${bookLink}`); }
+        const fetchedSpecs = result.details || {}; const fetchedPrices = result.prices || {};
         console.log(`[Details Overlay] Specs received via IPC for ${bookLink}:`, fetchedSpecs);
-
-        // Update the central cache with the fetched specs
         cache.set(bookLink, fetchedSpecs);
-
         if(window.statusBar) window.statusBar.textContent = `Details fetched for "${bookTitle}".`;
-
-        // Return the fetched specs
         return fetchedSpecs;
-
     } catch (error) {
-        console.error(`[Details Overlay] Error fetching specs for ${bookLink} via IPC:`, error);
-        if(window.statusBar) window.statusBar.textContent = `Error fetching details for "${bookTitle}"!`;
-
-        // Cache the error state so we don't repeatedly try fetching a failing link
-        const errorData = { fetchError: error.message || 'Unknown fetch error' };
-        cache.set(bookLink, errorData);
-
-        // Return the error object
-        return errorData;
-
+        console.error(`[Details Overlay] Error fetching specs for ${bookLink} via IPC:`, error); if(window.statusBar) window.statusBar.textContent = `Error fetching details for "${bookTitle}"!`;
+        const errorData = { fetchError: error.message || 'Unknown fetch error' }; cache.set(bookLink, errorData); return errorData;
     } finally {
-        isFetchingSpecs = false; // Release lock
-         // Clear status bar message after a delay
-         setTimeout(() => {
-             const currentStatus = window.statusBar?.textContent || '';
-             if (currentStatus.includes(`Fetching details for "${bookTitle}"`) || currentStatus.includes(`Error fetching details for "${bookTitle}"`)) {
-                 window.statusBar.textContent = "Status idle."; // Or a more relevant status
-             }
-         }, 3000); // Increased delay
+        isFetchingSpecs = false;
+        setTimeout(() => { const currentStatus = window.statusBar?.textContent || ''; if (currentStatus.includes(`Fetching details for "${bookTitle}"`) || currentStatus.includes(`Error fetching details for "${bookTitle}"`)) { window.statusBar.textContent = "Status idle."; } }, 3000);
     }
 }
 
-/** Formats book specification details into HTML string */
+/** Formats book specification details into HTML string (no changes needed here) */
 function formatBookSpecsHtml(specs) {
     if (!specs || typeof specs !== 'object') return '<p>No specific details available.</p>';
     if (specs.fetchError) return `<p class="error-message">Could not load specifications: ${specs.fetchError}</p>`;
-
     const items = [
-        { label: 'ISBN', value: specs.isbn },
-        { label: 'Author', value: specs.author, url: specs.authorUrl },
-        { label: 'Publisher', value: specs.publisher, url: specs.publisherUrl }, // Assuming publisher might have a URL
-        { label: 'Year', value: specs.publishYear },
-        { label: 'Pages', value: specs.pages },
-        { label: 'Binding', value: specs.binding },
-        { label: 'Language', value: specs.language },
-        { label: 'Category', value: specs.category } // Assuming category might be present
+        { label: 'ISBN', value: specs.isbn }, { label: 'Author', value: specs.author, url: specs.authorUrl },
+        { label: 'Publisher', value: specs.publisher, url: specs.publisherUrl }, { label: 'Year', value: specs.publishYear },
+        { label: 'Pages', value: specs.pages }, { label: 'Binding', value: specs.binding },
+        { label: 'Language', value: specs.language }, { label: 'Category', value: specs.category }
     ];
-
     let specHtml = '';
     items.forEach(item => {
-        if (item.value) { // Only display if value exists
+        if (item.value) {
             specHtml += `<p><strong>${item.label}:</strong> ${item.value}`;
-            if (item.url) {
-                specHtml += ` (<a href="${item.url}" target="_blank" rel="noopener noreferrer" title="Visit ${item.label}'s page">link</a>)`;
-            }
+            if (item.url) { specHtml += ` (<a href="${item.url}" target="_blank" rel="noopener noreferrer" title="Visit ${item.label}'s page">link</a>)`; }
             specHtml += `</p>`;
         }
     });
-
-    return specHtml || '<p>No specific details found in the provided data.</p>'; // Fallback if no values were present
+    return specHtml || '<p>No specific details found in the provided data.</p>';
 }
 
-/** Formats book pricing details into HTML string */
+/** Formats book pricing details into HTML string (no changes needed here) */
 function formatBookPricingHtml(book) {
      let pricingHtml = '';
-     if (book.current_price) {
-         pricingHtml += `<p><strong>Current Price:</strong> <span class="book-price">${book.current_price}</span></p>`;
-     }
-     if (book.old_price) {
-         pricingHtml += `<p><strong>Old Price:</strong> <span class="book-old-price">${book.old_price}</span></p>`;
-     }
+     if (book.current_price) { pricingHtml += `<p><strong>Current Price:</strong> <span class="book-price">${book.current_price}</span></p>`; }
+     if (book.old_price) { pricingHtml += `<p><strong>Old Price:</strong> <span class="book-old-price">${book.old_price}</span></p>`; }
      if (book.voucher_price) {
          pricingHtml += `<p><strong>Voucher Price:</strong> <span class="book-voucher-price">${book.voucher_price}</span>`;
-         if (book.voucher_code) {
-            pricingHtml += ` (Code: <span class="voucher-code-text">${book.voucher_code}</span>)`;
-         }
+         if (book.voucher_code) { pricingHtml += ` (Code: <span class="voucher-code-text">${book.voucher_code}</span>)`; }
          pricingHtml += `</p>`;
      }
-     if (!pricingHtml) { // No prices found
-         pricingHtml = '<p>No pricing information available.</p>';
-     }
+     if (!pricingHtml) { pricingHtml = '<p>No pricing information available.</p>'; }
      return pricingHtml;
 }
 
+/** Helper to extract numeric value from price string (e.g., "149,99 lei" -> 149.99) */
+function parsePrice(priceString) {
+    if (typeof priceString !== 'string' || !priceString) return null;
+    try {
+        // Remove currency, spaces, replace comma with dot
+        const cleaned = priceString.replace(/lei|ron|\s/gi, '').replace(',', '.');
+        const value = parseFloat(cleaned);
+        return isNaN(value) ? null : value;
+    } catch (e) {
+        console.warn(`[Details Overlay] Error parsing price string "${priceString}":`, e);
+        return null;
+    }
+}
+
+/** Renders the price history chart */
+function renderPriceChart(priceHistory, canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) { console.error(`[Details Overlay] Chart canvas #${canvasId} not found.`); return; }
+    const ctx = canvas.getContext('2d');
+
+    // Destroy previous chart instance if it exists
+    if (currentChartInstance) {
+        currentChartInstance.destroy();
+        currentChartInstance = null;
+    }
+
+    if (!Array.isArray(priceHistory) || priceHistory.length === 0) {
+        canvas.style.display = 'none'; // Hide canvas if no data
+        // Optionally display a message
+        const container = document.getElementById('details-chart-container');
+        if (container && !container.querySelector('.no-chart-data')) {
+            const p = document.createElement('p');
+            p.className = 'info-message no-chart-data';
+            p.textContent = 'No price history recorded yet.';
+            p.style.textAlign = 'center';
+            container.appendChild(p);
+        }
+        return;
+    } else {
+        canvas.style.display = 'block'; // Show canvas if data exists
+        const existingMsg = document.querySelector('#details-chart-container .no-chart-data');
+        if (existingMsg) existingMsg.remove();
+    }
+
+    // Prepare data for Chart.js
+    const labels = priceHistory.map(entry => entry.timestamp); // Use timestamps directly
+    const currentPriceData = priceHistory.map(entry => parsePrice(entry.currentPrice));
+    const oldPriceData = priceHistory.map(entry => parsePrice(entry.oldPrice));
+    const voucherPriceData = priceHistory.map(entry => parsePrice(entry.voucherPrice));
+
+    // Filter out datasets with no valid points
+    const datasets = [];
+    if (currentPriceData.some(p => p !== null)) datasets.push({
+        label: 'Current Price', data: currentPriceData, borderColor: 'rgb(75, 192, 192)', tension: 0.1, fill: false, spanGaps: true
+    });
+    if (oldPriceData.some(p => p !== null)) datasets.push({
+        label: 'Old Price', data: oldPriceData, borderColor: 'rgb(255, 99, 132)', tension: 0.1, fill: false, spanGaps: true, borderDash: [5, 5] // Dashed line
+    });
+    if (voucherPriceData.some(p => p !== null)) datasets.push({
+        label: 'Voucher Price', data: voucherPriceData, borderColor: 'rgb(255, 205, 86)', tension: 0.1, fill: false, spanGaps: true
+    });
+
+    currentChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels, // Timestamps
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'time', // Use time scale
+                    time: { unit: 'day', tooltipFormat: 'PPpp', displayFormats: { day: 'PP' } }, // Date-fns formats
+                    title: { display: true, text: 'Date' },
+                     ticks: { color: 'var(--text-secondary)' }, grid: { color: 'var(--border-color)' }
+                },
+                y: {
+                    beginAtZero: false, // Don't force y-axis to start at 0
+                    title: { display: true, text: 'Price (lei)' },
+                    ticks: { color: 'var(--text-secondary)', callback: (value) => `${value.toFixed(2)} lei` }, // Format ticks
+                    grid: { color: 'var(--border-color)' }
+                }
+            },
+            plugins: {
+                legend: { position: 'top', labels: { color: 'var(--text-primary)' } },
+                tooltip: { mode: 'index', intersect: false, callbacks: { label: (context) => `${context.dataset.label}: ${context.parsed.y.toFixed(2)} lei` } } // Format tooltip
+            },
+            interaction: { mode: 'nearest', axis: 'x', intersect: false }
+        }
+    });
+     console.log("[Details Overlay] Price chart rendered.");
+}
+
+
+/** Updates the existing chart with new data */
+function updatePriceChart(newPriceHistory) {
+    if (!currentChartInstance) {
+        console.warn("[Details Overlay] Cannot update chart: No chart instance exists.");
+        // Attempt to re-render if canvas exists
+        renderPriceChart(newPriceHistory, 'price-history-chart');
+        return;
+    }
+    if (!Array.isArray(newPriceHistory)) {
+        console.warn("[Details Overlay] Cannot update chart: Invalid newPriceHistory provided.");
+        return;
+    }
+
+    console.log("[Details Overlay] Updating chart with new price history.");
+
+    // Update labels and data for each dataset
+    currentChartInstance.data.labels = newPriceHistory.map(entry => entry.timestamp);
+
+    const datasetsMap = {
+        'Current Price': newPriceHistory.map(entry => parsePrice(entry.currentPrice)),
+        'Old Price': newPriceHistory.map(entry => parsePrice(entry.oldPrice)),
+        'Voucher Price': newPriceHistory.map(entry => parsePrice(entry.voucherPrice))
+    };
+
+    currentChartInstance.data.datasets.forEach(dataset => {
+        if (datasetsMap[dataset.label]) {
+            dataset.data = datasetsMap[dataset.label];
+        }
+    });
+
+    currentChartInstance.update(); // Update the chart display
+}
 
 /**
  * Shows the details overlay populated with book or category data.
@@ -151,117 +202,180 @@ function formatBookPricingHtml(book) {
  */
 async function showDetailsOverlay(data) {
     // Ensure overlay elements exist
-    if (!window.detailsOverlay || !window.detailsTitle || !window.detailsBody) {
+    if (!window.detailsOverlay || !window.detailsTitle || !window.detailsBody ||
+        !document.getElementById('details-info-section') ||
+        !document.getElementById('details-chart-container') ||
+        !document.getElementById('details-raw-data-section')) {
         console.error("[Details Overlay] Cannot show overlay - core elements missing.");
         return;
     }
 
+    // Clear previous chart instance when showing new details
+    if (currentChartInstance) {
+        currentChartInstance.destroy();
+        currentChartInstance = null;
+    }
+    currentDetailLink = null; // Reset current link
+
+    // Get references to the sections
+    const infoSection = document.getElementById('details-info-section');
+    const chartContainer = document.getElementById('details-chart-container');
+    const rawDataSection = document.getElementById('details-raw-data-section');
+    const canvas = document.getElementById('price-history-chart');
+
     if (!data || typeof data !== 'object') {
         console.error("[Details Overlay] Invalid data provided to showDetailsOverlay:", data);
         window.detailsTitle.textContent = 'Error';
-        window.detailsBody.innerHTML = '<p class="error-message">Invalid data received for details view.</p>';
+        infoSection.innerHTML = '<p class="error-message">Invalid data received for details view.</p>';
+        chartContainer.style.display = 'none'; // Hide chart section
+        rawDataSection.innerHTML = ''; // Clear raw data section
         window.detailsOverlay.classList.add('active');
         return;
     }
 
-    // Determine title based on data type
+    // Determine title and set current link for books
     let title = 'Details';
     if (data.type === 'category') {
         title = `Stack: ${data.name || 'Unnamed Stack'}`;
     } else if (data.title) {
-        title = data.title; // Assume book if 'title' exists and not 'category' type
+        title = data.title; // Assume book
+        currentDetailLink = data.link; // Store the link for price updates
     }
 
     window.detailsTitle.textContent = title;
-    // Show loading indicator immediately
-    window.detailsBody.innerHTML = '<div class="loading-indicator lottie-loading-container" style="min-height: 150px;"><p>Loading details...</p></div>';
+    // Show loading indicator immediately only in the info section
+    infoSection.innerHTML = '<div class="loading-indicator lottie-loading-container" style="min-height: 150px;"><p>Loading details...</p></div>';
+    chartContainer.style.display = 'none'; // Hide chart initially
+    canvas.style.display = 'none'; // Ensure canvas is hidden
+    rawDataSection.innerHTML = ''; // Clear raw data
     window.detailsOverlay.classList.add('active');
-    if(window.detailsOverlayContent) window.detailsOverlayContent.scrollTop = 0; // Scroll to top
+    if(window.detailsOverlayContent) window.detailsOverlayContent.scrollTop = 0;
 
-    let finalHtml = '';
+    let infoHtml = '';
+    let rawDataHtml = '';
+    let priceHistoryData = null; // To hold price history for the chart
 
     try {
         // --- Category Details ---
         if (data.type === 'category') {
-            finalHtml = `<h3>Books in Stack (${data.books?.length || 0}):</h3>`;
+            currentDetailLink = null; // No specific book link for categories
+            infoHtml = `<h3>Books in Stack (${data.books?.length || 0}):</h3>`;
             if (data.books && data.books.length > 0) {
-                finalHtml += '<ul>';
-                // Fetch specs for each book in the category sequentially for status updates
+                infoHtml += '<ul>';
+                // Fetch specs sequentially only if needed for display here
                 for (const book of data.books) {
-                    // Update list incrementally
-                    const currentListHtml = finalHtml + `<li>${book.title || 'Untitled Book'}... <i>fetching details...</i></li></ul>`;
-                    window.detailsBody.innerHTML = currentListHtml; // Update UI
-
-                    const specs = await fetchBookSpecsIfNeeded(book.link, book.title);
-                    let specStr = '';
-                    if (specs === null) {
-                        specStr = ' (<span class="info-message">Details fetch skipped</span>)';
-                    } else if (specs?.fetchError) {
-                        specStr = ` (<span class="error-message">Details Error</span>)`;
-                    } else if (specs && Object.keys(specs).length > 0) {
-                        specStr = ` (ISBN: ${specs.isbn || 'N/A'})`;
-                    } else {
-                        specStr = ' (No details found)';
-                    }
-                    // Add final list item for this book
-                    finalHtml += `<li>${book.title || 'Untitled Book'} ${book.link ? `(<a href="${book.link}" target="_blank" title="View Book">link</a>)`: ''}${specStr}</li>`;
+                    infoHtml += `<li>${book.title || 'Untitled Book'} ${book.link ? `(<a href="${book.link}" target="_blank" title="View Book">link</a>)`: ''}</li>`;
+                    // Don't fetch specs here unless necessary for category view
                 }
-                finalHtml += '</ul>'; // Close the list tag
+                infoHtml += '</ul>';
             } else {
-                finalHtml += '<p>No books currently in this stack.</p>';
+                infoHtml += '<p>No books currently in this stack.</p>';
             }
-            // Add raw category info at the end
-            finalHtml += `<hr><h3>Stack Info:</h3><pre>${JSON.stringify({id: data.id, name: data.name, count: data.books?.length}, null, 2)}</pre>`;
+            rawDataHtml = `<h3>Stack Info:</h3><pre>${JSON.stringify({id: data.id, name: data.name, count: data.books?.length}, null, 2)}</pre>`;
+            chartContainer.style.display = 'none'; // No chart for categories
 
         // --- Book Details ---
-        } else { // Assume it's a book if not explicitly 'category'
+        } else { // Assume book
             const book = data;
-            // Basic Info
-            finalHtml = `<p><strong>Title:</strong> ${book.title || 'N/A'}</p>`;
-            if (book.link) {
-                finalHtml += `<p><strong>Link:</strong> <a href="${book.link}" target="_blank" rel="noopener noreferrer" title="Visit product page">${book.link}</a></p>`;
-            }
+            infoHtml = `<h3>Book Information:</h3>`;
+            infoHtml += `<p><strong>Title:</strong> ${book.title || 'N/A'}</p>`;
+            if (book.link) { infoHtml += `<p><strong>Link:</strong> <a href="${book.link}" target="_blank" rel="noopener noreferrer" title="Visit product page">${book.link}</a></p>`; }
 
             // Pricing Section
-            finalHtml += `<hr><h3>Pricing:</h3>`;
-            finalHtml += formatBookPricingHtml(book);
+            infoHtml += `<hr class="details-separator"><h3>Current Pricing:</h3>`;
+            infoHtml += formatBookPricingHtml(book);
 
             // Specifications Section (Fetch required)
-            finalHtml += `<hr><h3>Specifications:</h3>`;
-            // Show temporary fetching message while specs load
-            window.detailsBody.innerHTML = finalHtml + `<p><i>Fetching specifications...</i></p>`;
+            infoHtml += `<hr class="details-separator"><h3>Specifications:</h3>`;
+            // Show temporary fetching message for specs
+            infoSection.innerHTML = infoHtml + `<p><i>Fetching specifications...</i></p>`; // Update intermediate UI
 
             const specs = await fetchBookSpecsIfNeeded(book.link, book.title);
-            // Now add the formatted specs (or error) to the finalHtml
-            finalHtml += formatBookSpecsHtml(specs);
+            infoHtml += formatBookSpecsHtml(specs); // Add formatted specs
 
-            // Raw Data Section (for debugging)
-            finalHtml += `<hr><h3>Raw Data:</h3>`;
-            // Display the book data passed initially
-            finalHtml += `<pre>${JSON.stringify(book, null, 2)}</pre>`;
-            // Display the fetched specs data if available and not an error
-            if (specs && !specs.fetchError) {
-                 finalHtml += `<h4>--- Fetched Specs ---</h4><pre>${JSON.stringify(specs, null, 2)}</pre>`;
-            }
+            // Raw Data Section
+            rawDataHtml += `<h3>Raw Data:</h3>`;
+            rawDataHtml += `<pre>${JSON.stringify(book, (key, value) => key === 'priceHistory' ? `[${value?.length || 0} entries]` : value, 2)}</pre>`; // Show history length only initially
+            if (specs && !specs.fetchError) { rawDataHtml += `<h4>--- Fetched Specs ---</h4><pre>${JSON.stringify(specs, null, 2)}</pre>`; }
+
+            // Price History Data for Chart
+            priceHistoryData = book.priceHistory; // Get history from the passed data
+            chartContainer.style.display = 'block'; // Show chart section for books
         }
 
-        // Update the details body with the final generated HTML
-        window.detailsBody.innerHTML = finalHtml;
+        // Update the details body sections with final generated HTML
+        infoSection.innerHTML = infoHtml;
+        rawDataSection.innerHTML = rawDataHtml;
+
+        // Render chart if data is available
+        if (priceHistoryData) {
+            renderPriceChart(priceHistoryData, 'price-history-chart');
+        }
+
         if(window.statusBar) window.statusBar.textContent = "Details loaded.";
 
     } catch (error) {
         console.error("[Details Overlay] Error generating content:", error);
-        window.detailsBody.innerHTML = `<p class="error-message">Error displaying details: ${error.message}</p><pre>Data: ${JSON.stringify(data, null, 2)}</pre>`;
+        infoSection.innerHTML = `<p class="error-message">Error displaying details: ${error.message}</p>`;
+        rawDataSection.innerHTML = `<pre>Data: ${JSON.stringify(data, null, 2)}</pre>`;
+        chartContainer.style.display = 'none'; // Hide chart on error
         if(window.statusBar) window.statusBar.textContent = "Error loading details!";
     }
 }
+
 
 /** Hides the details overlay */
 function hideDetailsOverlay() {
     if (window.detailsOverlay) {
         window.detailsOverlay.classList.remove('active');
+        // Destroy chart instance when hiding
+        if (currentChartInstance) {
+            currentChartInstance.destroy();
+            currentChartInstance = null;
+            console.log("[Details Overlay] Chart instance destroyed.");
+        }
+        currentDetailLink = null; // Clear current link
     }
 }
+
+/** Handles the priceUpdate custom event */
+function handlePriceUpdateEvent(event) {
+    if (!window.detailsOverlay?.classList.contains('active')) return; // Only update if overlay is active
+
+    const { link, bookData, error } = event.detail;
+
+    // Check if the update is for the currently displayed book
+    if (link && link === currentDetailLink) {
+        console.log(`[Details Overlay] Received price update for currently displayed book: ${link}`);
+        if (error) {
+             console.warn(`[Details Overlay] Price update for ${link} contained an error: ${error}`);
+             // Optionally display error near the chart?
+        } else if (bookData && bookData.priceHistory) {
+            // Update the chart with the new history
+            updatePriceChart(bookData.priceHistory);
+             // Optionally update the pricing info section as well
+             const infoSection = document.getElementById('details-info-section');
+             if (infoSection) {
+                 // Find and replace the pricing part (or re-render info section)
+                 // This is a bit crude, might need more robust update logic
+                 let existingHtml = infoSection.innerHTML;
+                 const priceSectionStart = existingHtml.indexOf('<hr class="details-separator"><h3>Current Pricing:</h3>');
+                 const specSectionStart = existingHtml.indexOf('<hr class="details-separator"><h3>Specifications:</h3>');
+                 if (priceSectionStart !== -1 && specSectionStart !== -1) {
+                     const beforePrice = existingHtml.substring(0, priceSectionStart);
+                     const afterPrice = existingHtml.substring(specSectionStart);
+                     infoSection.innerHTML = beforePrice +
+                                             '<hr class="details-separator"><h3>Current Pricing:</h3>' +
+                                             formatBookPricingHtml(bookData) + // Update with new data
+                                             afterPrice;
+                 } else { // Fallback: Re-render potentially losing spec fetch status
+                    // infoSection.innerHTML = ... re-render based on bookData ...
+                 }
+             }
+        }
+    }
+}
+
 
 /** Sets up event listeners for the details overlay */
 function setupDetailsOverlayEventListeners() {
@@ -269,33 +383,22 @@ function setupDetailsOverlayEventListeners() {
         console.error("[Details Overlay] Cannot setup listeners - essential overlay elements missing.");
         return;
     }
-    // Close button
     window.detailsCloseBtn.addEventListener('click', hideDetailsOverlay);
+    window.detailsOverlay.addEventListener('click', (e) => { if (e.target === window.detailsOverlay) { hideDetailsOverlay(); } });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && window.detailsOverlay?.classList.contains('active')) { hideDetailsOverlay(); } });
 
-    // Click outside the content area to close
-    window.detailsOverlay.addEventListener('click', (e) => {
-        // Check if the click target is the overlay background itself, not the content
-        if (e.target === window.detailsOverlay) {
-            hideDetailsOverlay();
-        }
-    });
+    // Listen for price updates dispatched by tracker-ui
+    document.addEventListener('priceUpdate', handlePriceUpdateEvent);
 
-    // Escape key to close
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && window.detailsOverlay?.classList.contains('active')) {
-            hideDetailsOverlay();
-        }
-    });
-
-    console.log("[Details Overlay] Event listeners setup.");
+    console.log("[Details Overlay] Event listeners setup (including priceUpdate).");
 }
 
 // --- Initialization and Export ---
 window.AppDetailsOverlay = {
     initialize: setupDetailsOverlayEventListeners,
     showDetailsOverlay,
-    hideDetailsOverlay,
-    fetchBookSpecsIfNeeded // Expose spec fetching if needed elsewhere (though unlikely)
+    hideDetailsOverlay
+    // No need to expose fetchBookSpecsIfNeeded or chart functions directly
 };
 
 console.log("[Details Overlay] Module loaded.");

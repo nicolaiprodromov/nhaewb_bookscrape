@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <!-- CSP is handled by main.js session headers -->
     <title>Webview Loader & UI</title>
-    <!-- Load the split CSS files (paths relative to index.html are unchanged) -->
     <link rel="stylesheet" href="./css/base-styles.css">
     <link rel="stylesheet" href="./css/layout-styles.css">
     <link rel="stylesheet" href="./css/components-styles.css">
     <!-- DotLottie Player -->
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 </head>
 <body>
     <!-- Persistent App Toggle Button -->
-    <button id="toggle-overlay-btn" title="Hide UI">👁️</button> <!-- Updated icon -->
+    <button id="toggle-overlay-btn" title="Hide UI">👀</button>
 
     <!-- Main container -->
     <div id="main-content">
@@ -105,8 +107,8 @@
 
             <!-- Right Controls Sidebar -->
             <div id="right-controls">
-                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">◀</button> <!-- Updated icon -->
-                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">◀</button> <!-- Updated icon -->
+                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">◀</button>
+                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">◀</button>
             </div> <!-- End #right-controls -->
 
         </div> <!-- End #overlay-body -->
@@ -115,22 +117,27 @@
     <!-- Details Overlay (Modal) -->
     <div id="details-overlay">
         <div class="details-overlay-content">
-            <button class="details-overlay-close-btn" title="Close Details">×</button> <!-- Updated icon -->
+            <button class="details-overlay-close-btn" title="Close Details">×</button>
             <h2 id="details-title">Book Details</h2>
-            <div id="details-body"><p>Loading details...</p></div>
+            <div id="details-body">
+                <div id="details-info-section"><p>Loading details...</p></div>
+                <hr class="details-separator">
+                <h3>Price History</h3>
+                <div id="details-chart-container" style="position: relative; height: 250px; width: 100%; margin-top: 15px;">
+                    <canvas id="price-history-chart"></canvas>
+                </div>
+                <hr class="details-separator">
+                <div id="details-raw-data-section"></div>
+            </div>
         </div>
     </div> <!-- End #details-overlay -->
 
     <!-- Load Renderer JS files -->
-    <!-- Order is important -->
-    <script defer src="./logic/ui-utils.js"></script> <!-- Path Updated -->
-    <script defer src="./renderer.js"></script> <!-- Path Unchanged -->
-    <script defer src="./logic/panel-manager.js"></script> <!-- Path Updated -->
-    <script defer src="./logic/details-overlay.js"></script> <!-- Path Updated -->
-    <script defer src="./logic/tracker-ui.js"></script> <!-- Path Updated -->
-    <script defer src="./logic/book-list-manager.js"></script> <!-- Path Updated -->
-    <!-- ui-logic.js removed -->
-    <!-- price-tracker.js removed -->
-
+    <script defer src="./logic/ui-utils.js"></script>
+    <script defer src="./renderer.js"></script>
+    <script defer src="./logic/panel-manager.js"></script>
+    <script defer src="./logic/details-overlay.js"></script>
+    <script defer src="./logic/tracker-ui.js"></script>
+    <script defer src="./logic/book-list-manager.js"></script>
 </body>
 </html>

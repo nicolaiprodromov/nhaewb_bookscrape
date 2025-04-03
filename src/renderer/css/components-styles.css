@@ -655,3 +655,81 @@ p.cart-description {
 .details-overlay-close-btn:hover {
     color: var(--accent-remove-button);
 }
+
+/* --- Details Overlay Content Enhancements --- */
+#details-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#details-info-section,
+#details-raw-data-section {
+    margin-bottom: 15px; /* Space below info/raw sections */
+}
+
+#details-body h3 { /* Style subheadings in details */
+    font-size: 1.1em;
+    color: var(--text-heading);
+    margin-top: 15px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-color-light);
+    padding-bottom: 3px;
+}
+
+/* Separator between sections */
+.details-separator {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+/* Chart Container */
+#details-chart-container {
+    background-color: rgba(0,0,0,0.1); /* Subtle background */
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+}
+
+#price-history-chart {
+    /* Ensure canvas respects container size */
+    max-width: 100%;
+}
+
+/* Raw data pre formatting */
+#details-raw-data-section h4 {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+#details-raw-data-section pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    border: 1px solid var(--border-color);
+    max-height: 200px; /* Limit raw data height */
+    overflow-y: auto;
+    color: var(--text-secondary);
+}
+
+/* Ensure close button is above content */
+.details-overlay-close-btn {
+    z-index: 10;
+    position: absolute;
+    top: 12px; right: 15px;
+    background: none; border: none;
+    color: var(--text-secondary);
+    font-size: 1.9em;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s ease;
+}
+.details-overlay-close-btn:hover {
+    color: var(--accent-remove-button);
+}
