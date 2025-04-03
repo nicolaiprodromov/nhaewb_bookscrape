@@ -1,11 +1,11 @@
-<!-- electron_app/index.html -->
+<!-- src/renderer/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- CSP is now handled by main.js session headers -->
+    <!-- CSP is handled by main.js session headers -->
     <title>Webview Loader & UI</title>
-    <!-- Load the split CSS files in appropriate order -->
+    <!-- Load the split CSS files (paths relative to index.html are unchanged) -->
     <link rel="stylesheet" href="./css/base-styles.css">
     <link rel="stylesheet" href="./css/layout-styles.css">
     <link rel="stylesheet" href="./css/components-styles.css">
@@ -14,7 +14,7 @@
 </head>
 <body>
     <!-- Persistent App Toggle Button -->
-    <button id="toggle-overlay-btn" title="Hide UI">ðŸ‘ ï¸ </button>
+    <button id="toggle-overlay-btn" title="Hide UI">👁️</button> <!-- Updated icon -->
 
     <!-- Main container -->
     <div id="main-content">
@@ -105,8 +105,8 @@
 
             <!-- Right Controls Sidebar -->
             <div id="right-controls">
-                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">â—€</button>
-                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">â—€</button>
+                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">◀</button> <!-- Updated icon -->
+                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">◀</button> <!-- Updated icon -->
             </div> <!-- End #right-controls -->
 
         </div> <!-- End #overlay-body -->
@@ -115,7 +115,7 @@
     <!-- Details Overlay (Modal) -->
     <div id="details-overlay">
         <div class="details-overlay-content">
-            <button class="details-overlay-close-btn" title="Close Details">Ã—</button>
+            <button class="details-overlay-close-btn" title="Close Details">×</button> <!-- Updated icon -->
             <h2 id="details-title">Book Details</h2>
             <div id="details-body"><p>Loading details...</p></div>
         </div>
@@ -123,16 +123,14 @@
 
     <!-- Load Renderer JS files -->
     <!-- Order is important -->
-    <script defer src="./renderer_process/ui-utils.js"></script> <!-- Utilities first -->
-    <script defer src="./renderer.js"></script> <!-- **LOAD RENDERER EARLY** to setup AppUI and find core elements -->
-    <script defer src="./renderer_process/panel-manager.js"></script> <!-- Load modules -->
-    <script defer src="./renderer_process/details-overlay.js"></script>
-    <script defer src="./renderer_process/tracker-ui.js"></script>
-    <script defer src="./renderer_process/book-list-manager.js"></script>
-    <script defer src="./ui-logic.js"></script> <!-- Load coordinator last -->
-
-     <!-- Optional: Client-side Price Tracker (if used) -->
-     <!-- <script defer src="./price-tracker.js"></script> -->
+    <script defer src="./logic/ui-utils.js"></script> <!-- Path Updated -->
+    <script defer src="./renderer.js"></script> <!-- Path Unchanged -->
+    <script defer src="./logic/panel-manager.js"></script> <!-- Path Updated -->
+    <script defer src="./logic/details-overlay.js"></script> <!-- Path Updated -->
+    <script defer src="./logic/tracker-ui.js"></script> <!-- Path Updated -->
+    <script defer src="./logic/book-list-manager.js"></script> <!-- Path Updated -->
+    <!-- ui-logic.js removed -->
+    <!-- price-tracker.js removed -->
 
 </body>
 </html>

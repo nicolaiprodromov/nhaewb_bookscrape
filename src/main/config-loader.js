@@ -1,6 +1,7 @@
-// electron_app/main_process/config-loader.js
+// src/main/config-loader.js
 const fs = require('fs');
 const path = require('path');
+const { URL } = require('url'); // Ensure URL is required
 
 /**
  * Validates the loaded configuration object.
@@ -47,16 +48,12 @@ function validateConfig(config) {
         throw new Error("Invalid config: 'imageDownloadConcurrency' must be a positive integer if present.");
     }
 
-    // **REMOVED:** No longer validating electronServerPort
-    // if (typeof config.electronServerPort !== 'number' || !Number.isInteger(config.electronServerPort) || config.electronServerPort <= 0 || config.electronServerPort > 65535) {
-    //     throw new Error("Invalid config: Requires numeric 'electronServerPort' (1-65535).");
-    // }
-
     console.log("[Config Loader] Configuration validation passed.");
 }
 
 /**
  * Loads and validates the configuration from a JSON file.
+ * The path is passed from the main process.
  */
 function loadConfig(configPath) {
     console.log(`[Config Loader] Attempting to load config from: ${configPath}`);
@@ -79,7 +76,8 @@ function loadConfig(configPath) {
     try {
         validateConfig(parsedConfig);
     } catch (validationError) {
-        console.error(`[Config Loader] FATAL ERROR loading/parsing config from ${configPath}: ${validationError.message}`);
+        // Log here, but let the main process handle the ultimate consequence
+        console.error(`[Config Loader] Config validation failed: ${validationError.message}`);
         throw validationError; // Re-throw validation error
     }
 

@@ -1,0 +1,16 @@
+{
+  "name": "electron-webview-app",
+  "version": "1.0.0",
+  "description": "Electron app with a webview for AnticExLibris",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^25.0.0"
+  }
+}

@@ -1,6 +1,6 @@
-// electron_app/main_process/ipc-handlers.js
+// src/main/ipc-handlers.js
 const { ipcMain } = require('electron');
-const { loadTrackedBooksData, saveTrackedBooksData } = require('./tracker-persistence');
+const { loadTrackedBooksData, saveTrackedBooksData } = require('./tracker-persistence'); // Path updated
 const { URL } = require('url'); // For URL manipulation
 
 // Module is passed in during setup
@@ -20,19 +20,20 @@ function setupIpcHandlers(controller) {
         return await saveTrackedBooksData(categoryList);
     });
 
-    // --- NEW Webview Control Handlers ---
+    // --- Webview Control Handlers ---
 
     /** Handles fetching list data for a given page URL */
     ipcMain.handle('fetch-list-data', async (event, webviewId, pageUrl) => {
         console.log(`[IPC] Received 'fetch-list-data' for WV:${webviewId}, URL:${pageUrl}`);
         if (!webviewControllerInstance) return { success: false, error: "Webview Controller not initialized" };
         try {
-            // Validate URL basic structure
+            // Basic URL validation
             new URL(pageUrl);
             return await webviewControllerInstance.fetchListData(webviewId, pageUrl);
         } catch (error) {
-            console.error(`[IPC Error] 'fetch-list-data' failed: ${error.message}`);
-            return { success: false, error: error.message || "Failed to fetch list data" };
+            const errorMsg = error instanceof TypeError ? `Invalid page URL format: ${pageUrl}` : error.message;
+            console.error(`[IPC Error] 'fetch-list-data' failed: ${errorMsg}`);
+            return { success: false, error: errorMsg || "Failed to fetch list data" };
         }
     });
 
@@ -41,16 +42,15 @@ function setupIpcHandlers(controller) {
         console.log(`[IPC] Received 'fetch-detail-data' for WV:${webviewId}, URL:${bookUrl}`);
         if (!webviewControllerInstance) return { success: false, error: "Webview Controller not initialized" };
         try {
-             // Validate URL basic structure
+             // Basic URL validation
              new URL(bookUrl);
             return await webviewControllerInstance.fetchDetailData(webviewId, bookUrl);
         } catch (error) {
-            console.error(`[IPC Error] 'fetch-detail-data' failed: ${error.message}`);
-            return { success: false, error: error.message || "Failed to fetch detail data" };
+             const errorMsg = error instanceof TypeError ? `Invalid book URL format: ${bookUrl}` : error.message;
+            console.error(`[IPC Error] 'fetch-detail-data' failed: ${errorMsg}`);
+            return { success: false, error: errorMsg || "Failed to fetch detail data" };
         }
     });
-
-    // Add more handlers here if needed in the future
 
     console.log('[IPC Setup] IPC handlers registered.');
 }

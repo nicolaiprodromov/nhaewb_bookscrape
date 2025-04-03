@@ -1,15 +1,16 @@
-// electron_app/main.js
-const { app, BrowserWindow, session, ipcMain, dialog, protocol } = require('electron'); // Added dialog, protocol
+// src/main/main.js
+const { app, BrowserWindow, session, ipcMain, dialog, protocol } = require('electron');
 const path = require('path');
 const fs = require('fs'); // Need fs for protocol handler
-const { loadConfig } = require('./main_process/config-loader');
-const { setupIpcHandlers } = require('./main_process/ipc-handlers');
-const { setupDownloadDir, DOWNLOAD_DIR } = require('./main_process/image-downloader');
-const webviewController = require('./main_process/webview-controller'); // Import the new controller
+const { loadConfig } = require('./config-loader'); // Path updated
+const { setupIpcHandlers } = require('./ipc-handlers'); // Path updated
+const { setupDownloadDir, DOWNLOAD_DIR } = require('./image-downloader'); // Path updated
+const webviewController = require('./webview-controller'); // Path updated
 
 // --- Configuration Loading ---
 let config;
-const configPath = path.join(__dirname, 'config.json');
+// config.json is now at the project root
+const configPath = path.join(app.getAppPath(), 'config.json'); // More robust path
 try {
     config = loadConfig(configPath);
 } catch (err) {
@@ -17,8 +18,9 @@ try {
          dialog.showErrorBox('Configuration Error', `Failed to load/parse config (${configPath}).\nError: ${err.message}\n\nApp cannot start.`);
          app.quit();
     }
+    // Ensure app is ready before showing dialog
     if (app.isReady()) { showErrorAndQuit(); } else { app.on('ready', showErrorAndQuit); }
-    return;
+    return; // Stop execution if config fails
 }
 
 // --- Constants and Global State ---
@@ -27,7 +29,8 @@ const webviewMap = new Map(); // Maps webview ID to its WebContents object
 
 // --- Main Window Creation ---
 function createWindow() {
-    const preloadScriptPath = path.join(__dirname, 'preload.js');
+    // preload.js is now in the same directory as main.js
+    const preloadScriptPath = path.join(__dirname, 'preload.js'); // Path updated
     const rendererWebPreferences = {
         nodeIntegration: false, contextIsolation: true, webviewTag: true,
         webSecurity: true, // Keep webSecurity enabled
@@ -37,13 +40,20 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1300, height: 850, webPreferences: rendererWebPreferences, show: false
     });
+
     const webviewConfigsParam = encodeURIComponent(JSON.stringify(config.webviews));
-    const indexHtmlPath = path.join(__dirname, 'index.html');
+    // index.html is now in src/renderer/
+    const indexHtmlPath = path.join(__dirname, '../renderer/index.html'); // Path updated
     console.log(`[Main] Loading index.html from: ${indexHtmlPath}`);
     mainWindow.loadFile(indexHtmlPath, { query: { webviewConfigs: webviewConfigsParam } });
-    mainWindow.once('ready-to-show', () => { mainWindow.show(); console.log('[Main] Main window ready.'); /* mainWindow.webContents.openDevTools({ mode: 'detach' }); */ });
 
-    // --- Webview Event Handling (Association Logic) ---
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show();
+        console.log('[Main] Main window ready.');
+        // mainWindow.webContents.openDevTools({ mode: 'detach' }); // Uncomment for debugging
+    });
+
+    // --- Webview Event Handling (Association Logic - Remains the same logic) ---
     mainWindow.webContents.on('did-attach-webview', (event, attachedWebContents) => {
         if (!attachedWebContents || attachedWebContents.isDestroyed()) return;
         console.log(`[Main] Webview attached. Initial URL: ${attachedWebContents.getURL()}`);
@@ -92,20 +102,27 @@ function createWindow() {
 // --- App Lifecycle Events ---
 app.whenReady().then(async () => {
     console.log('[Main] App is ready.');
-    try { setupDownloadDir(); }
-    catch (dirError) { dialog.showErrorBox('Startup Error', `Failed image dir setup: ${dirError.message}`); app.quit(); return; }
+    try {
+        setupDownloadDir(); // This function now returns the path, but we use the imported DOWNLOAD_DIR constant
+    } catch (dirError) {
+        dialog.showErrorBox('Startup Error', `Failed image dir setup: ${dirError.message}`);
+        app.quit();
+        return;
+    }
 
     // --- Custom Protocol for Local Images ---
+    // Note: DOWNLOAD_DIR is imported from image-downloader.js, which calculates the correct path
     protocol.registerFileProtocol('localimg', (request, callback) => {
         try {
             const url = request.url.substring('localimg://'.length);
             const decodedUrl = decodeURI(url); // Decode potential URI encoding
-            const filePath = path.join(DOWNLOAD_DIR, path.normalize(decodedUrl));
+            const filePath = path.join(DOWNLOAD_DIR, path.normalize(decodedUrl)); // Use imported DOWNLOAD_DIR
 
             // Security: Ensure the path is within the DOWNLOAD_DIR
             if (!filePath.startsWith(path.normalize(DOWNLOAD_DIR))) {
                  console.error(`[Protocol] Forbidden path request: ${filePath}`);
-                 return callback({ error: -6 }); // -6 is net::ERR_FILE_NOT_FOUND, good enough generic error
+                 // Use a more specific error code if available, otherwise -6 (FILE_NOT_FOUND) is okay
+                 return callback({ error: -10 /* net::ERR_ACCESS_DENIED */ });
             }
 
             fs.access(filePath, fs.constants.R_OK, (err) => {
@@ -120,18 +137,16 @@ app.whenReady().then(async () => {
             return callback({ error: -2 }); // Generic failure
         }
     });
-    console.log("[Main] 'localimg://' protocol registered.");
+    console.log(`[Main] 'localimg://' protocol registered for directory: ${DOWNLOAD_DIR}`);
 
     // --- Content Security Policy (Updated) ---
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
         let csp = "default-src 'self';";
         csp += " script-src 'self' https://unpkg.com;"; // Keep player scripts
         csp += " style-src 'self' 'unsafe-inline';"; // Allow inline styles if needed
-        csp += " font-src 'self';";
-        // **MODIFIED**: Allow images from self, data:, and the new custom protocol
-        csp += " img-src 'self' data: localimg:;";
-        // **MODIFIED**: Remove localhost connect-src, keep Lottie host
-        csp += " connect-src 'self' https://lottie.host;";
+        csp += " font-src 'self';"; // Assumes fonts are served from the app itself
+        csp += " img-src 'self' data: localimg:;"; // Allow self, data:, and custom protocol
+        csp += " connect-src 'self' https://lottie.host;"; // Keep Lottie host
         callback({ responseHeaders: { ...details.responseHeaders, 'Content-Security-Policy': [csp] } });
     });
     console.log('[Main] Session CSP Header modification registered (localimg included).');

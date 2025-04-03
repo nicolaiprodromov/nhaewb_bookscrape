@@ -1,7 +1,5 @@
-#hey
 # Dependencies
 node_modules/
-**/node_modules/
 
 # Python virtual environment (if you use one)
 venv/
@@ -28,10 +26,13 @@ release/
 *.pkg
 *.nupkg
 
-# Local data / Generated files
-downloaded_images/
-tracked_books.json
-# config.json
+# Local data / Generated files in data folder
+data/downloaded_images/*.jpg
+data/downloaded_images/*.JPEG
+data/downloaded_images/*.png
+data/downloaded_images/*.webp
+data/tracked_books.json
+# config.json is usually version controlled, so not ignored by default
 
 # Logs
 logs/
@@ -69,7 +70,7 @@ Thumbs.db
 # Optional stylelint cache
 .stylelintcache
 
-# Font files
+# Font files (usually version controlled, keep if needed)
 *.otf
 *.ttf
 *.woff

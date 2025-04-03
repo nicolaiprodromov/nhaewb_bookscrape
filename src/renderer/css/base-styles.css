@@ -1,0 +1,301 @@
+/* src/renderer/css/base-styles.css */
+/* Core styling, variables, fonts, and global elements */
+
+/* --- Font Definitions --- */
+/* Ensure paths are relative to the CSS file location */
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapLight.otf') format('opentype'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapLightItalic.otf') format('opentype'); font-weight: 300; font-style: italic; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapRegular.otf') format('opentype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapRegularItalic.otf') format('opentype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapUltrabold.otf') format('opentype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'PPNeueMachina'; src: url('../fonts/PPNeueMachina-InktrapUltraboldItalic.otf') format('opentype'); font-weight: 800; font-style: italic; }
+
+/* --- Base Variables --- */
+:root {
+    /* Main Colors */
+    --bg-main: #1a1d21;
+    --bg-overlay: rgba(30, 33, 38, 0.98); /* Slightly less opaque */
+    --bg-content-area: #282c34;
+    --bg-side-panel: #1e2125;
+    --bg-item: #2c313a;
+    --bg-item-hover: #353a45;
+    --bg-tracker-category-header: rgba(255, 255, 255, 0.05);
+    --bg-tracker-node: #2c313a;
+    --bg-tracker-node-hover: #353a45;
+    --bg-input: #21252b;
+    --bg-input-focus: rgba(82, 139, 255, 0.1); /* Use accent color slightly */
+    --bg-details-overlay: rgba(26, 29, 33, 0.97);
+    --bg-details-content: #282c34;
+    --bg-modal: #313640; /* Generic modal background */
+    --bg-button-primary: #528bff;
+    --bg-button-primary-hover: #6fa0ff;
+    --bg-button-secondary: #4f5663;
+    --bg-button-secondary-hover: #646c7a;
+    --bg-voucher-box: rgba(82, 139, 255, 0.25);
+    --bg-search-bar: #21252b; /* Consistent with input */
+
+    /* Text Colors */
+    --text-primary: #abb2bf;
+    --text-secondary: #7f848e; /* For less important text */
+    --text-tertiary: #5c6370; /* Even less important */
+    --text-heading: #e2e8f0;
+    --text-link: #61afef;
+    --text-link-hover: #89cff0;
+    --text-button: #dcdfe4;
+    --text-price: #e2e8f0;
+    --text-old-price: var(--text-secondary);
+    --text-voucher: #61afef; /* Match link color */
+    --text-voucher-code: #c678dd; /* Distinct color for code */
+    --text-error: #e06c75;
+    --text-success: #98c379;
+    --text-warning: #e5c07b;
+    --text-light-placeholder: var(--text-tertiary);
+
+    /* Borders & Accents */
+    --border-color: #3a3f4b; /* Standard border */
+    --border-color-light: #4b5263; /* Lighter border */
+    --accent-color: #528bff; /* Primary accent */
+    --accent-hover: #6fa0ff;
+    --accent-remove-button: var(--text-error);
+    --accent-remove-button-hover: #f47f8a;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --border-voucher-box: rgba(82, 139, 255, 0.6);
+    --confirm-delete-bg: var(--text-error); /* Background for pending delete button */
+    --confirm-delete-text: #ffffff; /* Text color for pending delete button */
+
+    /* Layout & Sizing */
+    --side-panel-width: 280px; /* Default width */
+    --right-controls-width: 35px;
+    --font-main: 'PPNeueMachina', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-light: 300;
+    --font-regular: 400;
+    --font-bold: 800;
+    --base-font-size: 14px;
+    --item-font-size: 12px; /* Font size for book items */
+    --tracker-font-size: 13px; /* Font size for tracker items */
+    --tracker-category-margin-bottom: 3px; /* Spacing between categories */
+    --search-bar-font-size: 0.9em;
+    --search-bar-padding: 6px 12px;
+    --tracker-header-lottie-size: 52px;
+    --category-max-book-height: 300px; /* Max height before book list scrolls */
+    --category-drop-zone-expanded-height: 40px;
+    --category-drop-zone-expanded-margin: 5px 0;
+    --book-item-border-width: 5px; /* Thickness of tracker indicator border */
+
+    /* Scrollbars */
+    --scrollbar-thumb: #5c6370;
+    --scrollbar-track: #21252b;
+
+    /* Tracker/Panel Specific */
+    --dot-color: rgba(80, 85, 95, 0.15); /* Color of dots in tracker bg */
+    --dot-size: 1px;
+    --dot-space: 18px; /* Spacing of dots */
+    --drop-zone-highlight: rgba(82, 139, 255, 0.15); /* Background for drag-over on container */
+    --drop-zone-border: var(--accent-color); /* Border for drag-over on container */
+    --reorder-gap-color: var(--accent-color); /* Color of the expanded drop zone gap */
+    --category-base-bg-alpha: 0.1; /* Base alpha for category background color */
+    --node-border-alpha: 0.6; /* Alpha for tracker node border color */
+    --book-item-border-alpha: 0.7; /* Alpha for book item indicator border color */
+}
+
+/* --- Global Styles --- */
+html {
+    box-sizing: border-box;
+    font-size: var(--base-font-size); /* Set base font size */
+}
+
+*, *:before, *:after {
+    box-sizing: inherit; /* Inherit box-sizing */
+    margin: 0; /* Reset default margins */
+    padding: 0; /* Reset default padding */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent body scrollbars */
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    background-color: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-main);
+    font-weight: var(--font-regular);
+    color: var(--text-primary);
+    position: relative; /* For absolute positioning context */
+    line-height: 1.5; /* Default line height */
+    -webkit-font-smoothing: antialiased; /* Improve font rendering */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Scrollbar Styling --- */
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 5px;
+    border: 2px solid var(--scrollbar-track); /* Creates padding around thumb */
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #7c8390; /* Slightly lighter on hover */
+}
+/* Firefox */
+* {
+    scrollbar-width: thin; /* "auto" or "thin" */
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); /* thumb track */
+}
+
+
+/* --- Common Utility Classes --- */
+.error-message {
+    color: var(--text-error);
+    font-weight: var(--font-regular);
+    font-size: 0.9em; /* Slightly smaller */
+}
+.success-message {
+     color: var(--text-success);
+     font-weight: var(--font-regular);
+}
+.warning-message {
+     color: var(--text-warning);
+     font-weight: var(--font-regular);
+}
+.info-message {
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.9em;
+}
+.placeholder-text { /* Generic placeholder style */
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.9em;
+    text-align: center;
+    padding: 10px;
+}
+
+/* --- Animation Keyframes --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeOut {
+     from { opacity: 1; }
+     to { opacity: 0; }
+}
+@keyframes slideInRight {
+     from { transform: translateX(100%); opacity: 0; }
+     to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOutRight {
+     from { transform: translateX(0); opacity: 1; }
+     to { transform: translateX(100%); opacity: 0; }
+}
+
+/* --- Lottie Loading Styles --- */
+.loading-indicator { /* Base style for loading areas */
+    text-align: center;
+    padding: 20px; /* Reduced padding */
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px; /* Minimum height */
+}
+.lottie-loading-container { /* Container specifically for Lottie + text */
+    /* Inherits .loading-indicator styles */
+    padding: 30px 0; /* Adjust padding */
+    min-height: 150px; /* Ensure enough space for animation */
+}
+.lottie-loading-container p {
+     margin-top: 5px; /* Space between Lottie and text */
+}
+/* Default size for Lottie players, can be overridden */
+.lottie-player {
+    width: 100px;
+    height: 100px;
+    max-width: 80%; /* Prevent extremely large Lottie on small screens */
+}
+
+/* --- Webview Container --- */
+/* Ensure webview takes full space within its container */
+webview {
+    flex: 1; /* Take available space */
+    border: none; /* Remove default border */
+    height: 100%;
+    width: 100%;
+    display: block; /* Ensure it behaves like a block element */
+    background-color: #ffffff; /* Fallback background, site should override */
+}
+
+/* --- Basic Element Styling --- */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-heading);
+    margin-bottom: 0.5em;
+    line-height: 1.3;
+    font-weight: var(--font-regular); /* Default to regular */
+}
+h1 { font-size: 1.8em; font-weight: var(--font-bold); }
+h2 { font-size: 1.5em; font-weight: var(--font-bold); }
+h3 { font-size: 1.2em; font-weight: var(--font-bold); }
+
+p { margin-bottom: 1em; }
+a { color: var(--text-link); text-decoration: none; transition: color 0.2s ease; }
+a:hover { color: var(--text-link-hover); text-decoration: underline; }
+
+button {
+    font-family: inherit; /* Use main font */
+    font-size: 0.95em;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-button-secondary);
+    color: var(--text-button);
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+button:hover {
+    background-color: var(--bg-button-secondary-hover);
+    border-color: var(--border-color-light);
+}
+button:active {
+    transform: scale(0.98); /* Slight press effect */
+}
+
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+textarea {
+    font-family: inherit;
+    font-size: 0.95em;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(82, 139, 255, 0.2); /* Focus ring */
+}
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-light-placeholder);
+    opacity: 1; /* Ensure placeholder is visible */
+}
