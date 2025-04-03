@@ -293,7 +293,7 @@ function createCategoryElement(category, index) {
     // Collapse Button
     const collapseBtn = document.createElement('button');
     collapseBtn.className = 'collapse-category-btn';
-    collapseBtn.innerHTML = category.isCollapsed ? '▶' : '▼'; // Use standard arrows
+    collapseBtn.innerHTML = category.isCollapsed ? 'â–¶' : 'â–¼'; // Use standard arrows
     collapseBtn.title = category.isCollapsed ? 'Expand Stack' : 'Collapse Stack';
     collapseBtn.addEventListener('click', handleCategoryCollapseToggle);
     header.appendChild(collapseBtn);
@@ -301,7 +301,7 @@ function createCategoryElement(category, index) {
      // View Details Button
      const viewBtn = document.createElement('button');
      viewBtn.className = 'view-category-btn';
-     viewBtn.innerHTML = 'ℹ️'; // Info icon
+     viewBtn.innerHTML = 'â„¹ï¸ '; // Info icon
      viewBtn.title = `View Stack Details: ${category.name || 'Unnamed'}`;
      viewBtn.addEventListener('click', (e) => {
          e.stopPropagation(); // Prevent header drag start
@@ -333,7 +333,7 @@ function createCategoryElement(category, index) {
     // Delete Button
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'delete-category-btn';
-    deleteBtn.innerHTML = '×'; // Standard close icon
+    deleteBtn.innerHTML = 'Ã—'; // Standard close icon
     deleteBtn.title = 'Delete Stack';
     deleteBtn.addEventListener('click', handleDeleteCategory);
     header.appendChild(deleteBtn);
@@ -450,7 +450,7 @@ function addSingleTrackerNodeElement(containerElement, book, categoryId, categor
     // Remove Button
     const removeBtn = document.createElement('button');
     removeBtn.className = 'remove-node-btn';
-    removeBtn.innerHTML = '×';
+    removeBtn.innerHTML = 'Ã—';
     removeBtn.title = 'Remove this book from tracker';
     removeBtn.addEventListener('click', handleRemoveTrackedItem);
     controlsDiv.appendChild(removeBtn);
@@ -697,7 +697,7 @@ function resetDeleteConfirmation(button, categoryId) {
 
     // Reset button appearance and state
     button.classList.remove('delete-pending');
-    button.innerHTML = '×'; // Reset icon
+    button.innerHTML = 'Ã—'; // Reset icon
     button.title = 'Delete Stack';
     delete button.dataset.deletePending; // Remove pending flag
 }
@@ -740,7 +740,7 @@ function handleCategoryCollapseToggle(event) {
     category.isCollapsed = isNowCollapsed;
 
     // Update button appearance and title
-    button.innerHTML = isNowCollapsed ? '▶' : '▼';
+    button.innerHTML = isNowCollapsed ? 'â–¶' : 'â–¼';
     button.title = isNowCollapsed ? 'Expand Stack' : 'Collapse Stack';
 
     // Save the state change (throttled save might be better here if toggling rapidly)
@@ -1365,7 +1365,8 @@ async function fetchBookPricesAndSpecs(bookLink, bookTitle = 'book') {
         }
 
         // Call IPC to get details (which includes prices)
-        const result = await window.electronAPI.fetchDetailData(webviewId, bookUrl);
+        // Use bookLink which is the parameter passed to this function
+        const result = await window.electronAPI.fetchDetailData(webviewId, bookLink);
 
         if (!result.success) {
             throw new Error(result.error || 'IPC fetchDetailData failed for price/spec check');
@@ -1423,15 +1424,17 @@ async function performPriceCheckCycle() {
 
                     if (fetchedPrices && !fetchedPrices.fetchError) {
                         // Check if prices actually changed
-                        const priceChanged = book.current_price !== fetchedPrices.currentPrice ||
-                                             book.old_price !== fetchedPrices.oldPrice ||
-                                             book.voucher_price !== fetchedPrices.voucherPrice ||
-                                             book.voucher_code !== fetchedPrices.voucherCode;
+                        // Note: The fetched price keys might be different (e.g., currentPrice vs current_price)
+                        // Adjust the comparison based on the keys returned by fetchDetailData
+                        const priceChanged = book.current_price !== fetchedPrices.currentPrice || // Check against returned keys
+                                             book.old_price !== fetchedPrices.oldPrice ||         // Check against returned keys
+                                             book.voucher_price !== fetchedPrices.voucherPrice || // Check against returned keys
+                                             book.voucher_code !== fetchedPrices.voucherCode;     // Check against returned keys
 
                         if (priceChanged) {
                             console.log(`[Tracker] Price change detected for "${book.title || book.link}"`);
                             updatesFound = true;
-                            // Update book object
+                            // Update book object using the correct keys from fetchedPrices
                             book.current_price = fetchedPrices.currentPrice;
                             book.old_price = fetchedPrices.oldPrice;
                             book.voucher_price = fetchedPrices.voucherPrice;
@@ -1442,6 +1445,7 @@ async function performPriceCheckCycle() {
                          if (!Array.isArray(book.priceHistory)) book.priceHistory = [];
                          book.priceHistory.push({
                              timestamp: Date.now(),
+                             // Use the keys from the fetchedPrices object
                              currentPrice: fetchedPrices.currentPrice,
                              oldPrice: fetchedPrices.oldPrice,
                              voucherPrice: fetchedPrices.voucherPrice,
