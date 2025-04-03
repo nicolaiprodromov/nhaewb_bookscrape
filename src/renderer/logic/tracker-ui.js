@@ -293,7 +293,7 @@ function createCategoryElement(category, index) {
     // Collapse Button
     const collapseBtn = document.createElement('button');
     collapseBtn.className = 'collapse-category-btn';
-    collapseBtn.innerHTML = category.isCollapsed ? 'Ã¢â€“Â¶' : 'Ã¢â€“Â¼'; // Use standard arrows
+    collapseBtn.innerHTML = category.isCollapsed ? 'â–¶' : 'â–¼'; // Use standard arrows
     collapseBtn.title = category.isCollapsed ? 'Expand Stack' : 'Collapse Stack';
     collapseBtn.addEventListener('click', handleCategoryCollapseToggle);
     header.appendChild(collapseBtn);
@@ -301,7 +301,7 @@ function createCategoryElement(category, index) {
      // View Details Button
      const viewBtn = document.createElement('button');
      viewBtn.className = 'view-category-btn';
-     viewBtn.innerHTML = 'Ã¢â€žÂ¹Ã¯Â¸ '; // Info icon
+     viewBtn.innerHTML = 'â„¹ï¸Ž'; // Info icon
      viewBtn.title = `View Stack Details: ${category.name || 'Unnamed'}`;
      viewBtn.addEventListener('click', (e) => {
          e.stopPropagation(); // Prevent header drag start
@@ -341,7 +341,7 @@ function createCategoryElement(category, index) {
     // Delete Button
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'delete-category-btn';
-    deleteBtn.innerHTML = 'Ãƒâ€”'; // Standard close icon
+    deleteBtn.innerHTML = 'Ã—'; // Standard close icon
     deleteBtn.title = 'Delete Stack';
     deleteBtn.addEventListener('click', handleDeleteCategory);
     header.appendChild(deleteBtn);
@@ -459,7 +459,7 @@ function addSingleTrackerNodeElement(containerElement, book, categoryId, categor
     // Remove Button
     const removeBtn = document.createElement('button');
     removeBtn.className = 'remove-node-btn';
-    removeBtn.innerHTML = 'Ãƒâ€”';
+    removeBtn.innerHTML = 'Ã—';
     removeBtn.title = 'Remove this book from tracker';
     removeBtn.addEventListener('click', handleRemoveTrackedItem);
     controlsDiv.appendChild(removeBtn);
@@ -710,7 +710,7 @@ function resetDeleteConfirmation(button, categoryId) {
 
     // Reset button appearance and state
     button.classList.remove('delete-pending');
-    button.innerHTML = 'Ãƒâ€”'; // Reset icon
+    button.innerHTML = 'Ã—'; // Reset icon
     button.title = 'Delete Stack';
     delete button.dataset.deletePending; // Remove pending flag
 }
@@ -753,7 +753,7 @@ function handleCategoryCollapseToggle(event) {
     category.isCollapsed = isNowCollapsed;
 
     // Update button appearance and title
-    button.innerHTML = isNowCollapsed ? 'Ã¢â€“Â¶' : 'Ã¢â€“Â¼';
+    button.innerHTML = isNowCollapsed ? 'â–¶' : 'â–¼';
     button.title = isNowCollapsed ? 'Expand Stack' : 'Collapse Stack';
 
     // Save the state change (throttled save might be better here if toggling rapidly)
@@ -858,24 +858,32 @@ async function handleAddCategory() {
     console.log(`[Tracker UI] Added new category: ${newCategory.id}`);
 }
 
-/** Creates the persistent Lottie animation in the header */
-function createPersistentLottie() {
-    if (!window.addStackLottieContainer) return;
-    window.addStackLottieContainer.innerHTML = ''; // Clear previous if any
+/**
+ * Creates a persistent Lottie animation in the specified header container.
+ * @param {string} containerId The ID of the container element (e.g., 'add-stack-lottie-container').
+ * @param {string} lottieSrc The URL of the Lottie animation file.
+ * @param {string} title The title/tooltip for the animation element.
+ */
+function createHeaderLottie(containerId, lottieSrc, title = 'Animation') {
+    const container = document.getElementById(containerId);
+    if (!container) {
+         console.error(`[UI] Lottie container #${containerId} not found.`); // Updated log prefix
+         return;
+    }
+    container.innerHTML = ''; // Clear previous if any
 
     const player = document.createElement('dotlottie-player');
-    // Use a relevant Lottie animation for "Add Stack" or similar concept
-    player.setAttribute('src', 'https://lottie.host/38d4bace-34fa-46aa-b4ff-f3e36e529bbe/j1vcYhDIk7.lottie'); // Example Add animation
+    player.setAttribute('src', lottieSrc);
     player.setAttribute('autoplay', '');
     player.setAttribute('loop', '');
     player.setAttribute('background', 'transparent');
-    player.setAttribute('speed', '0.8');
+    player.setAttribute('speed', '0.8'); // Consistent speed
     player.style.width = '100%';
     player.style.height = '100%';
-    player.title = "Click 'New Stack' button below to add"; // Tooltip
+    player.title = title; // Set tooltip
 
-    window.addStackLottieContainer.appendChild(player);
-    console.log("[Tracker UI] Header Lottie animation created.");
+    container.appendChild(player);
+    console.log(`[UI] Header Lottie animation created in #${containerId}.`); // Updated log prefix
 }
 
 
@@ -1463,12 +1471,21 @@ async function performPriceCheckCycle() {
                          });
                          historyUpdated = true; // Mark that history was added successfully
 
+                        // Dispatch event for details overlay to potentially update chart
+                         document.dispatchEvent(new CustomEvent('priceUpdate', {
+                             detail: { link: book.link, bookData: book, error: null }
+                         }));
+
                          // Optional: Limit history length per book
                          // if (book.priceHistory.length > 100) book.priceHistory.shift();
 
                     } else {
                         errorsEncountered++;
                         console.warn(`[Tracker] Failed to fetch prices for "${book.title || book.link}". Error: ${fetchedPrices?.fetchError || 'Unknown error'}`);
+                         // Dispatch event with error
+                         document.dispatchEvent(new CustomEvent('priceUpdate', {
+                             detail: { link: book.link, bookData: book, error: fetchedPrices?.fetchError || 'Fetch failed' }
+                         }));
                         // Optionally add an error entry to price history?
                         // book.priceHistory.push({ timestamp: Date.now(), error: fetchedPrices?.fetchError || 'Fetch failed' });
                     }
@@ -1583,7 +1600,12 @@ window.AppTrackerUI = {
     // Initialization function called by renderer.js
     initialize: async () => {
         console.log("[Tracker UI] Initializing...");
-        createPersistentLottie();
+        // Call the parameterized Lottie creation function
+        createHeaderLottie(
+            'add-stack-lottie-container', // Specific container ID for tracker
+            'https://lottie.host/38d4bace-34fa-46aa-b4ff-f3e36e529bbe/j1vcYhDIk7.lottie', // Specific Lottie for tracker
+            "Click 'New Stack' button below to add"
+        );
         setupTrackerEventListeners();
         // Load data, render UI, and start price checks
         await loadAndDisplayTrackedItems(); // This now starts price checks on success
@@ -1598,7 +1620,8 @@ window.AppTrackerUI = {
     applyTrackerColorsToBookList, // Needed by book list manager
     setDraggedItemInfo, // Needed for drag/drop coordination
     clearDraggedItemInfo, // Needed for drag/drop coordination
-    stopPriceChecking: stopPriceCheckingInterval // Allow stopping checks (e.g., on error)
+    stopPriceChecking: stopPriceCheckingInterval, // Allow stopping checks (e.g., on error)
+    createHeaderLottie // Expose Lottie creation for Notes module
 };
 
 console.log("[Tracker UI] Module loaded.");

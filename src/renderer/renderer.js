@@ -28,11 +28,15 @@ function getOptionalElement(id) {
     return document.getElementById(id);
 }
 
+// Declare variables for all elements
 let statusBar, tabContentContainer, contentScrollContainer, initialLoader,
     infiniteScrollStatus, scrollLoader, endOfContentMessage, bookSearchInput,
-    overlay, toggleOverlayBtn, trackerPanel, toggleTrackerBtn, cartPanel,
-    toggleCartBtn, rightControls, resizeHandle, trackerContent,
-    trackerCategoriesContainer, addCategoryBtn, addStackLottieContainer,
+    overlay, toggleOverlayBtn,
+    notesPanel, toggleNotesBtn, notesContent, notesLottieContainer, notesTextarea, notesPreview, // Notes elements
+    trackerPanel, toggleTrackerBtn, resizeHandle, trackerContent,
+    trackerCategoriesContainer, addCategoryBtn, addStackLottieContainer, // Tracker elements
+    cartPanel, toggleCartBtn, // Cart elements
+    rightControls,
     detailsOverlay, detailsOverlayContent, detailsTitle, detailsBody, detailsCloseBtn,
     wvContainer;
 
@@ -48,18 +52,30 @@ try {
     bookSearchInput = getRequiredElement('book-search-input', 'Book Search Input');
     overlay = getRequiredElement('overlay', 'Main Overlay');
     toggleOverlayBtn = getRequiredElement('toggle-overlay-btn', 'Toggle Overlay Button');
+    rightControls = getRequiredElement('right-controls', 'Right Controls');
+    wvContainer = getRequiredElement('webview-container', 'Webview Container');
+    detailsOverlay = getRequiredElement('details-overlay', 'Details Overlay');
+
+    // Notes Panel Elements
+    notesPanel = getRequiredElement('notes-panel', 'Notes Panel');
+    toggleNotesBtn = getRequiredElement('toggle-notes-btn', 'Toggle Notes Button');
+    notesContent = getRequiredElement('notes-content', 'Notes Content');
+    notesLottieContainer = getRequiredElement('notes-lottie-container', 'Notes Lottie Container');
+    notesTextarea = getRequiredElement('notes-textarea', 'Notes Textarea');
+    notesPreview = getRequiredElement('notes-preview', 'Notes Preview');
+
+    // Tracker Panel Elements
     trackerPanel = getRequiredElement('tracker-panel', 'Tracker Panel');
     toggleTrackerBtn = getRequiredElement('toggle-tracker-btn', 'Toggle Tracker Button');
-    cartPanel = getRequiredElement('cart-panel', 'Cart Panel');
-    toggleCartBtn = getRequiredElement('toggle-cart-btn', 'Toggle Cart Button');
-    rightControls = getRequiredElement('right-controls', 'Right Controls');
     resizeHandle = getRequiredElement('resize-handle', 'Resize Handle');
     trackerContent = getRequiredElement('tracker-content', 'Tracker Content');
     trackerCategoriesContainer = getRequiredElement('tracker-categories-container', 'Tracker Categories Container');
     addCategoryBtn = getRequiredElement('add-category-btn', 'Add Category Button');
-    addStackLottieContainer = getRequiredElement('add-stack-lottie-container', 'Add Stack Lottie Container');
-    detailsOverlay = getRequiredElement('details-overlay', 'Details Overlay');
-    wvContainer = getRequiredElement('webview-container', 'Webview Container');
+    addStackLottieContainer = getRequiredElement('add-stack-lottie-container', 'Tracker Lottie Container');
+
+    // Cart Panel Elements
+    cartPanel = getRequiredElement('cart-panel', 'Cart Panel');
+    toggleCartBtn = getRequiredElement('toggle-cart-btn', 'Toggle Cart Button');
 
     // Assign optional elements (querySelector might return null)
     detailsOverlayContent = document.querySelector('.details-overlay-content');
@@ -84,16 +100,26 @@ try {
     window.bookSearchInput = bookSearchInput;
     window.overlay = overlay;
     window.toggleOverlayBtn = toggleOverlayBtn;
+    // Panels & Toggles
+    window.notesPanel = notesPanel;
+    window.toggleNotesBtn = toggleNotesBtn;
     window.trackerPanel = trackerPanel;
     window.toggleTrackerBtn = toggleTrackerBtn;
     window.cartPanel = cartPanel;
     window.toggleCartBtn = toggleCartBtn;
-    window.rightControls = rightControls;
-    window.resizeHandle = resizeHandle;
+    // Panel Internals
+    window.notesContent = notesContent;
+    window.notesLottieContainer = notesLottieContainer;
+    window.notesTextarea = notesTextarea;
+    window.notesPreview = notesPreview;
     window.trackerContent = trackerContent;
     window.trackerCategoriesContainer = trackerCategoriesContainer;
     window.addCategoryBtn = addCategoryBtn;
     window.addStackLottieContainer = addStackLottieContainer;
+    // Other Controls
+    window.rightControls = rightControls;
+    window.resizeHandle = resizeHandle;
+    // Details Overlay
     window.detailsOverlay = detailsOverlay;
     window.detailsOverlayContent = detailsOverlayContent;
     window.detailsTitle = detailsTitle;
@@ -122,7 +148,7 @@ try {
     toggleOverlayBtn.addEventListener('click', () => {
         overlay.classList.toggle('hidden');
         const isHidden = overlay.classList.contains('hidden');
-        toggleOverlayBtn.textContent = isHidden ? '▶️' : '👁️'; // Update icon based on state
+        toggleOverlayBtn.textContent = isHidden ? 'â–¶ï¸' : 'ðŸ‘€'; // Update icon based on state
         toggleOverlayBtn.title = isHidden ? "Show UI" : "Hide UI";
     });
     console.log("[Renderer] Main overlay toggle listener added.");
@@ -209,11 +235,13 @@ try {
 
     const checkAndInitialize = setInterval(async () => {
         initAttempts++;
+        // Check if all required modules are loaded
         const uiModulesReady = window.AppPanelManager?.initialize &&
                                window.AppTrackerUI?.initialize &&
                                window.AppBookListManager?.initialize &&
                                window.AppDetailsOverlay?.initialize &&
-                               window.AppUIUtils; // Check utils too
+                               window.AppNotesManager?.initialize && // Check for Notes Manager
+                               window.AppUIUtils;
 
         if (webviewReady && uiModulesReady && !window.AppRuntime.isInitialized) {
             clearInterval(checkAndInitialize);
@@ -224,6 +252,7 @@ try {
                 window.AppPanelManager.initialize();
                 window.AppDetailsOverlay.initialize();
                 await window.AppTrackerUI.initialize(); // Load tracker data first (awaits async load)
+                await window.AppNotesManager.initialize(); // Initialize Notes Manager
                 await window.AppBookListManager.initialize(); // Load initial book list (awaits async load)
 
                 window.AppRuntime.isInitialized = true; // Mark initialization complete

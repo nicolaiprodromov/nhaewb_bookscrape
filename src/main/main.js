@@ -94,12 +94,12 @@ app.whenReady().then(async () => {
     // --- Content Security Policy (Updated) ---
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
         let csp = "default-src 'self';";
-        // ** ALLOW Chart.js CDN **
+        // Allow Chart.js, Marked.js, and DotLottie CDNs
         csp += " script-src 'self' https://unpkg.com https://cdn.jsdelivr.net;";
-        csp += " style-src 'self' 'unsafe-inline';";
+        csp += " style-src 'self' 'unsafe-inline';"; // Keep unsafe-inline if necessary for chart.js or other libs
         csp += " font-src 'self';";
         csp += " img-src 'self' data: localimg:;";
-        csp += " connect-src 'self' https://lottie.host;"; // Keep Lottie host if still needed
+        csp += " connect-src 'self' https://lottie.host;"; // Keep Lottie host
         callback({ responseHeaders: { ...details.responseHeaders, 'Content-Security-Policy': [csp] } });
     });
     console.log('[Main] Session CSP Header modification registered (unpkg, jsdelivr included).');

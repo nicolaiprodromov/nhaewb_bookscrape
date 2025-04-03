@@ -13,10 +13,12 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <!-- Marked.js (Markdown Parser) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <!-- Persistent App Toggle Button -->
-    <button id="toggle-overlay-btn" title="Hide UI">👀</button>
+    <button id="toggle-overlay-btn" title="Hide UI">ðŸ‘€</button>
 
     <!-- Main container -->
     <div id="main-content">
@@ -67,6 +69,28 @@
                 </div>
             </div> <!-- End #content-scroll-container -->
 
+            <!-- Notes Panel -->
+            <div id="notes-panel" class="side-panel collapsed">
+                <!-- Notes panel has no resizer -->
+                <div id="notes-content">
+                    <div id="notes-main-header">
+                        <div class="notes-header-left">
+                            <h3>Notes</h3>
+                            <p class="notes-description">Personal notes and thoughts</p>
+                        </div>
+                        <div id="notes-lottie-container" class="notes-header-lottie">
+                             <!-- Lottie placeholder, added by notes-manager.js -->
+                        </div>
+                    </div>
+                    <div id="notes-editor-area">
+                         <textarea id="notes-textarea" placeholder="Start writing your notes here... Use spaces for indentation."></textarea>
+                         <div id="notes-preview" class="markdown-body">
+                              <!-- Real-time Markdown preview here -->
+                         </div>
+                    </div>
+                </div>
+            </div> <!-- End #notes-panel -->
+
             <!-- Tracker Panel -->
             <div id="tracker-panel" class="side-panel collapsed">
                  <div id="resize-handle"></div> <!-- Resizer for tracker -->
@@ -76,7 +100,9 @@
                              <h3>Trackers</h3>
                              <p class="tracker-description">Track book prices over time</p>
                          </div>
-                         <div id="add-stack-lottie-container"></div> <!-- Lottie placeholder -->
+                         <div id="add-stack-lottie-container" class="tracker-header-lottie">
+                            <!-- Lottie placeholder, added by tracker-ui.js -->
+                         </div>
                      </div>
                      <div id="tracker-categories-container">
                           <!-- Categories dynamically added by tracker-ui.js -->
@@ -107,8 +133,9 @@
 
             <!-- Right Controls Sidebar -->
             <div id="right-controls">
-                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">◀</button>
-                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">◀</button>
+                 <button id="toggle-notes-btn" class="panel-toggle-btn" data-panel="notes" title="Show Notes">â—€</button>
+                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">â—€</button>
+                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">â—€</button>
             </div> <!-- End #right-controls -->
 
         </div> <!-- End #overlay-body -->
@@ -117,7 +144,7 @@
     <!-- Details Overlay (Modal) -->
     <div id="details-overlay">
         <div class="details-overlay-content">
-            <button class="details-overlay-close-btn" title="Close Details">×</button>
+            <button class="details-overlay-close-btn" title="Close Details">Ã—</button>
             <h2 id="details-title">Book Details</h2>
             <div id="details-body">
                 <div id="details-info-section"><p>Loading details...</p></div>
@@ -139,5 +166,6 @@
     <script defer src="./logic/details-overlay.js"></script>
     <script defer src="./logic/tracker-ui.js"></script>
     <script defer src="./logic/book-list-manager.js"></script>
+    <script defer src="./logic/notes-manager.js"></script> <!-- New Notes Manager -->
 </body>
 </html>

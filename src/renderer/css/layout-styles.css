@@ -1,3 +1,4 @@
+/* src/renderer/css/layout-styles.css */
 #toggle-overlay-btn {
     background-color: rgba(40, 44, 52, 0.7);
     cursor          : pointer;
@@ -273,6 +274,95 @@
     flex-grow     : 1;
     display       : flex;
     flex-direction: column;
+}
+
+/* --- Notes Panel Layout --- */
+#notes-panel { /* Inherits .side-panel styles */
+    /* Notes panel is not resizable by default */
+}
+#notes-content {
+    display       : flex;
+    flex-direction: column;
+    flex-grow     : 1;       /* Take remaining space */
+    overflow      : hidden;  /* Prevent notes content itself from scrolling */
+    padding       : 15px;
+}
+#notes-main-header { /* Share styling with tracker header */
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    margin-bottom  : 10px; /* Reduced margin */
+    padding-bottom : 5px;
+    border-bottom  : 1px solid var(--border-color);
+    flex-shrink    : 0; /* Prevent header shrinking */
+    gap            : 10px;
+    min-height     : var(--tracker-header-lottie-size); /* Ensure height for Lottie */
+}
+.notes-header-left {
+    flex-grow: 1;
+    min-width: 0;
+}
+#notes-main-header h3 {
+    margin         : 0;
+    color          : var(--text-heading);
+    font-size      : 1.1em;
+    font-weight    : var(--font-bold);
+    text-transform : uppercase;
+    letter-spacing : 0.5px;
+    white-space    : nowrap;
+    overflow       : hidden;
+    text-overflow  : ellipsis;
+}
+p.notes-description {
+    font-size: 0.8em;
+    color    : var(--text-secondary);
+    font-style: italic;
+    margin   : 2px 0 0 0;
+}
+.notes-header-lottie { /* Share styling with tracker lottie */
+    height      : var(--tracker-header-lottie-size);
+    width       : var(--tracker-header-lottie-size);
+    display     : flex;
+    justify-content: center;
+    align-items : center;
+    flex-shrink : 0;
+    overflow    : hidden;
+    margin-left : auto;
+}
+.notes-header-lottie dotlottie-player {
+    width : 100%; height: 100%;
+}
+#notes-editor-area {
+    flex-grow : 1;
+    display   : flex;
+    gap       : 15px; /* Space between textarea and preview */
+    min-height: 0; /* Allow shrinking */
+    overflow  : hidden;
+}
+#notes-textarea, #notes-preview {
+    width     : 50%;
+    height    : 100%;
+    flex-basis: 50%; /* Ensure they take half width */
+    overflow-y: auto; /* Allow scrolling within each area */
+    font-family: Consolas, 'Courier New', monospace; /* Monospace for consistency */
+    font-size : 0.9em;
+    line-height: 1.6;
+    padding   : 10px;
+    border    : 1px solid var(--border-color-light);
+    border-radius: 4px;
+}
+#notes-textarea {
+    background-color: var(--bg-input);
+    color           : var(--text-primary);
+    resize          : none; /* Disable manual resize handle */
+    white-space     : pre; /* Preserve whitespace */
+    tab-size        : 2; /* Define tab size (or handle tabs->spaces in JS) */
+    -moz-tab-size   : 2;
+}
+#notes-preview {
+    background-color: var(--bg-content-area);
+    color           : var(--text-primary);
+    word-wrap       : break-word; /* Wrap long lines in preview */
 }
 
                                 /* --- Right Controls Sidebar --- */

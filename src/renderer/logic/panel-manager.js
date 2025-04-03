@@ -2,16 +2,17 @@
 
 // Assumes necessary DOM elements (window.*) are globally available via renderer.js
 
-// State variable to track the currently active/open side panel ('tracker', 'cart', or null)
+// State variable to track the currently active/open side panel ('tracker', 'cart', 'notes', or null)
 let activeSidePanel = null;
+const VALID_PANELS = ['tracker', 'cart', 'notes']; // Keep track of valid panel IDs
 
 /**
- * Toggles the visibility and state of side panels (tracker or cart).
+ * Toggles the visibility and state of side panels (tracker, cart, or notes).
  * Only one panel can be open at a time.
- * @param {'tracker' | 'cart'} panelId - The ID of the panel to toggle.
+ * @param {'tracker' | 'cart' | 'notes'} panelId - The ID of the panel to toggle.
  */
 function toggleSidePanel(panelId) {
-    if (!panelId || (panelId !== 'tracker' && panelId !== 'cart')) {
+    if (!panelId || !VALID_PANELS.includes(panelId)) {
         console.warn("[Panel Manager] Invalid panelId provided:", panelId);
         return;
     }
@@ -23,15 +24,17 @@ function toggleSidePanel(panelId) {
     // Get references to panels and buttons (assuming they exist on window)
     const panels = {
         tracker: window.trackerPanel,
-        cart: window.cartPanel
+        cart: window.cartPanel,
+        notes: window.notesPanel // Added notes panel
     };
     const buttons = {
         tracker: window.toggleTrackerBtn,
-        cart: window.toggleCartBtn
+        cart: window.toggleCartBtn,
+        notes: window.toggleNotesBtn // Added notes button
     };
 
     // --- Step 1: Collapse all panels and reset all buttons ---
-    Object.keys(panels).forEach(id => {
+    VALID_PANELS.forEach(id => {
         if (panels[id]) {
             panels[id].classList.add('collapsed');
         }
@@ -67,25 +70,22 @@ function toggleSidePanel(panelId) {
     if (window.resizeHandle) {
         window.resizeHandle.style.display = (activeSidePanel === 'tracker') ? 'block' : 'none';
     }
-
-    // Optional: Adjust main content padding/margin based on active panel?
-    // Example: if (window.contentScrollContainer) {
-    //    window.contentScrollContainer.style.marginRight = activeSidePanel ? 'var(--side-panel-width)' : '0';
-    // }
 }
 
 /** Sets the initial state of side panels (all collapsed) */
 function setInitialSidePanelState() {
-    if (window.trackerPanel) window.trackerPanel.classList.add('collapsed');
-    if (window.cartPanel) window.cartPanel.classList.add('collapsed');
+    VALID_PANELS.forEach(id => {
+        const panel = window[`${id}Panel`]; // e.g., window.trackerPanel
+        if (panel) panel.classList.add('collapsed');
+    });
 
     // Reset buttons to initial "Show" state
-    [window.toggleTrackerBtn, window.toggleCartBtn].forEach(btn => {
+    [window.toggleTrackerBtn, window.toggleCartBtn, window.toggleNotesBtn].forEach(btn => {
         if (btn) {
             btn.classList.remove('active', 'panel-shown');
             btn.classList.add('panel-hidden');
             const panelId = btn.dataset.panel; // Get panel ID from data attribute
-            btn.title = `Show ${panelId.charAt(0).toUpperCase() + panelId.slice(1)}`;
+            if (panelId) btn.title = `Show ${panelId.charAt(0).toUpperCase() + panelId.slice(1)}`;
         }
     });
 
@@ -164,7 +164,8 @@ function handleResizeMouseUp() {
 
 /** Setup event listeners related to panels */
 function setupPanelEventListeners() {
-     if (!window.resizeHandle || !window.toggleTrackerBtn || !window.toggleCartBtn) {
+     const buttonsPresent = window.toggleTrackerBtn && window.toggleCartBtn && window.toggleNotesBtn;
+     if (!window.resizeHandle || !buttonsPresent) {
          console.error("[Panel Manager] Cannot setup listeners - essential panel control elements missing.");
          return;
      }
@@ -174,6 +175,7 @@ function setupPanelEventListeners() {
     // Add listeners for the toggle buttons using their specific IDs
     window.toggleTrackerBtn.addEventListener('click', () => toggleSidePanel('tracker'));
     window.toggleCartBtn.addEventListener('click', () => toggleSidePanel('cart'));
+    window.toggleNotesBtn.addEventListener('click', () => toggleSidePanel('notes')); // Added notes button
 
     console.log("[Panel Manager] Panel toggle and resize event listeners setup.");
 }
