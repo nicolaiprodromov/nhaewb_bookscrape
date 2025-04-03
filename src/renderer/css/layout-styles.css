@@ -332,38 +332,42 @@ p.notes-description {
 .notes-header-lottie dotlottie-player {
     width : 100%; height: 100%;
 }
-#notes-editor-area {
+#notes-editor-container { /* Container for toggling textarea/preview */
     flex-grow : 1;
-    display   : flex;
-    gap       : 15px; /* Space between textarea and preview */
+    display   : flex; /* Use flex to manage children */
+    flex-direction: column; /* Stack children vertically */
     min-height: 0; /* Allow shrinking */
-    overflow  : hidden;
+    overflow  : hidden; /* Clip content */
+    position: relative; /* For positioning children if needed */
 }
 #notes-textarea, #notes-preview {
-    width     : 50%;
-    height    : 100%;
-    flex-basis: 50%; /* Ensure they take half width */
-    overflow-y: auto; /* Allow scrolling within each area */
-    font-family: Consolas, 'Courier New', monospace; /* Monospace for consistency */
-    font-size : 0.9em;
-    line-height: 1.6;
+    flex-grow: 1; /* Allow the visible element to take all space */
+    width     : 100%;
+    height    : 100%; /* Fill the container */
+    overflow-y: auto; /* Allow scrolling within the active element */
     padding   : 10px;
     border    : 1px solid var(--border-color-light);
     border-radius: 4px;
+    box-sizing: border-box; /* Include padding/border in size */
 }
 #notes-textarea {
     background-color: var(--bg-input);
     color           : var(--text-primary);
     resize          : none; /* Disable manual resize handle */
+    font-family     : Consolas, 'Courier New', monospace; /* Monospace for consistency */
+    font-size       : 0.9em;
+    line-height     : 1.6;
     white-space     : pre; /* Preserve whitespace */
-    tab-size        : 2; /* Define tab size (or handle tabs->spaces in JS) */
+    tab-size        : 2; /* Define tab size */
     -moz-tab-size   : 2;
 }
 #notes-preview {
-    background-color: var(--bg-content-area);
+    background-color: var(--bg-content-area); /* Match content area */
     color           : var(--text-primary);
-    word-wrap       : break-word; /* Wrap long lines in preview */
+    display: none; /* Hidden by default */
+    /* Markdown styles applied via .markdown-body in components */
 }
+
 
                                 /* --- Right Controls Sidebar --- */
 #right-controls {

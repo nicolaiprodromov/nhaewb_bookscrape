@@ -32,7 +32,7 @@ function getOptionalElement(id) {
 let statusBar, tabContentContainer, contentScrollContainer, initialLoader,
     infiniteScrollStatus, scrollLoader, endOfContentMessage, bookSearchInput,
     overlay, toggleOverlayBtn,
-    notesPanel, toggleNotesBtn, notesContent, notesLottieContainer, notesTextarea, notesPreview, // Notes elements
+    notesPanel, toggleNotesBtn, notesContent, notesLottieContainer, notesTextarea, notesPreview, notesEditorContainer, notesToggleViewBtn, // Notes elements
     trackerPanel, toggleTrackerBtn, resizeHandle, trackerContent,
     trackerCategoriesContainer, addCategoryBtn, addStackLottieContainer, // Tracker elements
     cartPanel, toggleCartBtn, // Cart elements
@@ -61,8 +61,10 @@ try {
     toggleNotesBtn = getRequiredElement('toggle-notes-btn', 'Toggle Notes Button');
     notesContent = getRequiredElement('notes-content', 'Notes Content');
     notesLottieContainer = getRequiredElement('notes-lottie-container', 'Notes Lottie Container');
+    notesEditorContainer = getRequiredElement('notes-editor-container', 'Notes Editor Container'); // New container
     notesTextarea = getRequiredElement('notes-textarea', 'Notes Textarea');
     notesPreview = getRequiredElement('notes-preview', 'Notes Preview');
+    notesToggleViewBtn = getRequiredElement('notes-toggle-view-btn', 'Notes Toggle View Button'); // New button
 
     // Tracker Panel Elements
     trackerPanel = getRequiredElement('tracker-panel', 'Tracker Panel');
@@ -110,8 +112,10 @@ try {
     // Panel Internals
     window.notesContent = notesContent;
     window.notesLottieContainer = notesLottieContainer;
+    window.notesEditorContainer = notesEditorContainer; // New
     window.notesTextarea = notesTextarea;
     window.notesPreview = notesPreview;
+    window.notesToggleViewBtn = notesToggleViewBtn; // New
     window.trackerContent = trackerContent;
     window.trackerCategoriesContainer = trackerCategoriesContainer;
     window.addCategoryBtn = addCategoryBtn;
@@ -148,7 +152,7 @@ try {
     toggleOverlayBtn.addEventListener('click', () => {
         overlay.classList.toggle('hidden');
         const isHidden = overlay.classList.contains('hidden');
-        toggleOverlayBtn.textContent = isHidden ? 'â–¶ï¸' : 'ðŸ‘€'; // Update icon based on state
+        toggleOverlayBtn.textContent = isHidden ? 'Ã¢â€“Â¶Ã¯Â¸Â ' : 'Ã°Å¸â€˜â‚¬'; // Update icon based on state
         toggleOverlayBtn.title = isHidden ? "Show UI" : "Hide UI";
     });
     console.log("[Renderer] Main overlay toggle listener added.");
@@ -187,7 +191,7 @@ try {
             wv.id = cfg.id;
             wv.src = cfg.initialUrl;
             if (cfg.partition) wv.partition = cfg.partition;
-            wv.setAttribute('allowpopups', ''); // Allow popups if needed by the site
+            // REMOVED: wv.setAttribute('allowpopups', ''); // Avoid security warning if popups aren't strictly needed
 
             // Event Listeners for each webview
             wv.addEventListener('dom-ready', () => {

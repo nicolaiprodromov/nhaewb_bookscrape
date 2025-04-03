@@ -15,10 +15,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <!-- Marked.js (Markdown Parser) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- highlight.js (for Syntax Highlighting) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Optional: Load languages for highlight.js if needed -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script> -->
+
 </head>
 <body>
     <!-- Persistent App Toggle Button -->
-    <button id="toggle-overlay-btn" title="Hide UI">ðŸ‘€</button>
+    <button id="toggle-overlay-btn" title="Hide UI">Ã°Å¸â€˜â‚¬</button>
 
     <!-- Main container -->
     <div id="main-content">
@@ -73,18 +79,22 @@
             <div id="notes-panel" class="side-panel collapsed">
                 <!-- Notes panel has no resizer -->
                 <div id="notes-content">
+                     <!-- Notes Header -->
                     <div id="notes-main-header">
                         <div class="notes-header-left">
                             <h3>Notes</h3>
                             <p class="notes-description">Personal notes and thoughts</p>
                         </div>
+                         <!-- Toggle Button -->
+                         <button id="notes-toggle-view-btn" class="notes-view-toggle" title="Switch to Preview">Preview</button>
                         <div id="notes-lottie-container" class="notes-header-lottie">
                              <!-- Lottie placeholder, added by notes-manager.js -->
                         </div>
                     </div>
-                    <div id="notes-editor-area">
-                         <textarea id="notes-textarea" placeholder="Start writing your notes here... Use spaces for indentation."></textarea>
-                         <div id="notes-preview" class="markdown-body">
+                    <!-- Notes Editor/Preview Area (Single Container) -->
+                    <div id="notes-editor-container">
+                         <textarea id="notes-textarea" placeholder="Start writing your notes here... Use spaces for indentation. Supports GitHub Flavored Markdown."></textarea>
+                         <div id="notes-preview" class="markdown-body" style="display: none;">
                               <!-- Real-time Markdown preview here -->
                          </div>
                     </div>
@@ -133,9 +143,9 @@
 
             <!-- Right Controls Sidebar -->
             <div id="right-controls">
-                 <button id="toggle-notes-btn" class="panel-toggle-btn" data-panel="notes" title="Show Notes">â—€</button>
-                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">â—€</button>
-                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">â—€</button>
+                 <button id="toggle-notes-btn" class="panel-toggle-btn" data-panel="notes" title="Show Notes">Ã¢â€”â‚¬</button>
+                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">Ã¢â€”â‚¬</button>
+                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">Ã¢â€”â‚¬</button>
             </div> <!-- End #right-controls -->
 
         </div> <!-- End #overlay-body -->
@@ -144,7 +154,7 @@
     <!-- Details Overlay (Modal) -->
     <div id="details-overlay">
         <div class="details-overlay-content">
-            <button class="details-overlay-close-btn" title="Close Details">Ã—</button>
+            <button class="details-overlay-close-btn" title="Close Details">Ãƒâ€”</button>
             <h2 id="details-title">Book Details</h2>
             <div id="details-body">
                 <div id="details-info-section"><p>Loading details...</p></div>

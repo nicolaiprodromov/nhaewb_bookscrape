@@ -94,15 +94,20 @@ app.whenReady().then(async () => {
     // --- Content Security Policy (Updated) ---
     session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
         let csp = "default-src 'self';";
-        // Allow Chart.js, Marked.js, and DotLottie CDNs
-        csp += " script-src 'self' https://unpkg.com https://cdn.jsdelivr.net;";
-        csp += " style-src 'self' 'unsafe-inline';"; // Keep unsafe-inline if necessary for chart.js or other libs
+        // Allow scripts from self and specific CDNs
+        csp += " script-src 'self' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com;"; // Added Cloudflare for highlight.js
+        // Allow styles from self, inline (if needed), and specific CDNs
+        csp += " style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;"; // Added Cloudflare for highlight.js CSS. Keep 'unsafe-inline' if absolutely needed by libraries like Chart.js, otherwise try removing it.
         csp += " font-src 'self';";
         csp += " img-src 'self' data: localimg:;";
-        csp += " connect-src 'self' https://lottie.host;"; // Keep Lottie host
+        csp += " connect-src 'self' https://lottie.host;"; // Lottie host
+        // Explicitly define -elem directives if needed, otherwise style-src/script-src act as fallbacks
+        // csp += " script-src-elem 'self' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com;";
+        // csp += " style-src-elem 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;";
+
         callback({ responseHeaders: { ...details.responseHeaders, 'Content-Security-Policy': [csp] } });
     });
-    console.log('[Main] Session CSP Header modification registered (unpkg, jsdelivr included).');
+    console.log('[Main] Session CSP Header modification registered (unpkg, jsdelivr, cloudflare included).');
 
     // --- Initialize Controller & Setup IPC ---
     webviewController.initialize(webviewMap, config);
