@@ -8,10 +8,10 @@
     },
     {
       "id": "listFetcher",
-      "initialUrl": "https://www.anticexlibris.ro/carti?filter=-2/l/1",
+      "initialUrl": "https://www.anticexlibris.ro/carti-de-literatura-contemporana-in-engleza?filter=-2/l/1",
       "partition": "persist:anticexlibris",
       "description": "Webview for fetching book lists",
-      "listDataBaseUrl": "https://www.anticexlibris.ro/carti?filter=-2/l/1"
+      "listDataBaseUrl": "https://www.anticexlibris.ro/carti-de-literatura-contemporana-in-engleza?filter=-2/l/1"
     },
     {
       "id": "detailFetcher",
