@@ -11,6 +11,10 @@
     height          : 50px;
     transition      : background-color 0.2s ease;
     border          : none;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    /* font-size removed - use icon-size-* */
 }
 #toggle-overlay-btn:hover {
     background-color: rgba(60, 65, 75, 0.9);
@@ -122,23 +126,7 @@
     color     : var(--text-light-placeholder);
     font-style: italic;
 }
-                                /* Clear button styling */
-#book-search-input::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-    appearance        : none;
-    height            : 14px;
-    width             : 14px;
-    margin-left       : 5px;
-    cursor            : pointer;
-    background-image  : url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237f848e'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
-    background-size   : contain;
-    background-repeat : no-repeat;
-    opacity           : 0.7;
-    transition        : opacity 0.2s ease;
-}
-#book-search-input::-webkit-search-cancel-button:hover {
-    opacity: 1;
-}
+                                /* Clear button styling removed */
 
                                 /* --- Infinite Scroll Status Area --- */
 #infinite-scroll-status {
@@ -161,28 +149,27 @@
 #scroll-loader {
     position        : fixed;
     z-index         : 99;
-    width           : 100%;
-    height          : 100%;
+    /* width/height now set by icon-size-medium class */
+    /* Adjust positioning */
+    bottom          : 20px;
+    left            : 50%;
+    transform       : translateX(-50%);
     display         : flex;
     align-items     : center;
-    justify-content : end;
+    justify-content : center; /* Center player */
     flex-direction  : column;
     color           : var(--text-secondary);
     font-size       : 0.9em;
-    background-image: linear-gradient(
-                        to top,
-                        hsl(213, 11%, 15%) 0%,
-                        transparent 25%
-                    );
+    /* Adjust gradient */
+    background-image: linear-gradient( to top, hsla(213, 11%, 15%, 0.7) 0%, transparent 70% );
+    padding         : 10px; /* Add padding around the loader */
+    border-radius   : 50%; /* Make background circular perhaps? */
+    pointer-events  : none; /* Allow clicks through */
 }
-#scroll-loader .lottie-player.small-loader {
-    width        : 80px;
-    height       : 80px;
-    margin-bottom: -10px;
-}
+/* REMOVED conflicting size rule for Lottie player inside */
 #scroll-loader.lottie-loading-container {
     min-height: auto;
-    padding   : 0
+    padding   : 0; /* Override general lottie container padding */
 }
 
                                 /* --- End of Content Message --- */
@@ -329,9 +316,7 @@ p.notes-description {
     overflow    : hidden;
     margin-left : auto;
 }
-.notes-header-lottie dotlottie-player {
-    width : 100%; height: 100%;
-}
+/* .notes-header-lottie dotlottie-player size set by icon-size-* class */
 #notes-editor-container { /* Container for toggling textarea/preview */
     flex-grow : 1;
     display   : flex; /* Use flex to manage children */
@@ -451,9 +436,8 @@ p.notes-description {
     line-height     : 1.4em;
 }
 
-#initial-loader .lottie-player {
-    width    : 220px; height: 220px;
-    max-width: 90%;
+#initial-loader.icon-size-big { /* Size set by class */
+    width: 220px; height: 220px; max-width: 90%;
 }
 #initial-loader p {
     margin-top: 10px;

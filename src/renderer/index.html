@@ -3,7 +3,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- CSP is handled by main.js session headers -->
     <title>Webview Loader & UI</title>
     <link rel="stylesheet" href="./css/base-styles.css">
     <link rel="stylesheet" href="./css/layout-styles.css">
@@ -18,57 +17,39 @@
     <!-- highlight.js (for Syntax Highlighting) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <!-- Optional: Load languages for highlight.js if needed -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script> -->
-
 </head>
 <body>
-    <!-- Persistent App Toggle Button -->
-    <button id="toggle-overlay-btn" title="Hide UI">Ã°Å¸â€˜â‚¬</button>
+    <!-- Persistent App Toggle Button - Icon set by JS -->
+    <button id="toggle-overlay-btn" title="Hide UI"></button>
 
     <!-- Main container -->
     <div id="main-content">
-        <div id="webview-container">
-             <!-- Webviews dynamically added by renderer.js -->
-        </div>
+        <div id="webview-container"></div>
         <div class="status-bar" id="status-bar">Initializing...</div>
     </div>
 
     <!-- Overlay -->
     <div id="overlay">
         <div id="overlay-body">
-            <!-- Main Content Area (Scrolling Container) -->
+            <!-- Main Content Area -->
             <div id="content-scroll-container">
-                <!-- Search Bar -->
                 <div id="search-bar-container">
                     <input type="search" id="book-search-input" placeholder="Search books by title...">
                 </div>
-
-                <!-- Content Container (Book Lists) -->
                 <div id="tab-content-container">
-                    <!-- Initial Loading Indicator -->
+                    <!-- Initial Loading Indicator - Lottie container, icon set by JS -->
                     <div class="loading-indicator lottie-loading-container" id="initial-loader">
-                        <dotlottie-player
-                            src="https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie"
-                            background="transparent" speed="1" class="lottie-player" loop autoplay>
-                        </dotlottie-player>
+                         <!-- Lottie player added here by applyIcon -->
                          <p>Loading books...</p>
                     </div>
-                    <!-- Book lists dynamically added here by book-list-manager.js -->
                 </div>
-
-                <!-- Scroll Loader MOVED HERE - Now absolutely positioned relative to content-scroll-container -->
+                <!-- Scroll Loader - Icon applied directly here by JS -->
                 <div id="scroll-loader" class="loading-indicator lottie-loading-container" style="display: none;">
-                    <dotlottie-player
-                        src="https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie"
-                        background="transparent" speed="1" class="lottie-player small-loader" loop autoplay>
-                    </dotlottie-player>
-                    <p>Loading more books...</p>
+                     <!-- REMOVED inner div -->
+                     <!-- Lottie player added here by applyIcon -->
+                     <p>Loading more books...</p>
                 </div>
-
-                 <!-- Infinite Scroll Status Area (Now mainly for the end message) -->
-                <div id="infinite-scroll-status">
-                    <!-- End of content message -->
+                 <div id="infinite-scroll-status">
                     <div id="end-of-content-message" class="loading-indicator" style="display: none;">
                         no more books here
                     </div>
@@ -77,84 +58,72 @@
 
             <!-- Notes Panel -->
             <div id="notes-panel" class="side-panel collapsed">
-                <!-- Notes panel has no resizer -->
                 <div id="notes-content">
-                     <!-- Notes Header -->
                     <div id="notes-main-header">
                         <div class="notes-header-left">
                             <h3>Notes</h3>
                             <p class="notes-description">Personal notes and thoughts</p>
                         </div>
-                         <!-- Toggle Button -->
                          <button id="notes-toggle-view-btn" class="notes-view-toggle" title="Switch to Preview">Preview</button>
-                        <div id="notes-lottie-container" class="notes-header-lottie">
-                             <!-- Lottie placeholder, added by notes-manager.js -->
-                        </div>
+                         <!-- Lottie container, icon set by JS -->
+                        <div id="notes-lottie-container" class="notes-header-lottie"></div>
                     </div>
-                    <!-- Notes Editor/Preview Area (Single Container) -->
                     <div id="notes-editor-container">
                          <textarea id="notes-textarea" placeholder="Start writing your notes here... Use spaces for indentation. Supports GitHub Flavored Markdown."></textarea>
-                         <div id="notes-preview" class="markdown-body" style="display: none;">
-                              <!-- Real-time Markdown preview here -->
-                         </div>
+                         <div id="notes-preview" class="markdown-body" style="display: none;"></div>
                     </div>
                 </div>
             </div> <!-- End #notes-panel -->
 
             <!-- Tracker Panel -->
             <div id="tracker-panel" class="side-panel collapsed">
-                 <div id="resize-handle"></div> <!-- Resizer for tracker -->
+                 <div id="resize-handle"></div>
                  <div id="tracker-content">
                      <div id="tracker-main-header">
                          <div class="tracker-header-left">
                              <h3>Trackers</h3>
                              <p class="tracker-description">Track book prices over time</p>
                          </div>
-                         <div id="add-stack-lottie-container" class="tracker-header-lottie">
-                            <!-- Lottie placeholder, added by tracker-ui.js -->
-                         </div>
+                          <!-- Lottie container, icon set by JS -->
+                         <div id="add-stack-lottie-container" class="tracker-header-lottie"></div>
                      </div>
                      <div id="tracker-categories-container">
-                          <!-- Categories dynamically added by tracker-ui.js -->
                           <p class="tracker-node-placeholder">Loading tracker...</p>
                      </div>
-                     <button id="add-category-btn">New Stack</button> <!-- Add category -->
+                     <button id="add-category-btn">New Stack</button>
                  </div>
             </div> <!-- End #tracker-panel -->
 
             <!-- Cart Panel -->
             <div id="cart-panel" class="side-panel collapsed">
-                 <!-- Cart panel has no resizer -->
                  <div id="cart-content">
                      <div id="cart-main-header">
                          <div class="cart-header-left">
                              <h3>Cart</h3>
                              <p class="cart-description">Gather books and buy them</p>
                          </div>
-                         <!-- Add cart specific controls here if needed -->
                      </div>
                      <div id="cart-items-container">
-                          <!-- Cart items dynamically added here -->
                          <p class="placeholder-text">Cart is empty.</p>
                      </div>
-                     <!-- Add Cart summary/checkout button here if needed -->
                  </div>
             </div> <!-- End #cart-panel -->
 
-            <!-- Right Controls Sidebar -->
+            <!-- Right Controls Sidebar - Icons set by JS -->
             <div id="right-controls">
-                 <button id="toggle-notes-btn" class="panel-toggle-btn" data-panel="notes" title="Show Notes">Ã¢â€”â‚¬</button>
-                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers">Ã¢â€”â‚¬</button>
-                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart">Ã¢â€”â‚¬</button>
+                 <button id="toggle-notes-btn" class="panel-toggle-btn" data-panel="notes" title="Show Notes"></button>
+                 <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers"></button>
+                 <button id="toggle-cart-btn" class="panel-toggle-btn" data-panel="cart" title="Show Cart"></button>
             </div> <!-- End #right-controls -->
 
         </div> <!-- End #overlay-body -->
     </div> <!-- End #overlay -->
 
-    <!-- Details Overlay (Modal) -->
+    <!-- Details Overlay -->
     <div id="details-overlay">
         <div class="details-overlay-content">
-            <button class="details-overlay-close-btn" title="Close Details">Ãƒâ€”</button>
+             <!-- Icon set by JS -->
+            <button class="details-overlay-close-btn" title="Close Details"></button>
             <h2 id="details-title">Book Details</h2>
             <div id="details-body">
                 <div id="details-info-section"><p>Loading details...</p></div>
@@ -176,6 +145,6 @@
     <script defer src="./logic/details-overlay.js"></script>
     <script defer src="./logic/tracker-ui.js"></script>
     <script defer src="./logic/book-list-manager.js"></script>
-    <script defer src="./logic/notes-manager.js"></script> <!-- New Notes Manager -->
+    <script defer src="./logic/notes-manager.js"></script>
 </body>
 </html>

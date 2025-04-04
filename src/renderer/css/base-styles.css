@@ -98,6 +98,74 @@
     --book-item-border-alpha: 0.7; /* Alpha for book item indicator border color */
 }
 
+/* --- Icon Size Classes --- */
+.icon-size-small {
+    font-size: 0.9em;  /* For char icons */
+    width: 16px;       /* For SVG/Lottie/PNG containers */
+    height: 16px;
+    line-height: 16px; /* Align char icons vertically */
+}
+.icon-size-medium {
+    font-size: 1.2em;  /* For char icons */
+    width: 22px;       /* For SVG/Lottie/PNG containers */
+    height: 22px;
+    line-height: 22px; /* Align char icons vertically */
+}
+.icon-size-big {
+    font-size: 1.5em;  /* For char icons */
+    width: 32px;       /* For SVG/Lottie/PNG containers */
+    height: 32px;
+    line-height: 32px; /* Align char icons vertically */
+}
+/* Ensure icons inside containers fill them */
+.icon-size-small > svg, .icon-size-small > img, .icon-size-small > dotlottie-player,
+.icon-size-medium > svg, .icon-size-medium > img, .icon-size-medium > dotlottie-player,
+.icon-size-big > svg, .icon-size-big > img, .icon-size-big > dotlottie-player {
+    width: 100%;
+    height: 100%;
+    display: block; /* Prevent extra space */
+    object-fit: contain; /* For img */
+}
+/* Specific adjustments might be needed */
+.panel-toggle-btn {
+    display: inline-flex; /* Use inline-flex for better centering */
+    align-items: center;
+    justify-content: center;
+}
+/* Adjust Lottie container sizes */
+/* Initial Loader size is controlled by its container having icon-size-big */
+#initial-loader.icon-size-big {
+    width: 220px;
+    height: 220px;
+}
+/* Scroll Loader size is controlled by its container having icon-size-medium */
+#scroll-loader.icon-size-medium { /* Container */
+    width: 80px;
+    height: 80px;
+    margin-bottom: -10px; /* Adjust vertical position if needed */
+    /* Ensure player inside fills this */
+    padding: 0; /* Remove padding if it interferes */
+}
+#scroll-loader.icon-size-medium > p {
+    display: none; /* Hide text for smaller loader */
+}
+.tracker-header-lottie.icon-size-big {
+    width: var(--tracker-header-lottie-size);
+    height: var(--tracker-header-lottie-size);
+}
+.notes-header-lottie.icon-size-big {
+    width: var(--tracker-header-lottie-size);
+    height: var(--tracker-header-lottie-size);
+}
+.details-overlay-close-btn.icon-size-big {
+    line-height: 1;
+}
+.book-view-icon.icon-size-medium {
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+
 /* --- Global Styles --- */
 html {
     box-sizing: border-box;
@@ -219,11 +287,11 @@ body {
 .lottie-loading-container p {
      margin-top: 5px; /* Space between Lottie and text */
 }
-/* Default size for Lottie players, can be overridden */
+/* Default size for Lottie players, can be overridden by icon-size-* classes */
 .lottie-player {
     width: 100px;
     height: 100px;
-    max-width: 80%; /* Prevent extremely large Lottie on small screens */
+    max-width: 80%;
 }
 
 /* --- Webview Container --- */

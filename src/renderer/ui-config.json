@@ -1,0 +1,101 @@
+{
+  "icons": {
+    "initialLoader": {
+      "type": "lottie",
+      "value": "https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie",
+      "size": "BIG",
+      "description": "Lottie animation for initial page load."
+    },
+    "scrollLoader": {
+      "type": "lottie",
+      "value": "https://lottie.host/8ada31e2-ccb0-432b-a0e3-393319b4c69a/gSNLF4TmbQ.lottie",
+      "size": "MEDIUM",
+      "description": "Smaller Lottie animation for infinite scroll loading."
+    },
+    "trackerHeader": {
+      "type": "lottie",
+      "value": "https://lottie.host/38d4bace-34fa-46aa-b4ff-f3e36e529bbe/j1vcYhDIk7.lottie",
+      "size": "BIG",
+      "description": "Lottie animation for the Tracker panel header."
+    },
+    "notesHeader": {
+      "type": "lottie",
+      "value": "https://lottie.host/09161c5a-4b8f-499e-ac79-3d86f3d1d6ea/s81A6BbO3u.lottie",
+      "size": "BIG",
+      "description": "Lottie animation for the Notes panel header."
+    },
+    "toggleOverlayShow": {
+      "type": "char",
+      "value": "<O>",
+      "size": "BIG",
+      "description": "Icon/Char for the button to show the main UI overlay."
+    },
+    "toggleOverlayHide": {
+      "type": "char",
+      "value": "<O>",
+      "size": "BIG",
+      "description": "Icon/Char for the button to hide the main UI overlay."
+    },
+    "panelToggleExpand": {
+      "type": "char",
+      "value": "<",
+      "size": "MEDIUM",
+      "description": "Icon/Char for the button to expand/show a side panel."
+    },
+    "panelToggleCollapse": {
+      "type": "char",
+      "value": ">",
+      "size": "MEDIUM",
+      "description": "Icon/Char for the button to collapse/hide a side panel."
+    },
+    "categoryCollapse": {
+       "type": "char",
+       "value": ">",
+       "size": "SMALL",
+       "description": "Icon/Char for category collapse button (down arrow)."
+     },
+
+     "categoryExpand": {
+       "type": "char",
+       "value": "^",
+       "size": "SMALL",
+       "description": "Icon/Char for category expand button (right arrow)."
+     },
+    "categoryViewDetails": {
+      "type": "char",
+      "value": "S",
+      "size": "MEDIUM",
+      "description": "Icon/Char for the button to view category/stack details."
+    },
+    "deleteItem": {
+      "type": "char",
+      "value": "×",
+      "size": "MEDIUM",
+      "description": "Icon/Char for deleting an item (like a category)."
+    },
+    "deleteItemPending": {
+       "type": "char",
+       "value": "X",
+       "size": "MEDIUM",
+       "description": "Icon/Char for delete confirmation state."
+    },
+    "removeItem": {
+      "type": "char",
+      "value": "×",
+      "size": "SMALL",
+      "description": "Icon/Char for removing a sub-item (like a book from a category)."
+    },
+    "detailsClose": {
+      "type": "char",
+      "value": "×",
+      "size": "BIG",
+      "description": "Icon/Char for the close button on the details overlay."
+    },
+    "bookViewLink": {
+      "type": "svg",
+      "value": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/><path d=\"M11 4h8v8\" /><path d=\"M19 4l-15 15\" /></svg>",
+      "size": "MEDIUM",
+      "description": "SVG icon for the external link on a book item."
+    }
+  }
+}
