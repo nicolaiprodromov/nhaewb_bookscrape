@@ -11,8 +11,8 @@
             const i = priceDiv.querySelector('span.m_int')?.innerText;
             const d = priceDiv.querySelector('span.m_dec')?.innerText;
             const c = priceDiv.querySelector('span.m_cur')?.innerText;
-            if (i && d && c) { return `${i.trim()}${d.trim()} ${c.trim()}`; }
-            let text = priceDiv.innerText?.trim() || ''; text = text.replace(/PreÃˆâ€º|Pret vechi:/gi, '').trim(); return text || null;
+            if (i && d && c) { return `${i.trim()},${d.trim()} ${c.trim()}`; } // FIX: Added comma
+            let text = priceDiv.innerText?.trim() || ''; text = text.replace(/PreÃƒË†Ã¢â‚¬Âº|Pret vechi:/gi, '').trim(); return text || null;
         } catch (e) { console.warn("[Webview JS - Details] Error parsing price spans:", e); return priceDiv.innerText?.trim() || null; }
     }
 

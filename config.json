@@ -1,13 +1,28 @@
 {
   "webviews": [
     {
-      "id": "anticexlibrisFetcher",
+      "id": "userBrowser",
       "initialUrl": "https://www.anticexlibris.ro/",
       "partition": "persist:anticexlibris",
-      "description": "Primary webview for fetching from AnticExLibris",
-      "listDataBaseUrl": "https://www.anticexlibris.ro/carti-de-literatura-contemporana-in-engleza?filter=-2/l/1"
+      "description": "Webview for user browsing"
+    },
+    {
+      "id": "listFetcher",
+      "initialUrl": "https://www.anticexlibris.ro/carti?filter=-2/l/1",
+      "partition": "persist:anticexlibris",
+      "description": "Webview for fetching book lists",
+      "listDataBaseUrl": "https://www.anticexlibris.ro/carti?filter=-2/l/1"
+    },
+    {
+      "id": "detailFetcher",
+      "initialUrl": "about:blank",
+      "partition": "persist:anticexlibris",
+      "description": "Webview for fetching book details and prices"
     }
   ],
+  "defaultUserBrowserId": "userBrowser",
+  "defaultListFetcherId": "listFetcher",
+  "defaultDetailFetcherId": "detailFetcher",
   "timeouts": {
     "navigation": 90000,
     "listExtraction": 75000,

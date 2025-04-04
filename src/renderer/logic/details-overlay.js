@@ -10,8 +10,14 @@ async function fetchBookSpecsIfNeeded(bookLink, bookTitle = 'book') {
     if (isFetchingSpecs) { console.warn(`[Details Overlay] Skipping concurrent spec fetch for: ${bookLink}`); return null; }
     console.log(`[Details Overlay] Fetching specs required for: ${bookLink}`); isFetchingSpecs = true; if(window.statusBar) window.statusBar.textContent = `Fetching details for "${bookTitle}"...`;
     try {
-        const webviewId = window.AppRuntime?.primaryWebviewId; if (!webviewId) { throw new Error("Primary webview ID not configured."); }
-        const result = await window.electronAPI.fetchDetailData(webviewId, bookLink); if (!result.success) { throw new Error(result.error || `IPC fetchDetailData failed for ${bookLink}`); }
+        // *** Use the dedicated detail fetcher ID ***
+        const webviewId = window.AppRuntime?.primaryDetailFetcherId;
+        if (!webviewId) {
+            throw new Error("Detail Fetcher webview ID (primaryDetailFetcherId) not configured in AppRuntime.");
+        }
+
+        const result = await window.electronAPI.fetchDetailData(webviewId, bookLink);
+        if (!result.success) { throw new Error(result.error || `IPC fetchDetailData failed for ${bookLink}`); }
         const fetchedSpecs = result.details || {}; cache.set(bookLink, fetchedSpecs); if(window.statusBar) window.statusBar.textContent = `Details fetched for "${bookTitle}".`;
         return fetchedSpecs;
     } catch (error) { console.error(`[Details Overlay] Error fetching specs for ${bookLink} via IPC:`, error); if(window.statusBar) window.statusBar.textContent = `Error fetching details for "${bookTitle}"!`; const errorData = { fetchError: error.message || 'Unknown fetch error' }; cache.set(bookLink, errorData); return errorData; } finally { isFetchingSpecs = false; setTimeout(() => { const currentStatus = window.statusBar?.textContent || ''; if (currentStatus.includes(`Fetching details for "${bookTitle}"`) || currentStatus.includes(`Error fetching details for "${bookTitle}"`)) { window.statusBar.textContent = "Status idle."; } }, 3000); }
@@ -75,7 +81,6 @@ function handlePriceUpdateEvent(event) {
 }
 function setupDetailsOverlayEventListeners() {
     if (!window.detailsOverlay || !window.detailsCloseBtn || !window.detailsOverlayContent) { console.error("[Details Overlay] Cannot setup listeners - essential overlay elements missing."); return; }
-    // Apply close icon
     if (window.AppUIUtils?.applyIcon) window.AppUIUtils.applyIcon(window.detailsCloseBtn, 'detailsClose', 'X');
     window.detailsCloseBtn.addEventListener('click', hideDetailsOverlay);
     window.detailsOverlay.addEventListener('click', (e) => { if (e.target === window.detailsOverlay) { hideDetailsOverlay(); } });

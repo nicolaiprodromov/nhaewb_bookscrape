@@ -24,29 +24,33 @@
 
     <!-- Main container -->
     <div id="main-content">
-        <div id="webview-container"></div>
+        <!-- NEW: Tab Bar -->
+        <div id="tab-bar">
+            <!-- Tabs will be added here by renderer.js -->
+        </div>
+        <!-- Webview Container (now holds multiple, only one visible) -->
+        <div id="webview-container">
+             <!-- Webviews will be added here by renderer.js -->
+        </div>
         <div class="status-bar" id="status-bar">Initializing...</div>
     </div>
 
     <!-- Overlay -->
     <div id="overlay">
         <div id="overlay-body">
-            <!-- Main Content Area -->
+            <!-- Main Content Area (Book List) -->
             <div id="content-scroll-container">
                 <div id="search-bar-container">
                     <input type="search" id="book-search-input" placeholder="Search books by title...">
                 </div>
                 <div id="tab-content-container">
-                    <!-- Initial Loading Indicator - Lottie container, icon set by JS -->
+                    <!-- Initial Loading Indicator -->
                     <div class="loading-indicator lottie-loading-container" id="initial-loader">
-                         <!-- Lottie player added here by applyIcon -->
                          <p>Loading books...</p>
                     </div>
                 </div>
-                <!-- Scroll Loader - Icon applied directly here by JS -->
+                <!-- Scroll Loader -->
                 <div id="scroll-loader" class="loading-indicator lottie-loading-container" style="display: none;">
-                     <!-- REMOVED inner div -->
-                     <!-- Lottie player added here by applyIcon -->
                      <p>Loading more books...</p>
                 </div>
                  <div id="infinite-scroll-status">
@@ -65,7 +69,6 @@
                             <p class="notes-description">Personal notes and thoughts</p>
                         </div>
                          <button id="notes-toggle-view-btn" class="notes-view-toggle" title="Switch to Preview">Preview</button>
-                         <!-- Lottie container, icon set by JS -->
                         <div id="notes-lottie-container" class="notes-header-lottie"></div>
                     </div>
                     <div id="notes-editor-container">
@@ -84,7 +87,6 @@
                              <h3>Trackers</h3>
                              <p class="tracker-description">Track book prices over time</p>
                          </div>
-                          <!-- Lottie container, icon set by JS -->
                          <div id="add-stack-lottie-container" class="tracker-header-lottie"></div>
                      </div>
                      <div id="tracker-categories-container">
@@ -94,7 +96,7 @@
                  </div>
             </div> <!-- End #tracker-panel -->
 
-            <!-- Cart Panel -->
+            <!-- Cart Panel (Placeholder) -->
             <div id="cart-panel" class="side-panel collapsed">
                  <div id="cart-content">
                      <div id="cart-main-header">
@@ -109,7 +111,7 @@
                  </div>
             </div> <!-- End #cart-panel -->
 
-            <!-- Right Controls Sidebar - Icons set by JS -->
+            <!-- Right Controls Sidebar -->
             <div id="right-controls">
                  <button id="toggle-notes-btn" class="panel-toggle-btn" data-panel="notes" title="Show Notes"></button>
                  <button id="toggle-tracker-btn" class="panel-toggle-btn" data-panel="tracker" title="Show Trackers"></button>
@@ -122,7 +124,6 @@
     <!-- Details Overlay -->
     <div id="details-overlay">
         <div class="details-overlay-content">
-             <!-- Icon set by JS -->
             <button class="details-overlay-close-btn" title="Close Details"></button>
             <h2 id="details-title">Book Details</h2>
             <div id="details-body">

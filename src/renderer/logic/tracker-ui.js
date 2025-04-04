@@ -29,7 +29,7 @@ async function saveTrackerData(operationDescription = 'save') {
 function renderCategoriesAndBooks() {
     if (!window.trackerCategoriesContainer) { console.error("[Tracker UI] Cannot render: trackerCategoriesContainer not found."); return; }
     resetAllDeleteConfirmations(); window.trackerCategoriesContainer.innerHTML = '';
-    if (!trackerData || trackerData.length === 0) { window.trackerCategoriesContainer.innerHTML = '<p class="tracker-node-placeholder">No stacks defined. Click "New Stack" or drag books here to start tracking!</p>'; const placeholder = window.trackerCategoriesContainer.querySelector('.tracker-node-placeholder'); if (placeholder) { /* placeholder drop listeners removed as they seemed incorrect */ console.warn("[Tracker UI] Placeholder drag listeners might be incorrect."); } return; }
+    if (!trackerData || trackerData.length === 0) { window.trackerCategoriesContainer.innerHTML = '<p class="tracker-node-placeholder">No stacks defined. Click "New Stack" or drag books here to start tracking!</p>'; const placeholder = window.trackerCategoriesContainer.querySelector('.tracker-node-placeholder'); if (placeholder) { placeholder.addEventListener('dragover', handleBookDragOverCategory); placeholder.addEventListener('dragleave', handleBookDragLeaveCategory); placeholder.addEventListener('drop', handleBookDropInCategory); } return; }
     window.trackerCategoriesContainer.appendChild(createCategoryDropZoneElement(0));
     trackerData.forEach((category, index) => { if (!category || typeof category !== 'object' || !category.id) { console.warn(`[Tracker UI] Skipping render of invalid category at index ${index}:`, category); return; } if (!category.color) category.color = getCategoryColorById(category.id); const categoryElement = createCategoryElement(category, index); window.trackerCategoriesContainer.appendChild(categoryElement); window.trackerCategoriesContainer.appendChild(createCategoryDropZoneElement(index + 1)); }); console.debug("[Tracker UI] Finished rendering categories.");
 }
@@ -38,11 +38,7 @@ function createCategoryElement(category, index) {
     if (category.color) { const bgAlpha = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--category-base-bg-alpha').trim() || 0.5); div.style.backgroundColor = window.AppUIUtils.createHslaColor(category.color, bgAlpha); }
     const header = document.createElement('div'); header.className = 'category-header'; header.draggable = true; header.dataset.categoryId = category.id; header.addEventListener('dragstart', handleCategoryDragStart); header.addEventListener('dragend', handleCategoryDragEnd); header.addEventListener('mousedown', (e) => { if (e.target.closest('button, input')) e.stopPropagation(); }, true);
 
-    const collapseBtn = document.createElement('button'); collapseBtn.className = 'collapse-category-btn';
-    // Use specific collapse/expand icons
-    window.AppUIUtils.applyIcon(collapseBtn, category.isCollapsed ? 'categoryExpand' : 'categoryCollapse');
-    collapseBtn.title = category.isCollapsed ? 'Expand Stack' : 'Collapse Stack'; collapseBtn.addEventListener('click', handleCategoryCollapseToggle); header.appendChild(collapseBtn);
-
+    const collapseBtn = document.createElement('button'); collapseBtn.className = 'collapse-category-btn'; window.AppUIUtils.applyIcon(collapseBtn, category.isCollapsed ? 'categoryExpand' : 'categoryCollapse'); collapseBtn.title = category.isCollapsed ? 'Expand Stack' : 'Collapse Stack'; collapseBtn.addEventListener('click', handleCategoryCollapseToggle); header.appendChild(collapseBtn);
     const viewBtn = document.createElement('button'); viewBtn.className = 'view-category-btn'; window.AppUIUtils.applyIcon(viewBtn, 'categoryViewDetails', 'Info'); viewBtn.title = `View Stack Details: ${category.name || 'Unnamed'}`; viewBtn.addEventListener('click', (e) => { e.stopPropagation(); const catData = trackerData.find(c => c.id === div.dataset.categoryId); if (catData && window.AppDetailsOverlay?.showDetailsOverlay) { const categoryDataWithHistory = { ...catData, books: (catData.books || []).map(b => ({ ...b, priceHistory: Array.isArray(b.priceHistory) ? b.priceHistory : [] })) }; window.AppDetailsOverlay.showDetailsOverlay({ type: 'category', ...categoryDataWithHistory }); } else { console.warn("[Tracker UI] Cannot show category details - data or overlay function missing."); } }); header.appendChild(viewBtn);
     const nameInput = document.createElement('input'); nameInput.type = 'text'; nameInput.className = 'category-name-input'; nameInput.value = category.name || 'Unnamed Stack'; nameInput.dataset.originalName = category.name || 'Unnamed Stack'; nameInput.placeholder = 'Stack Name'; nameInput.title = 'Click to rename stack'; nameInput.addEventListener('blur', handleCategoryRename); nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); nameInput.blur(); } else if (e.key === 'Escape') { nameInput.value = nameInput.dataset.originalName; nameInput.blur(); } }); nameInput.addEventListener('click', (e) => e.stopPropagation()); header.appendChild(nameInput);
     const deleteBtn = document.createElement('button'); deleteBtn.className = 'delete-category-btn'; window.AppUIUtils.applyIcon(deleteBtn, 'deleteItem', 'X'); deleteBtn.title = 'Delete Stack'; deleteBtn.addEventListener('click', handleDeleteCategory); header.appendChild(deleteBtn); div.appendChild(header);
@@ -106,10 +102,7 @@ function handleCategoryCollapseToggle(event) {
     event.stopPropagation(); const button = event.currentTarget; const categoryElement = button.closest('.tracker-category'); const categoryId = categoryElement?.dataset.categoryId; if (!categoryElement || !categoryId) return;
     const deleteBtn = categoryElement.querySelector('.delete-category-btn'); if (deleteBtn) resetDeleteConfirmation(deleteBtn, categoryId);
     const category = trackerData.find(c => c.id === categoryId); if (!category) return;
-    const isNowCollapsed = categoryElement.classList.toggle('collapsed'); category.isCollapsed = isNowCollapsed;
-    // Use specific collapse/expand icons
-    window.AppUIUtils.applyIcon(button, isNowCollapsed ? 'categoryExpand' : 'categoryCollapse');
-    button.title = isNowCollapsed ? 'Expand Stack' : 'Collapse Stack'; saveTrackerData('toggle collapse');
+    const isNowCollapsed = categoryElement.classList.toggle('collapsed'); category.isCollapsed = isNowCollapsed; window.AppUIUtils.applyIcon(button, isNowCollapsed ? 'categoryExpand' : 'categoryCollapse'); button.title = isNowCollapsed ? 'Expand Stack' : 'Collapse Stack'; saveTrackerData('toggle collapse');
 }
 async function handleRemoveTrackedItem(event) {
     event.stopPropagation(); const nodeElement = event.target.closest('.tracker-node'); const link = nodeElement?.dataset.link; const categoryElement = nodeElement?.closest('.tracker-category'); const categoryId = categoryElement?.dataset.categoryId; if (!nodeElement || !link || !categoryId) { console.warn("[Tracker UI] Could not remove item - missing node, link, or category ID."); return; }
@@ -182,7 +175,25 @@ async function handleCategoryDrop(e) {
     renderCategoriesAndBooks(); await saveTrackerData('reorder category'); clearDraggedItemInfo();
 }
 function setDraggedItemInfo(info) { draggedItemInfo = info; } function clearDraggedItemInfo() { draggedItemInfo = null; }
-async function fetchBookPricesAndSpecs(bookLink, bookTitle = 'book') { if (!bookLink || typeof bookLink !== 'string' || !bookLink.startsWith('http')) { console.warn(`[Tracker Price Check] Invalid link for price check: ${bookLink}`); return null; } if (!window.electronAPI?.fetchDetailData) { console.error("[Tracker Price Check] Cannot fetch: electronAPI.fetchDetailData unavailable."); return { fetchError: "IPC API unavailable" }; } console.info(`[Tracker Price Check] Fetching prices/specs for: "${bookTitle}" (${bookLink})`); try { const webviewId = window.AppRuntime?.primaryWebviewId; if (!webviewId) { throw new Error("Primary webview ID not set for price check."); } const result = await window.electronAPI.fetchDetailData(webviewId, bookLink); if (!result.success) { throw new Error(result.error || 'IPC fetchDetailData failed for price/spec check'); } const prices = (typeof result.prices === 'object' && result.prices !== null) ? result.prices : {}; const specs = (typeof result.details === 'object' && result.details !== null) ? result.details : {}; bookSpecsCache.set(bookLink, specs); return prices; } catch (error) { console.error(`[Tracker Price Check] Error fetching price/spec data for ${bookLink}:`, error); return { fetchError: error.message || 'Unknown fetch error' }; } }
+async function fetchBookPricesAndSpecs(bookLink, bookTitle = 'book') {
+    if (!bookLink || typeof bookLink !== 'string' || !bookLink.startsWith('http')) { console.warn(`[Tracker Price Check] Invalid link for price check: ${bookLink}`); return null; }
+    if (!window.electronAPI?.fetchDetailData) { console.error("[Tracker Price Check] Cannot fetch: electronAPI.fetchDetailData unavailable."); return { fetchError: "IPC API unavailable" }; }
+    console.info(`[Tracker Price Check] Fetching prices/specs for: "${bookTitle}" (${bookLink})`);
+    try {
+        // *** Use the dedicated detail fetcher ID ***
+        const webviewId = window.AppRuntime?.primaryDetailFetcherId;
+        if (!webviewId) {
+            throw new Error("Detail Fetcher webview ID (primaryDetailFetcherId) not configured for price check.");
+        }
+
+        const result = await window.electronAPI.fetchDetailData(webviewId, bookLink);
+        if (!result.success) { throw new Error(result.error || 'IPC fetchDetailData failed for price/spec check'); }
+        const prices = (typeof result.prices === 'object' && result.prices !== null) ? result.prices : {};
+        const specs = (typeof result.details === 'object' && result.details !== null) ? result.details : {};
+        bookSpecsCache.set(bookLink, specs);
+        return prices;
+    } catch (error) { console.error(`[Tracker Price Check] Error fetching price/spec data for ${bookLink}:`, error); return { fetchError: error.message || 'Unknown fetch error' }; }
+}
 async function performPriceCheckCycle() {
     if (isCurrentlyCheckingPrices) { console.warn("[Tracker] Price check cycle skipped, previous cycle still running."); return; } if (!trackerData || trackerData.length === 0) { console.log("[Tracker] No tracked items to check prices for."); scheduleNextPriceCheck(); return; }
     isCurrentlyCheckingPrices = true; const startTime = Date.now(); let itemsChecked = 0; let updatesFound = false; let historyUpdated = false; let errorsEncountered = 0; console.log("[Tracker] Starting price check cycle..."); if (window.statusBar) window.statusBar.textContent = 'Checking tracked item prices...';
@@ -197,6 +208,6 @@ function stopPriceCheckingInterval() { if (priceCheckIntervalId) { clearTimeout(
 function setupTrackerEventListeners() { if (!window.addCategoryBtn) { console.error("[Tracker UI] Cannot setup listeners - Add Category Button missing."); return; } window.addCategoryBtn.addEventListener('click', handleAddCategory); document.body.addEventListener('click', (e) => { if (!e.target.closest('.delete-category-btn')) resetAllDeleteConfirmations(); }, true); console.log("[Tracker UI] Tracker event listeners setup."); }
 window.AppTrackerUI = {
     initialize: async () => { console.log("[Tracker UI] Initializing..."); createHeaderLottie('add-stack-lottie-container', 'trackerHeader', "Click 'New Stack' button below to add"); setupTrackerEventListeners(); await loadAndDisplayTrackedItems(); console.log("[Tracker UI] Initialization complete."); },
-    trackerData, bookSpecsCache, saveTrackerData, loadAndDisplayTrackedItems, applyTrackerColorsToBookList, setDraggedItemInfo, clearDraggedItemInfo, stopPriceChecking: stopPriceCheckingInterval, createHeaderLottie // Expose Lottie creation
+    trackerData, bookSpecsCache, saveTrackerData, loadAndDisplayTrackedItems, applyTrackerColorsToBookList, setDraggedItemInfo, clearDraggedItemInfo, stopPriceChecking: stopPriceCheckingInterval, createHeaderLottie
 };
 console.log("[Tracker UI] Module loaded.");

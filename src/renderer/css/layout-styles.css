@@ -1,4 +1,74 @@
 /* src/renderer/css/layout-styles.css */
+/* --- Tab Bar --- */
+#tab-bar {
+    display: flex;
+    background-color: var(--bg-side-panel);
+    padding: 4px 6px 0 6px; /* Padding around tabs, no bottom padding */
+    flex-shrink: 0; /* Prevent shrinking */
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1; /* Above webview container */
+    overflow-x: auto; /* Allow horizontal scroll if many tabs */
+    white-space: nowrap;
+}
+.tab-button {
+    padding: 6px 12px;
+    margin: 0 2px -1px 2px; /* Negative margin pulls border into parent's border */
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-bottom: none; /* No bottom border initially */
+    border-radius: 5px 5px 0 0; /* Rounded top corners */
+    color: var(--text-secondary);
+    font-size: 0.85em;
+    font-weight: var(--font-regular);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    outline: none;
+    flex-shrink: 0; /* Prevent tabs shrinking */
+    max-width: 150px; /* Limit tab width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tab-button:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+.tab-button.active {
+    background-color: var(--bg-main); /* Match webview container background */
+    color: var(--text-heading);
+    border-color: var(--border-color);
+    border-bottom-color: var(--bg-main); /* Hide bottom border by matching background */
+    font-weight: var(--font-bold);
+    position: relative;
+    z-index: 2; /* Bring active tab border above others */
+}
+
+/* --- Webview Container and Instances --- */
+#webview-container {
+    display: flex;
+    flex: 1; /* Take remaining vertical space */
+    background-color: var(--bg-main); /* Background behind webview */
+    position: relative; /* Needed for absolute positioning of webviews */
+    overflow: hidden; /* Hide inactive webviews */
+}
+.webview-instance {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+    /* Control visibility primarily with display */
+    display: none;
+    /* Opacity transition for visual effect (optional) */
+    transition: opacity 0.1s ease-in-out;
+    opacity: 0;
+    pointer-events: none; /* Ensure hidden ones don't intercept clicks */
+}
+.webview-instance.active {
+    display: block; /* Show the active webview */
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1; /* Ensure active is on top */
+}
 #toggle-overlay-btn {
     background-color: rgba(40, 44, 52, 0.7);
     cursor          : pointer;
@@ -14,22 +84,15 @@
     display         : flex;
     align-items     : center;
     justify-content : center;
-    /* font-size removed - use icon-size-* */
 }
 #toggle-overlay-btn:hover {
     background-color: rgba(60, 65, 75, 0.9);
 }
-
 #main-content {
     flex          : 1;
     display       : flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack tab-bar, webview-container, status-bar */
     min-height    : 0;
-}
-#webview-container {
-    display         : flex;
-    flex            : 1;               /* Take remaining vertical space */
-    background-color: var(--bg-main);  /* Background behind webview */
 }
 .status-bar {
     padding         : 3px 8px;
@@ -130,60 +193,49 @@
 
                                 /* --- Infinite Scroll Status Area --- */
 #infinite-scroll-status {
-                                    /* Keep padding for the 'end of content' message */
     padding   : 15px 0 20px 0;
     text-align: center;
-                         /* min-height is less critical now loader is absolute, but keep for end message */
-    min-height  : 50px;  /* Reduced min-height, loader is out of flow */
-    flex-shrink: 0;      /* Prevent shrinking */
-    display     : flex;  /* Still use flex for centering end message */
+    min-height  : 50px;
+    flex-shrink: 0;
+    display     : flex;
     flex-direction : column;
     align-items    : center;
     justify-content: center;
-    margin-top     : auto;    /* Push to bottom of flex container (#content-scroll-container) */
-                         /* No background needed here if loader is absolute */
-    position: relative;  /* May need this if end-of-content message needs layering */
-    z-index  : 1;        /* Ensure it's below the absolute loader */
+    margin-top     : auto;
+    position: relative;
+    z-index  : 1;
 }
 
 #scroll-loader {
-    /* --- CHANGE: Use absolute positioning relative to #content-scroll-container --- */
     position        : absolute;
-    /* --------------------------------------------------------------------------- */
-    z-index         : 99; /* Keep high z-index within its container */
-    /* width/height now set by icon-size-medium class */
-    /* Adjust positioning relative to container */
-    bottom          : 20px; /* Distance from bottom of scroll container */
+    z-index         : 99;
+    bottom          : 20px;
     left            : 50%;
     transform       : translateX(-50%);
     display         : flex;
     align-items     : center;
-    justify-content : center; /* Center player */
+    justify-content : center;
     flex-direction  : column;
     color           : var(--text-secondary);
     font-size       : 0.9em;
-    /* Adjust gradient */
     background-image: linear-gradient( to top, hsla(213, 11%, 15%, 0.7) 0%, transparent 70% );
-    padding         : 10px; /* Add padding around the loader */
-    border-radius   : 50%; /* Make background circular perhaps? */
-    pointer-events  : none; /* Allow clicks through */
+    padding         : 10px;
+    border-radius   : 50%;
+    pointer-events  : none;
 }
-/* REMOVED conflicting size rule for Lottie player inside */
 #scroll-loader.lottie-loading-container {
     min-height: auto;
-    padding   : 0; /* Override general lottie container padding */
+    padding   : 0;
 }
 
                                 /* --- End of Content Message --- */
 #end-of-content-message {
     color     : var(--text-secondary);
     font-style: italic;
-    padding   : 10px 0;                 /* Padding for spacing */
-                                    /* Ensure it's below the loader if they overlap somehow */
+    padding   : 10px 0;
     position: relative;
     z-index : 2;
 }
-                                /* Style error message in scroll status area */
 #end-of-content-message.error-message {
     color      : var(--text-error);
     font-style : normal;
@@ -193,66 +245,62 @@
 
                                 /* --- Generic Side Panel Styles --- */
 .side-panel {
-    width           : var(--side-panel-width);        /* Controlled by CSS var */
+    width           : var(--side-panel-width);
     height          : 100%;
     background-color: var(--bg-side-panel);
     border-left     : 1px solid var(--border-color);
-    flex-shrink     : 0;                              /* Don't shrink when visible */
-                                    /* Smooth transitions for width, opacity */
+    flex-shrink     : 0;
     transition    : width 0.3s ease-in-out, min-width 0.3s ease-in-out, border-left-width 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    overflow      : hidden;                                                                                                            /* Clip content when collapsing */
+    overflow      : hidden;
     display       : flex;
     flex-direction: column;
     opacity       : 1;
-    position      : relative;                                                                                                          /* Needed for absolute positioning of resize handle */
+    position      : relative;
 }
 .side-panel.collapsed {
     width            : 0;
-    min-width        : 0;     /* Allow shrinking to zero */
+    min-width        : 0;
     border-left-width: 0;
     opacity          : 0;
-    pointer-events   : none;  /* Prevent interaction when collapsed */
+    pointer-events   : none;
 }
-                                /* Fade content inside panel */
 .side-panel > div:not(#resize-handle) {
-    transition: opacity 0.2s 0.1s ease-in-out;  /* Slight delay on fade in */
+    transition: opacity 0.2s 0.1s ease-in-out;
     opacity   : 1;
 }
 .side-panel.collapsed > div:not(#resize-handle) {
     opacity       : 0;
-    pointer-events: none;  /* Prevent interaction with faded content */
+    pointer-events: none;
 }
 
                                 /* --- Tracker Panel Specific Layout --- */
 #tracker-panel { /* Uses generic .side-panel styles */ }
 #tracker-panel #resize-handle {
     position        : absolute;
-    left            : -3px;                                           /* Position slightly outside */
+    left            : -3px;
     top             : 0; bottom                 : 0;
-    width           : 6px;                                            /* Handle width */
+    width           : 6px;
     cursor          : col-resize;
     background-color: rgba(100, 110, 130, 0.3);
-    z-index         : 6;                                              /* Above panel content */
+    z-index         : 6;
     transition      : background-color 0.2s ease, opacity 0.3s ease;
     opacity         : 1;
 }
 #tracker-panel #resize-handle:hover {
-    background-color: rgba(120, 130, 150, 0.8);  /* Darken on hover */
+    background-color: rgba(120, 130, 150, 0.8);
 }
-                                /* Hide handle when panel is collapsed */
 #tracker-panel.collapsed #resize-handle {
     display: none;
     opacity: 0;
 }
 #tracker-content {
     padding   : 15px;
-    overflow-y: auto;  /* Allow scrolling of tracker content */
-    flex-grow : 1;     /* Take remaining vertical space */
-                                    /* Dotted background */
+    overflow-y: auto;
+    flex-grow : 1;
     background-image: radial-gradient(circle at var(--dot-size) var(--dot-size), var(--dot-color) var(--dot-size), transparent 0);
     background-size : var(--dot-space) var(--dot-space);
     display         : flex;
-    flex-direction  : column;                                                                                                       /* Stack header, categories, button */
+    flex-direction  : column;
 }
 
                                 /* --- Cart Panel Layout --- */
@@ -266,26 +314,24 @@
 }
 
 /* --- Notes Panel Layout --- */
-#notes-panel { /* Inherits .side-panel styles */
-    /* Notes panel is not resizable by default */
-}
+#notes-panel { /* Inherits .side-panel styles */ }
 #notes-content {
     display       : flex;
     flex-direction: column;
-    flex-grow     : 1;       /* Take remaining space */
-    overflow      : hidden;  /* Prevent notes content itself from scrolling */
+    flex-grow     : 1;
+    overflow      : hidden;
     padding       : 15px;
 }
-#notes-main-header { /* Share styling with tracker header */
+#notes-main-header {
     display        : flex;
     justify-content: space-between;
     align-items    : center;
-    margin-bottom  : 10px; /* Reduced margin */
+    margin-bottom  : 10px;
     padding-bottom : 5px;
     border-bottom  : 1px solid var(--border-color);
-    flex-shrink    : 0; /* Prevent header shrinking */
+    flex-shrink    : 0;
     gap            : 10px;
-    min-height     : var(--tracker-header-lottie-size); /* Ensure height for Lottie */
+    min-height     : var(--tracker-header-lottie-size);
 }
 .notes-header-left {
     flex-grow: 1;
@@ -308,7 +354,7 @@ p.notes-description {
     font-style: italic;
     margin   : 2px 0 0 0;
 }
-.notes-header-lottie { /* Share styling with tracker lottie */
+.notes-header-lottie {
     height      : var(--tracker-header-lottie-size);
     width       : var(--tracker-header-lottie-size);
     display     : flex;
@@ -318,41 +364,39 @@ p.notes-description {
     overflow    : hidden;
     margin-left : auto;
 }
-/* .notes-header-lottie dotlottie-player size set by icon-size-* class */
-#notes-editor-container { /* Container for toggling textarea/preview */
+#notes-editor-container {
     flex-grow : 1;
-    display   : flex; /* Use flex to manage children */
-    flex-direction: column; /* Stack children vertically */
-    min-height: 0; /* Allow shrinking */
-    overflow  : hidden; /* Clip content */
-    position: relative; /* For positioning children if needed */
+    display   : flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow  : hidden;
+    position: relative;
 }
 #notes-textarea, #notes-preview {
-    flex-grow: 1; /* Allow the visible element to take all space */
+    flex-grow: 1;
     width     : 100%;
-    height    : 100%; /* Fill the container */
-    overflow-y: auto; /* Allow scrolling within the active element */
+    height    : 100%;
+    overflow-y: auto;
     padding   : 10px;
     border    : 1px solid var(--border-color-light);
     border-radius: 4px;
-    box-sizing: border-box; /* Include padding/border in size */
+    box-sizing: border-box;
 }
 #notes-textarea {
     background-color: var(--bg-input);
     color           : var(--text-primary);
-    resize          : none; /* Disable manual resize handle */
-    font-family     : Consolas, 'Courier New', monospace; /* Monospace for consistency */
+    resize          : none;
+    font-family     : Consolas, 'Courier New', monospace;
     font-size       : 0.9em;
     line-height     : 1.6;
-    white-space     : pre; /* Preserve whitespace */
-    tab-size        : 2; /* Define tab size */
+    white-space     : pre;
+    tab-size        : 2;
     -moz-tab-size   : 2;
 }
 #notes-preview {
-    background-color: var(--bg-content-area); /* Match content area */
+    background-color: var(--bg-content-area);
     color           : var(--text-primary);
-    display: none; /* Hidden by default */
-    /* Markdown styles applied via .markdown-body in components */
+    display: none;
 }
 
 
@@ -366,21 +410,21 @@ p.notes-description {
     background-color: var(--bg-side-panel);
     border-left     : 1px solid var(--border-color);
     flex-shrink     : 0;
-    z-index         : 5;                              /* Above side panels */
-    gap             : 7px;                            /* Space between buttons */
+    z-index         : 5;
+    gap             : 7px;
 }
 
                                 /* --- Details Overlay (Modal) --- */
 #details-overlay {
-    position               : fixed;                                                /* Use fixed for viewport positioning */
+    position               : fixed;
     top                    : 0; left                 : 0;
     width                  : 100%; height            : 100%;
     background-color       : var(--bg-details-overlay);
-    z-index                : 200;                                                  /* High z-index */
+    z-index                : 200;
     display                : flex;
     align-items            : center;
     justify-content        : center;
-    padding                : 30px;                                                 /* Padding around the content */
+    padding                : 30px;
     opacity                : 0;
     visibility             : hidden;
     pointer-events         : none;
@@ -392,7 +436,7 @@ p.notes-description {
     opacity         : 1;
     visibility      : visible;
     pointer-events  : auto;
-    transition-delay: 0s;       /* Show immediately */
+    transition-delay: 0s;
 }
 .details-overlay-content {
     background-color: var(--bg-details-content);
@@ -400,11 +444,11 @@ p.notes-description {
     border-radius   : 8px;
     border          : 1px solid var(--border-color-light);
     box-shadow      : 0 8px 25px rgba(0,0,0,0.6);
-    max-width       : 650px;                                /* Max width */
-    width           : 90%;                                  /* Responsive width */
-    max-height      : 85%;                                  /* Limit height */
-    overflow-y      : auto;                                 /* Scroll content if needed */
-    position        : relative;                             /* For close button positioning */
+    max-width       : 650px;
+    width           : 90%;
+    max-height      : 85%;
+    overflow-y      : auto;
+    position        : relative;
     color           : var(--text-primary);
     font-size       : 0.9rem;
 }
@@ -438,7 +482,7 @@ p.notes-description {
     line-height     : 1.4em;
 }
 
-#initial-loader.icon-size-big { /* Size set by class */
+#initial-loader.icon-size-big {
     width: 220px; height: 220px; max-width: 90%;
 }
 #initial-loader p {

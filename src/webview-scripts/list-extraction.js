@@ -14,8 +14,8 @@
         if (!priceDiv) return null;
         try {
             const i = priceDiv.querySelector('span.m_int')?.innerText; const d = priceDiv.querySelector('span.m_dec')?.innerText; const c = priceDiv.querySelector('span.m_cur')?.innerText;
-            if (i && d && c) { return `${i.trim()}${d.trim()} ${c.trim()}`; }
-            else { let text = priceDiv.innerText?.trim() || ''; text = text.replace(/PreÈ›|Pret vechi:/gi, '').trim(); return text || null; }
+            if (i && d && c) { return `${i.trim()},${d.trim()} ${c.trim()}`; } // FIX: Added comma
+            else { let text = priceDiv.innerText?.trim() || ''; text = text.replace(/PreÃˆâ€º|Pret vechi:/gi, '').trim(); return text || null; }
         } catch (e) { console.warn("[Webview JS - List] Error parsing price:", e); return priceDiv.innerText?.trim() || null; }
     }
 

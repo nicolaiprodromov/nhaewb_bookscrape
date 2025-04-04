@@ -51,8 +51,16 @@ async function fetchAndAppendPageData(pageNumber) {
     if(window.statusBar) window.statusBar.textContent = `Fetching page ${pageNumber}...`;
     if (pageNumber === 1 && window.initialLoader) window.initialLoader.style.display = 'none';
     try {
-        const webviewId = window.AppRuntime?.primaryWebviewId; const baseListUrl = window.AppRuntime?.primaryWebviewBaseListUrl;
-        if (!webviewId || !baseListUrl) throw new Error("Primary webview ID or Base List URL not configured.");
+        // *** Use the dedicated list fetcher ID ***
+        const webviewId = window.AppRuntime?.primaryListFetcherId;
+        const baseListUrl = window.AppRuntime?.primaryWebviewBaseListUrl;
+        if (!webviewId) {
+            throw new Error("List Fetcher webview ID (primaryListFetcherId) not configured in AppRuntime.");
+        }
+        if (!baseListUrl) {
+            throw new Error("Base List URL (primaryWebviewBaseListUrl) not configured in AppRuntime.");
+        }
+
         const targetUrl = addOrUpdateQueryParam(baseListUrl, 'page', pageNumber); if (!targetUrl) throw new Error("Failed to construct target URL.");
         console.log(`[Book List] Requesting page ${pageNumber} via IPC for WV:${webviewId}, URL:${targetUrl}`);
         const result = await window.electronAPI.fetchListData(webviewId, targetUrl);
