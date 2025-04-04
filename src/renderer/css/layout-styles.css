@@ -147,11 +147,13 @@
 }
 
 #scroll-loader {
-    position        : fixed;
-    z-index         : 99;
+    /* --- CHANGE: Use absolute positioning relative to #content-scroll-container --- */
+    position        : absolute;
+    /* --------------------------------------------------------------------------- */
+    z-index         : 99; /* Keep high z-index within its container */
     /* width/height now set by icon-size-medium class */
-    /* Adjust positioning */
-    bottom          : 20px;
+    /* Adjust positioning relative to container */
+    bottom          : 20px; /* Distance from bottom of scroll container */
     left            : 50%;
     transform       : translateX(-50%);
     display         : flex;
