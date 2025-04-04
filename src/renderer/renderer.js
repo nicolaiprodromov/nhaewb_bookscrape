@@ -51,9 +51,10 @@ async function loadUiConfig() {
             // Apply icon directly to the scroll-loader container
             if (scrollLoader) {
                  window.AppUIUtils.applyIcon(scrollLoader, 'scrollLoader');
-                 // Ensure the Lottie player itself is cleared if applyIcon doesn't handle it
-                 const existingPlayer = scrollLoader.querySelector('dotlottie-player');
-                 if (existingPlayer) existingPlayer.remove();
+                 // --- REMOVED CONFLICTING CODE ---
+                 // const existingPlayer = scrollLoader.querySelector('dotlottie-player');
+                 // if (existingPlayer) existingPlayer.remove();
+                 // ---------------------------------
             } else {
                  console.warn("[Renderer] Scroll loader element not found during UI config load.");
             }
